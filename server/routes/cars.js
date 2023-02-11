@@ -2,6 +2,8 @@ const router = require(`express`).Router()
 
 const carsModel = require(`../models/cars`);
 
+const jwt = require('jsonwebtoken')
+
 let shoes =
     [
         { "id": 1, "name": "Nike React Infinity Run Flyknit", "brand": "NIKE", "gender": "MEN", "category": "RUNNING", "price": 160, "is_in_inventory": true, "items_left": 3, "imageURL": "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-665455a5-45de-40fb-945f-c1852b82400d/react-infinity-run-flyknit-mens-running-shoe-zX42Nc.jpg", "slug": "nike-react-infinity-run-flyknit" },
@@ -40,13 +42,6 @@ let shoes =
         { "id": 34, "name": "Michael Feburary SK8-Hi", "brand": "Vans", "gender": "MEN", "category": "CASUAL", "price": 72, "is_in_inventory": true, "items_left": 3, "imageURL": "https://images.vans.com/is/image/Vans/MV122M-HERO?$583x583$", "slug": "michael-feburary-sk8-hi" }
     ]
 
-
-
-
-
-
-
-
 // read all records
 router.get(`/cars`, (req, res) => {
     //user does not have to be logged in to see car details
@@ -58,32 +53,93 @@ router.get(`/cars`, (req, res) => {
 
 // Read one record
 router.get(`/cars/:id`, (req, res) => {
-    carsModel.findById(req.params.id, (error, data) => {
-        res.json(data)
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
+    {
+        if (err) 
+        { 
+            res.json({errorMessage:`User is not logged in`})
+        }
+        else
+        {
+            carsModel.findById(req.params.id, (error, data) => 
+            {
+                res.json(data)
+            })
+        }
     })
 })
 
 
 // Add new record
-router.post(`/cars`, (req, res) => {
-    carsModel.create(req.body, (error, data) => {
-        res.json(data)
+router.post(`/cars`, (req, res) => 
+{
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
+    {
+        if (err) 
+        { 
+            res.json({errorMessage:`User is not logged in`})
+        }
+        else
+        {
+            if(decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN)
+            {                
+                // Use the new car details to create a new car document
+                carsModel.create(req.body, (error, data) => 
+                {
+                    res.json(data)
+                })
+            }
+            else
+            {
+                res.json({errorMessage:`User is not an administrator, so they cannot add new records`})
+            }
+        }
     })
 })
 
-
 // Update one record
-router.put(`/cars/:id`, (req, res) => {
-    carsModel.findByIdAndUpdate(req.params.id, { $set: req.body }, (error, data) => {
-        res.json(data)
+router.put(`/cars/:id`, (req, res) => 
+{
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
+    {
+        if (err) 
+        { 
+            res.json({errorMessage:`User is not logged in`})
+        }
+        else
+        {
+            carsModel.findByIdAndUpdate(req.params.id, {$set: req.body}, (error, data) => 
+            {
+                res.json(data)
+            })        
+        }
     })
 })
 
 
 // Delete one record
-router.delete(`/cars/:id`, (req, res) => {
-    carsModel.findByIdAndRemove(req.params.id, (error, data) => {
-        res.json(data)
+router.delete(`/cars/:id`, (req, res) => 
+{
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
+    {
+        if (err) 
+        { 
+            res.json({errorMessage:`User is not logged in`})
+        }
+        else
+        {
+            if(decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN)
+            {
+                carsModel.findByIdAndRemove(req.params.id, (error, data) => 
+                {
+                    res.json(data)
+                })
+            }
+            else
+            {
+                res.json({errorMessage:`User is not an administrator, so they cannot delete records`})
+            }        
+        }
     })
 })
 

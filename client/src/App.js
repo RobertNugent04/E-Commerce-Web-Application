@@ -19,10 +19,11 @@ import LoggedInRoute from "./components/LoggedInRoute"
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
 
 
-if (typeof sessionStorage.accessLevel === "undefined")
+if (typeof localStorage.accessLevel === "undefined")
 {
-    sessionStorage.name = "GUEST"
-    sessionStorage.accessLevel = ACCESS_LEVEL_GUEST
+    localStorage.name = "GUEST"
+    localStorage.accessLevel = ACCESS_LEVEL_GUEST
+    localStorage.token = null
 }
 
     
