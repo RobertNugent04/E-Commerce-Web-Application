@@ -14,11 +14,13 @@ export default class EditCar extends Component
         super(props)
 
         this.state = {
-            model: ``,
-            colour: ``,
-            year: ``,
+            name: ``,
+            brand: ``,
+            gender: ``,
+            category: ``,
             price: ``,
-            redirectToDisplayAllCars:sessionStorage.accessLevel < ACCESS_LEVEL_NORMAL_USER
+            stock: ``,
+            redirectToDisplayAllCars:localStorage.accessLevel < ACCESS_LEVEL_NORMAL_USER
         }
     }
 
@@ -26,7 +28,7 @@ export default class EditCar extends Component
     {      
         this.inputToFocus.focus()
   
-        axios.get(`${SERVER_HOST}/cars/${this.props.match.params.id}`)
+        axios.get(`${SERVER_HOST}/cars/${this.props.match.params.id}`, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
@@ -38,10 +40,12 @@ export default class EditCar extends Component
                 else
                 { 
                     this.setState({
-                        model: res.data.model,
-                        colour: res.data.colour,
-                        year: res.data.year,
-                        price: res.data.price
+                        name: res.data.name,
+                        brand: res.data.brand,
+                        gender: res.data.gender,
+                        category: res.data.category,
+                        price: res.data.price,
+                        stock: res.data.items_left
                     })
                 }
             }
@@ -64,13 +68,15 @@ export default class EditCar extends Component
         e.preventDefault()
 
         const carObject = {
-            model: this.state.model,
-            colour: this.state.colour,
-            year: this.state.year,
-            price: this.state.price
+            name: this.state.name,
+            brand: this.state.brand,
+            gender: this.state.gender,
+            category: this.state.category,
+            price: this.state.price,
+            stock: this.state.items_left
         }
 
-        axios.put(`${SERVER_HOST}/cars/${this.props.match.params.id}`, carObject)
+        axios.put(`${SERVER_HOST}/cars/${this.props.match.params.id}`, carObject, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {             
             if(res.data)
@@ -102,23 +108,33 @@ export default class EditCar extends Component
                         
                 <Form>
                     <Form.Group controlId="model">
-                        <Form.Label>Model</Form.Label>
-                        <Form.Control ref = {(input) => { this.inputToFocus = input }} type="text" name="model" value={this.state.model} onChange={this.handleChange} />
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control ref = {(input) => { this.inputToFocus = input }} type="text" name="name" value={this.state.name} onChange={this.handleChange} />
                     </Form.Group>
 
-                    <Form.Group controlId="colour">
-                        <Form.Label>Colour</Form.Label>
-                        <Form.Control type="text" name="colour" value={this.state.colour} onChange={this.handleChange} />
+                    <Form.Group controlId="brand">
+                        <Form.Label>Brand</Form.Label>
+                        <Form.Control type="text" name="brand" value={this.state.brand} onChange={this.handleChange} />
                     </Form.Group>
 
-                    <Form.Group controlId="year">
-                        <Form.Label>Year</Form.Label>
-                        <Form.Control type="text" name="year" value={this.state.year} onChange={this.handleChange} />
+                    <Form.Group controlId="gender">
+                        <Form.Label>Gender</Form.Label>
+                        <Form.Control type="text" name="gender" value={this.state.gender} onChange={this.handleChange} />
+                    </Form.Group>
+                    
+                    <Form.Group controlId="category">
+                        <Form.Label>Category</Form.Label>
+                        <Form.Control type="text" name="category" value={this.state.category} onChange={this.handleChange} />
                     </Form.Group>
         
                     <Form.Group controlId="price">
                         <Form.Label>Price</Form.Label>
                         <Form.Control type="text" name="price" value={this.state.price} onChange={this.handleChange} />
+                    </Form.Group>
+                    
+                    <Form.Group controlId="stock">
+                        <Form.Label>Stock</Form.Label>
+                        <Form.Control type="text" name="stock" value={this.state.stock} onChange={this.handleChange} />
                     </Form.Group>
   
                     <LinkInClass value="Update" className="green-button" onClick={this.handleSubmit}/>  
