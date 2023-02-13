@@ -20,7 +20,7 @@ export default class EditCar extends Component
             category: ``,
             price: ``,
             stock: ``,
-            redirectToDisplayAllCars:sessionStorage.accessLevel < ACCESS_LEVEL_NORMAL_USER
+            redirectToDisplayAllCars:localStorage.accessLevel < ACCESS_LEVEL_NORMAL_USER
         }
     }
 
@@ -28,7 +28,7 @@ export default class EditCar extends Component
     {      
         this.inputToFocus.focus()
   
-        axios.get(`${SERVER_HOST}/cars/${this.props.match.params.id}`)
+        axios.get(`${SERVER_HOST}/cars/${this.props.match.params.id}`, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
@@ -76,7 +76,7 @@ export default class EditCar extends Component
             stock: this.state.items_left
         }
 
-        axios.put(`${SERVER_HOST}/cars/${this.props.match.params.id}`, carObject)
+        axios.put(`${SERVER_HOST}/cars/${this.props.match.params.id}`, carObject, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {             
             if(res.data)

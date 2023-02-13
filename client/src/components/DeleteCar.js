@@ -19,7 +19,7 @@ export default class DeleteCar extends Component
     
     componentDidMount() 
     {   
-        axios.delete(`${SERVER_HOST}/cars/${this.props.match.params.id}`)
+        axios.delete(`${SERVER_HOST}/cars/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
         .then(res => 
         {
             if(res.data)

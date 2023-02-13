@@ -22,7 +22,7 @@ export default class AddCar extends Component
             category: ``,
             price: ``,
             stock: ``,
-            redirectToDisplayAllCars:sessionStorage.accessLevel < ACCESS_LEVEL_ADMIN
+            redirectToDisplayAllCars:localStorage.accessLevel < ACCESS_LEVEL_ADMIN
         }
     }
 
@@ -52,7 +52,7 @@ export default class AddCar extends Component
             items_left: this.state.stock,
         }
 
-        axios.post(`${SERVER_HOST}/cars`, carObject)
+        axios.post(`${SERVER_HOST}/cars`, carObject, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {   
             if(res.data)

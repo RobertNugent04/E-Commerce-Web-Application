@@ -4,6 +4,7 @@ const usersModel = require(`../models/users`)
 
 const bcrypt = require('bcryptjs');  // needed for password encryption
 
+const jwt = require('jsonwebtoken')
 
 
     
@@ -19,6 +20,8 @@ router.post(`/users/reset_user_collection`, (req, res) => {
             bcrypt.hash(adminPassword, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
                 usersModel.create({ name: "Administrator", email: "admin@admin.com", password: hash, accessLevel: parseInt(process.env.ACCESS_LEVEL_ADMIN) }, (createError, createData) => {
                     if (createData) {
+                        // const token = jwt.sign({email:data.email, accessLevel:data.accessLevel}, process.env.JWT_PRIVATE_KEY, {algorithm:'HS256', expiresIn:process.env.JWT_EXPIRY})     
+
                         res.json(createData)
                     }
                     else {
@@ -44,7 +47,9 @@ router.post(`/users/register/:name/:email/:password`, (req, res) => {
             bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
                 usersModel.create({ name: req.params.name, email: req.params.email, password: hash }, (error, data) => {
                     if (data) {
-                        res.json({ name: data.name, accessLevel: data.accessLevel })
+                        const token = jwt.sign({email:data.email, accessLevel:data.accessLevel}, process.env.JWT_PRIVATE_KEY, {algorithm:'HS256', expiresIn:process.env.JWT_EXPIRY})     
+           
+                        res.json({name: data.name, accessLevel:data.accessLevel, token:token})
                     }
                     else {
                         res.json({ errorMessage: `User was not registered` })
@@ -61,7 +66,9 @@ router.post(`/users/login/:email/:password`, (req, res) => {
         if (data) {
             bcrypt.compare(req.params.password, data.password, (err, result) => {
                 if (result) {
-                    res.json({ name: data.name, accessLevel: data.accessLevel })
+                    const token = jwt.sign({email:data.email, accessLevel:data.accessLevel}, process.env.JWT_PRIVATE_KEY, {algorithm:'HS256', expiresIn:process.env.JWT_EXPIRY})     
+           
+                    res.json({name: data.name, accessLevel:data.accessLevel, token:token})
                 }
                 else {
                     res.json({ errorMessage: `User is not logged in` })
