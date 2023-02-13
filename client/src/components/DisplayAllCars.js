@@ -64,15 +64,8 @@ export default class DisplayAllCars extends Component
 
         if (!(e.target.value === "")) {
 
-            if (x === "name") {
-                this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase())) })
-            }
-            else if (x === "brand") {
-                this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.brand.toUpperCase().includes(e.target.value.toUpperCase())) })
-            }
-            else if (x === "category") {
-                this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.category.toUpperCase().includes(e.target.value.toUpperCase())) })
-            }
+          
+            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.price == e.target.value) });
         }
         else
             this.setState({ selectedShoes: this.state.shoes })
@@ -110,7 +103,7 @@ export default class DisplayAllCars extends Component
                     </div>
                 :
                     <div>
-            <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} searchBy={this.state.attributes} />
+            <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange}/>
             <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
                         <Link className="green-button" to={"/Login"}>Login</Link>
                         <Link className="blue-button" to={"/Register"}>Register</Link>  
