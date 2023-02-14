@@ -20,7 +20,7 @@ export default class DisplayAllCars extends Component
         this.state = {
             shoes:[],
             searchBy: "name",
-            attributes: ["name", "brand", "category"],
+            attributes: ["name", "brand", "category", "price"],
             selectedShoes: [],
             sortBy: "name",
             sortSwitch: true,
