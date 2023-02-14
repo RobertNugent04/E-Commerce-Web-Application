@@ -4,6 +4,8 @@ import {BrowserRouter, Switch, Route} from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.css"
 import "./css/App.css"
 
+import NavBar from "./components/NavBar"
+import Footer from "./components/Footer"
 import Register from "./components/Register"
 import ResetDatabase from "./components/ResetDatabase"
 import ResetShoes from "./components/ResetShoes"
@@ -34,6 +36,7 @@ export default class App extends Component
         return (
             <BrowserRouter>
                 <Switch>
+                    <Route exact path="/NavBar" component={NavBar} />
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/ResetDatabase" component={ResetDatabase} />   
                     <Route exact path="/ResetShoes" component={ResetShoes} />                 
@@ -44,7 +47,8 @@ export default class App extends Component
                     <LoggedInRoute exact path="/EditCar/:id" component={EditCar} />
                     <LoggedInRoute exact path="/DeleteCar/:id" component={DeleteCar} />
                     <Route exact path="/DisplayAllCars" component={DisplayAllCars}/> 
-                    <Route path="*" component={DisplayAllCars}/>                            
+                    <Route path="*" component={DisplayAllCars}/> 
+                    <Route exact path="/Footer" component={Footer} />
                 </Switch>
             </BrowserRouter>
         )

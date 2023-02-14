@@ -7,6 +7,8 @@ import CarTable from "./CarTable"
 import Logout from "./Logout"
 import Search from "./Search"
 import Sort from "./Sort"
+import NavBar from "./NavBar"
+import Footer from "./Footer"
 
 import {ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST} from "../config/global_constants"
 
@@ -97,6 +99,9 @@ export default class DisplayAllCars extends Component
     {   
         return (           
             <div className="form-container">
+            <div class="navbar-container">
+            <NavBar/>
+            </div> <br/> <br/> <br/>
                 {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? 
                     <div className="logout">
                         <Logout/>
@@ -122,6 +127,7 @@ export default class DisplayAllCars extends Component
                         null
                     }
                 </div>
+                <Footer/>
             </div> 
         )
     }
