@@ -4,6 +4,7 @@ import {Link} from "react-router-dom"
 import axios from "axios"
 
 import CarTable from "./CarTable"
+import ShoeTable from "./ShoeTable"
 import Logout from "./Logout"
 import Search from "./Search"
 import Sort from "./Sort"
@@ -117,7 +118,7 @@ export default class DisplayAllCars extends Component
                 }
                 
                 <div className="table-container">
-                    <CarTable cars={this.state.selectedShoes} /> 
+                    <ShoeTable cars={this.state.selectedShoes} />
                         
                     {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
                         <div className="add-new-car">
