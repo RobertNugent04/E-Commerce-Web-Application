@@ -5,6 +5,8 @@ import axios from "axios"
 import LinkInClass from "../components/LinkInClass"
 import {SERVER_HOST} from "../config/global_constants"
 
+import NavBar from "./NavBar"
+import Footer from "./Footer"
 
 export default class ResetDatabase extends Component
 {
@@ -56,6 +58,9 @@ export default class ResetDatabase extends Component
     { 
         return (
             <form className="form-container" noValidate = {true} id = "loginOrRegistrationForm">
+            <div class="navbar-container">
+                        <NavBar/>
+                    </div> <br/> <br/> <br/>
 
                {this.state.isReset ? <Redirect to="/DisplayAllCars"/> : null} 
 
@@ -64,6 +69,7 @@ export default class ResetDatabase extends Component
                 <p>Reset the database and set up an administrator with:<br/> * email <strong>admin@admin.com</strong><br/> * password <strong>123!"£qweQWE</strong></p>        
             
                 <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
+                <Footer/>
             </form>
         )
     }

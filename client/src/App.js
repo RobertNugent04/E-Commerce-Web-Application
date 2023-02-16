@@ -10,6 +10,7 @@ import Register from "./components/Register"
 import ResetDatabase from "./components/ResetDatabase"
 import ResetShoes from "./components/ResetShoes"
 import Login from "./components/Login"
+import Stock from "./components/Stock"
 import Logout from "./components/Logout"
 import AddCar from "./components/AddCar"
 import EditCar from "./components/EditCar"
@@ -42,6 +43,7 @@ export default class App extends Component
                     <Route exact path="/ResetShoes" component={ResetShoes} />                 
                     <Route exact path="/" component={DisplayAllCars} />
                     <Route exact path="/Login" component={Login} />
+                    <Route exact path="/Stock" component={Stock} />
                     <LoggedInRoute exact path="/Logout" component={Logout} />
                     <LoggedInRoute exact path="/AddCar" component={AddCar} />
                     <LoggedInRoute exact path="/EditCar/:id" component={EditCar} />

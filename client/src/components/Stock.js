@@ -1,20 +1,20 @@
 import React, {Component} from "react"
-import {Link} from "react-router-dom"
-
+import {Redirect, Link} from "react-router-dom"
 import axios from "axios"
 
+import LinkInClass from "../components/LinkInClass"
+import {ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST} from "../config/global_constants"
+
 import CarTable from "./CarTable"
-import ShoeTable from "./ShoeTable"
+import Login from "./Login"
 import Logout from "./Logout"
 import Search from "./Search"
 import Sort from "./Sort"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
 
-import {ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST} from "../config/global_constants"
 
-
-export default class DisplayAllCars extends Component 
+export default class Stock extends Component
 {
     constructor(props) 
     {
@@ -94,54 +94,53 @@ export default class DisplayAllCars extends Component
     handleSortChange = e => {
         this.setState({ sortBy: e.target.value })
     }
+    
+    render()
+    {
+        return (
+                <div className="form-container">
+                    <div class="navbar-container">
+                        <NavBar/>
+                    </div> <br/> <br/> <br/>
+                
+                    {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                                    <div className="logout">
+                                        <Logout/>
+                                    </div>
+                            :
+                                    <div>
+                                    <h1>Authentification Required!</h1>
+                                    <p>Please Sign In!</p>
+                                        <Link className="green-button" to={"/Login"}>Login</Link>
+                                        <br/><br/><br/></div>
+                    }
+                
+                    {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
+                                    <div className="admin-controls">
+                                    <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange}/>
+                                        <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
+                                        <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
+                                        <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
+                                        <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link>
+                                    </div>
 
-  
-    render() 
-    {   
-        return (           
-            <div className="form-container">
-            <div class="navbar-container">
-            <NavBar/>
-            </div> <br/> <br/> <br/>
-            
-                {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? 
-                    <div className="logout">
-                        <Logout/>
-                    </div>
-                :
-                    <div>
-            <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange}/>
-            <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
-                        <Link className="green-button" to={"/Login"}>Login</Link>
-                        <Link className="blue-button" to={"/Register"}>Register</Link>  
-                        <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link> 
-                        <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link> <br/><br/><br/></div>
-                }
-                
-                {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                        <div className="add-new-car">
-                            <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
-                            </div>
-                            
-                    :
-                        null
-                    }
-                {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                        <div className="stock">
-                            <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
-                            </div>
-                            
-                    :
-                        null
+                            :
+                            null
                     }
                 
-                <div className="table-container">
-                    <ShoeTable cars={this.state.selectedShoes} />
-                        
-                    
+                    {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
+                                        <div className="table-container">
+                                            <CarTable cars={this.state.selectedShoes} />
+                                        </div>
+
+                            :
+                            null
+                    }
+                
+                    <Footer/>
                 </div>
-                <Footer/>
-            </div> 
-        )
+                )
     }
 }
+
+

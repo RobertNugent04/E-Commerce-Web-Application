@@ -5,6 +5,8 @@ import axios from "axios"
 import LinkInClass from "../components/LinkInClass"
 import {ACCESS_LEVEL_GUEST, SERVER_HOST} from "../config/global_constants"
 
+import NavBar from "./NavBar"
+import Footer from "./Footer"
 
 export default class Login extends Component
 {
@@ -63,6 +65,10 @@ export default class Login extends Component
     {            
         return (
             <form className="form-container" noValidate = {true} id = "loginOrRegistrationForm">
+            <div class="navbar-container">
+                        <NavBar/>
+                    </div> <br/> <br/> <br/>
+                    
                 <h2>Login</h2>
                 
                 {this.state.isLoggedIn ? <Redirect to="/DisplayAllCars"/> : null} 
@@ -86,7 +92,8 @@ export default class Login extends Component
                 /><br/><br/>
                 
                 <LinkInClass value="Login" className="green-button" onClick={this.handleSubmit}/> 
-                <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>                                      
+                <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link> 
+                <Footer/>
             </form>
         )
     }
