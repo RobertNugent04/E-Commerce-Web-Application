@@ -4,6 +4,9 @@ const carsModel = require(`../models/cars`);
 
 const jwt = require('jsonwebtoken')
 
+const fs = require('fs')
+const JWT_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILENAME, 'utf8')
+
 let shoes =
     [
         { "id": 1, "name": "Nike React Infinity Run Flyknit", "brand": "NIKE", "gender": "MEN", "category": "RUNNING", "price": 160, "is_in_inventory": true, "items_left": 3, "imageURL": "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-665455a5-45de-40fb-945f-c1852b82400d/react-infinity-run-flyknit-mens-running-shoe-zX42Nc.jpg", "slug": "nike-react-infinity-run-flyknit" },
@@ -53,7 +56,7 @@ router.get(`/cars`, (req, res) => {
 
 // Read one record
 router.get(`/cars/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+    jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
         if (err) {
             res.json({ errorMessage: `User is not logged in` })
         }
@@ -106,7 +109,7 @@ router.get(`/cars/:id`, (req, res) => {
 
 // Add new record
 router.post(`/cars`, (req, res) => {
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+    jwt.verify(req.headers.authorization,JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
         if (err) {
             res.json({ errorMessage: `User is not logged in` })
         }
@@ -147,7 +150,7 @@ router.post(`/cars`, (req, res) => {
 
 // Update one record
 router.put(`/cars/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+    jwt.verify(req.headers.authorization,JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
         if (err) {
             res.json({ errorMessage: `User is not logged in` })
         }
@@ -180,7 +183,7 @@ router.put(`/cars/:id`, (req, res) => {
 
 // Delete one record
 router.delete(`/cars/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+    jwt.verify(req.headers.authorization,JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
         if (err) {
             res.json({ errorMessage: `User is not logged in` })
         }

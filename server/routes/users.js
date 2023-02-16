@@ -6,6 +6,10 @@ const bcrypt = require('bcryptjs');  // needed for password encryption
 
 const jwt = require('jsonwebtoken')
 
+const fs = require('fs')
+const JWT_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILENAME, 'utf8')
+
+
 
 
 
@@ -57,7 +61,7 @@ router.post(`/users/register/:name/:email/:password`, (req, res) => {
                 bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
                     usersModel.create({ name: req.params.name, email: req.params.email, password: hash }, (error, data) => {
                         if (data) {
-                            const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel }, process.env.JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
+                            const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel },JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
 
                             res.json({ name: data.name, accessLevel: data.accessLevel, token: token })
                         }
@@ -77,7 +81,7 @@ router.post(`/users/login/:email/:password`, (req, res) => {
         if (data) {
             bcrypt.compare(req.params.password, data.password, (err, result) => {
                 if (result) {
-                    const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel }, process.env.JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
+                    const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel },JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
 
                     res.json({ name: data.name, accessLevel: data.accessLevel, token: token })
                 }
