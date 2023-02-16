@@ -19,7 +19,7 @@ export default class EditCar extends Component
             gender: ``,
             category: ``,
             price: ``,
-            stock: ``,
+            items_left: ``,
             redirectToDisplayAllCars:localStorage.accessLevel < ACCESS_LEVEL_NORMAL_USER
         }
     }
@@ -45,7 +45,7 @@ export default class EditCar extends Component
                         gender: res.data.gender,
                         category: res.data.category,
                         price: res.data.price,
-                        stock: res.data.items_left
+                        items_left: res.data.items_left
                     })
                 }
             }
@@ -73,7 +73,7 @@ export default class EditCar extends Component
             gender: this.state.gender,
             category: this.state.category,
             price: this.state.price,
-            stock: this.state.items_left
+            items_left: this.state.items_left
         }
 
         axios.put(`${SERVER_HOST}/cars/${this.props.match.params.id}`, carObject, {headers:{"authorization":localStorage.token}})
@@ -132,9 +132,9 @@ export default class EditCar extends Component
                         <Form.Control type="text" name="price" value={this.state.price} onChange={this.handleChange} />
                     </Form.Group>
                     
-                    <Form.Group controlId="stock">
+                    <Form.Group controlId="items_left">
                         <Form.Label>Stock</Form.Label>
-                        <Form.Control type="text" name="stock" value={this.state.stock} onChange={this.handleChange} />
+                        <Form.Control type="text" name="items_left" value={this.state.items_left} onChange={this.handleChange} />
                     </Form.Group>
   
                     <LinkInClass value="Update" className="green-button" onClick={this.handleSubmit}/>  

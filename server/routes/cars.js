@@ -115,21 +115,21 @@ router.post(`/cars`, (req, res) => {
             //^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$
             //\s+\d{1,6}\s+
             if (decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN) {
-                if (req.body.name == "" ) {
-                    res.json({errorMessage: `name cant be empty`});
-                }else if(req.body.brand == ""){
-                    res.json({errorMessage: `brand cant be empty`});
-                }else if(req.body.gender == ""){
-                    res.json({errorMessage: `select gender`});
-                }else if(req.body.category == ""){
-                    res.json({errorMessage: `select a category`});
+                if (req.body.name == "") {
+                    res.json({ errorMessage: `name cant be empty` });
+                } else if (req.body.brand == "") {
+                    res.json({ errorMessage: `brand cant be empty` });
+                } else if (req.body.gender == "") {
+                    res.json({ errorMessage: `select gender` });
+                } else if (req.body.category == "") {
+                    res.json({ errorMessage: `select a category` });
                 }
-                else if(!/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/.test(req.body.price)){
+                else if (!/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/.test(req.body.price)) {
                     console.log(req.body.price)
-                    res.json({errorMessage: `price must be above 0`});
-                }else if(!/^[0-9]{1,6}$/.test(req.body.items_left)){
+                    res.json({ errorMessage: `price must be above 0` });
+                } else if (!/^[0-9]{1,6}$/.test(req.body.items_left)) {
                     console.log(req.body.items_left)
-                    res.json({errorMessage: `no decimal and negative numbers allowed`});
+                    res.json({ errorMessage: `no decimal and negative numbers allowed` });
                 }
                 else {
                     // Use the new car details to create a new car document
@@ -152,9 +152,27 @@ router.put(`/cars/:id`, (req, res) => {
             res.json({ errorMessage: `User is not logged in` })
         }
         else {
-            carsModel.findByIdAndUpdate(req.params.id, { $set: req.body }, (error, data) => {
-                res.json(data)
-            })
+            console.log(req.body)
+            if (req.body.name == "") {
+                res.json({ errorMessage: `name cant be empty` });
+            } else if (req.body.brand == "") {
+                res.json({ errorMessage: `brand cant be empty` });
+            } else if (req.body.gender == "") {
+                res.json({ errorMessage: `select gender` });
+            } else if (req.body.category == "") {
+                res.json({ errorMessage: `select a category` });
+            }
+            else if (!/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/.test(req.body.price)) {
+                console.log(req.body.price)
+                res.json({ errorMessage: `price must be above 0` });
+            } else if (!/^[0-9]{1,6}$/.test(req.body.items_left)) {
+                console.log(req.body.items_left)
+                res.json({ errorMessage: `no decimal and negative numbers allowed` });
+            } else {
+                carsModel.findByIdAndUpdate(req.params.id, { $set: req.body }, (error, data) => {
+                    res.json(data)
+                })
+            }
         }
     })
 })
