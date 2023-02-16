@@ -53,16 +53,12 @@ router.get(`/cars`, (req, res) => {
 
 // Read one record
 router.get(`/cars/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
-    {
-        if (err) 
-        { 
-            res.json({errorMessage:`User is not logged in`})
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+        if (err) {
+            res.json({ errorMessage: `User is not logged in` })
         }
-        else
-        {
-            carsModel.findById(req.params.id, (error, data) => 
-            {
+        else {
+            carsModel.findById(req.params.id, (error, data) => {
                 res.json(data)
             })
         }
@@ -70,75 +66,115 @@ router.get(`/cars/:id`, (req, res) => {
 })
 
 
+// router.post(`/cars`, (req, res) =>
+// {
+//     console.log(req.body.pointers[0])
+//     if (req.body.name === "") {
+//         res.json({errorMessage: `name cant be empty`});
+//     } else if (Object.keys(req.body.tags).length === 0 && Object.keys(req.body.tags).length === undefined) {
+//         res.json({errorMessage: `mus select at least one tag`});
+//     } else if (Object.keys(req.body.address['addressRegion']).length === 0 && Object.keys(req.body.address['addressRegion']).length === undefined) {
+//         res.json({errorMessage: `mus select at least one county`});
+//     } else if (Object.keys(req.body.address['addressLocality']).length === 0 && Object.keys(req.body.address['addressLocality']).length === undefined) {
+//         res.json({errorMessage: `mus select at least one town`});
+//     } else if (!/^0\d{7,12}$/.test(req.body.telephone))
+//     {
+//         res.json({errorMessage: `telephone format must be 0 followed by 9 digit`});
+//     } else if (!/^\s*(-?\d+(\.\d+)?)\s*$/.test(req.body.pointers[0]))
+//     {
+
+//         res.json({errorMessage: `enter between -90 to 90`});
+//     } else if (!/^\s*(-?\d+(\.\d+)?)\s*$/.test(req.body.pointers[1]))
+//     {
+//         res.json({errorMessage: `enter between -180 to 180`});
+//     } else {
+//         carsModel.findOne({name: req.params.name}, (uniqueError, uniqueData) =>
+//         {
+//             if (uniqueData)
+//             {
+//                 res.json({errorMessage: `Attraction already exists`})
+//             } else
+//             {
+//                 carsModel.create(req.body, (error, data) => {
+//                     console.log(req.body)
+//                     res.json(data)
+//                 })
+//             }
+//         })
+//     }
+// })
+
 // Add new record
-router.post(`/cars`, (req, res) => 
-{
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
-    {
-        if (err) 
-        { 
-            res.json({errorMessage:`User is not logged in`})
+router.post(`/cars`, (req, res) => {
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+        if (err) {
+            res.json({ errorMessage: `User is not logged in` })
         }
-        else
-        {
-            if(decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN)
-            {                
-                // Use the new car details to create a new car document
-                carsModel.create(req.body, (error, data) => 
-                {
-                    res.json(data)
-                })
+        else {
+            //|| !/^[a-zA-Z]+$/.test(req.body.name)
+            //^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$
+            //\s+\d{1,6}\s+
+            if (decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN) {
+                if (req.body.name == "" ) {
+                    res.json({errorMessage: `name cant be empty`});
+                }else if(req.body.brand == ""){
+                    res.json({errorMessage: `brand cant be empty`});
+                }else if(req.body.gender == ""){
+                    res.json({errorMessage: `select gender`});
+                }else if(req.body.category == ""){
+                    res.json({errorMessage: `select a category`});
+                }
+                else if(!/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/.test(req.body.price)){
+                    console.log(req.body.price)
+                    res.json({errorMessage: `price must be above 0`});
+                }else if(!/^[0-9]{1,6}$/.test(req.body.items_left)){
+                    console.log(req.body.items_left)
+                    res.json({errorMessage: `no decimal and negative numbers allowed`});
+                }
+                else {
+                    // Use the new car details to create a new car document
+                    carsModel.create(req.body, (error, data) => {
+                        res.json(data)
+                    })
+                }
             }
-            else
-            {
-                res.json({errorMessage:`User is not an administrator, so they cannot add new records`})
+            else {
+                res.json({ errorMessage: `User is not an administrator, so they cannot add new records` })
             }
         }
     })
 })
 
 // Update one record
-router.put(`/cars/:id`, (req, res) => 
-{
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
-    {
-        if (err) 
-        { 
-            res.json({errorMessage:`User is not logged in`})
+router.put(`/cars/:id`, (req, res) => {
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+        if (err) {
+            res.json({ errorMessage: `User is not logged in` })
         }
-        else
-        {
-            carsModel.findByIdAndUpdate(req.params.id, {$set: req.body}, (error, data) => 
-            {
+        else {
+            carsModel.findByIdAndUpdate(req.params.id, { $set: req.body }, (error, data) => {
                 res.json(data)
-            })        
+            })
         }
     })
 })
 
 
 // Delete one record
-router.delete(`/cars/:id`, (req, res) => 
-{
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
-    {
-        if (err) 
-        { 
-            res.json({errorMessage:`User is not logged in`})
+router.delete(`/cars/:id`, (req, res) => {
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+        if (err) {
+            res.json({ errorMessage: `User is not logged in` })
         }
-        else
-        {
-            if(decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN)
-            {
-                carsModel.findByIdAndRemove(req.params.id, (error, data) => 
-                {
+        else {
+            if (decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN) {
+                carsModel.findByIdAndRemove(req.params.id, (error, data) => {
                     res.json(data)
                 })
             }
-            else
-            {
-                res.json({errorMessage:`User is not an administrator, so they cannot delete records`})
-            }        
+            else {
+                res.json({ errorMessage: `User is not an administrator, so they cannot delete records` })
+            }
         }
     })
 })
