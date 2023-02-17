@@ -10,7 +10,7 @@ Rob's Shoes Copyright 2023 - By Robert, Kevas, Matthew - SD2B
 
 body
 {
-    background-color: #F0EEF0;
+    background-color: #f7f7f7;
 }
 
 hr
@@ -334,11 +334,9 @@ footer > span
 
 .form-container
 {
-    border:thin solid #aaaaaa;
     padding: 50px;
     margin-left: 0%;
     margin-right: 0%;
-    border-radius: 5px;
     background: #f7f7f7;
 }
 
@@ -412,38 +410,63 @@ color:pink;
 }
 
 /* table of Shoes */
-.table-container table
+.table-container
 {
-    width:100%;
-    border-collapse:collapse;
+    width: 100%;
+    border-collapse: collapse;
+    padding-left: 10%;
+    margin: 25px 0;
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+    overflow: auto;
+    background-color: #f7f7f7;
 }
 
-.table-container thead
+.table-container thead tr
 {
-    background-color: #aaa;
-    color:#fff;
+    background-color: #006443;
+    color: white;
     text-align: left;
-    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.table-container th
+{
+    text-align: center;
+    background-color:#363636;
+    color:#fff;
+}
+
+.table-container th:first-of-type
+{
+    border-top-left-radius:10px;
+}
+
+.table-container th:last-of-type
+{
+    border-top-right-radius:10px;
+}
+
+.table-container th,
+.table-container td 
+{
+    padding: 12px 15px;
 }
 
 .table-container tbody tr
 {
-    height:3em;
+    background-color: #bbb;
+    border:thin solid #F0F0F0;
 }
 
-.table-container thead th,
-.table-container tbody td
+.table-container tbody tr:hover
 {
-    padding:5px;
-}
-.table-container tbody tr:nth-child(odd) 
-{
-    background-color: #eee;
+    background-color: #f99;
 }
 
-.table-container tbody tr:nth-child(even) 
+.table-container tbody tr
 {
-    background-color: #ffa;
+    border-bottom: 1px solid #dddddd;
 }
 
 .add-new-car
