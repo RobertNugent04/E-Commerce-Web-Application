@@ -261,6 +261,12 @@ img
     max-height: 100%;
 }
 
+.shoe {
+    margin-left: 50px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+}
+
 .shoe > img 
 {
     width: 300px;
@@ -318,16 +324,20 @@ footer > span
 .form-container,
 .table-container 
 {
-  max-width: 700px;
   margin: 0 auto;
+}
+
+.shoe-container 
+{
+    margin: 0 auto;
 }
 
 .form-container
 {
-      border:thin solid #aaaaaa;
-    padding: 20px;
-    margin-left: auto;
-    margin-right: auto;
+    border:thin solid #aaaaaa;
+    padding: 50px;
+    margin-left: 0%;
+    margin-right: 0%;
     border-radius: 5px;
     background: #f7f7f7;
 }
@@ -396,20 +406,12 @@ footer > span
 }
 /* end of link buttons */
 
-
-
-
 input [type="button"] 
 {
 color:pink;
 }
 
-
-
-
-
-
-/* table of cars */
+/* table of Shoes */
 .table-container table
 {
     width:100%;
@@ -448,5 +450,42 @@ color:pink;
 {
     margin-top:1em;
 }
-/*end of table of cars */
+/*end of table of Shoes */
+
+/* container table of Shoes */
+.shoe-container table
+{
+    width:350px;
+    border-collapse:collapse;
+    display: inline-block;
+}
+
+.shoe-container thead
+{
+    background-color: #aaa;
+    color:#fff;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.shoe-container tbody tr
+{
+    height:3em;
+}
+
+.shoe-container thead th,
+.shoe-container tbody td
+{
+    padding:5px;
+}
+.shoe-container tbody tr:nth-child(odd) 
+{
+    background-color: #eee;
+}
+
+.shoe-container tbody tr:nth-child(even) 
+{
+    background-color: #ffa;
+}
+/*end of container of Shoes */
 
