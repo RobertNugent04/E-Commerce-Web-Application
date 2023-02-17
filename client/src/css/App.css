@@ -456,6 +456,7 @@ color:pink;
 .shoe-container table
 {
     width:350px;
+    height: 500px;
     border-collapse:collapse;
     display: inline-block;
 }
