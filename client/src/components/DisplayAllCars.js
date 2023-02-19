@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 
 import axios from "axios"
-
+import Filter from "./Filter"
 import CarTable from "./CarTable"
 import ShoeTable from "./ShoeTable"
 import Logout from "./Logout"
@@ -25,7 +25,9 @@ export default class DisplayAllCars extends Component {
             selectedShoes: [],
             sortBy: "name",
             sortSwitch: true,
-            switchKey: "Asc ▲"
+            switchKey: "Asc ▲",
+            undo: true,
+            backup: []
         }
     }
 
@@ -55,6 +57,18 @@ export default class DisplayAllCars extends Component {
         this.setState({ searchBy: e.target.value })
     }
 
+    // beforeSearch = e =>{
+
+    //   if (this.state.undo === true){
+    //     this.setState({backup: this.state.selectedShoes})
+    //     console.log(this.state.backup)
+    //   }
+
+    //   this.setState({undo: false})
+    //   this.handleSearchChange()
+
+    // }
+
     handleSearchChange = e => {
 
         let x = this.state.searchBy
@@ -64,8 +78,10 @@ export default class DisplayAllCars extends Component {
 
             this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
         }
-        else
-            this.setState({ selectedShoes: this.state.shoes })
+        else{
+            this.setState({ selectedShoes: this.state.backup })
+   //         this.setState({undo: true})
+        }
 
     }
 
@@ -89,6 +105,24 @@ export default class DisplayAllCars extends Component {
         this.setState({ sortBy: e.target.value })
     }
 
+    handleFilterChange = (e) => {
+      const filterBy = e.target.value;
+      let filteredShoes;
+      if (filterBy === "") {
+        filteredShoes = this.state.shoes;
+      } else if (this.state.selectedShoes.filter((shoe) => shoe.gender.includes(filterBy))){
+        filteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filterBy);
+        //filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);
+      }
+      else if (this.state.selectedShoes.filter((shoe) => shoe.brand.includes(filterBy))){
+          filteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filterBy);
+      }
+      this.setState({
+        filterBy: filterBy,
+        selectedShoes: filteredShoes
+      });
+    };
+
 
     render() {
         return (
@@ -105,6 +139,7 @@ export default class DisplayAllCars extends Component {
                     <div>
                         <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
                         <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
+                        <Filter shoes ={this.state.shoes} handleFilterChange={this.handleFilterChange}/>
                         <Link className="green-button" to={"/Login"}>Login</Link>
                         <Link className="blue-button" to={"/Register"}>Register</Link>
                         <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
