@@ -126,10 +126,10 @@ export default class DisplayAllCars extends Component {
                     </div>
 
                     :
-                    null
-                }
-
-                <div className="table-container">
+                        null
+                    }
+                
+                <div className="shoe-container">
                     <ShoeTable cars={this.state.selectedShoes} />
 
 

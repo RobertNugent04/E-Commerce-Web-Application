@@ -10,7 +10,7 @@ Rob's Shoes Copyright 2023 - By Robert, Kevas, Matthew - SD2B
 
 body
 {
-    background-color: #F0EEF0;
+    background-color: #f7f7f7;
 }
 
 hr
@@ -261,6 +261,12 @@ img
     max-height: 100%;
 }
 
+.shoe {
+    margin-left: 50px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+}
+
 .shoe > img 
 {
     width: 300px;
@@ -289,7 +295,7 @@ footer
     position: fixed;
     bottom: 0px;
     left: 0px;
-    height: 20px;
+    height: 25px;
     width: 100%;
     background-color: #1A1A1A;
     color: #FFFFFF;
@@ -318,17 +324,19 @@ footer > span
 .form-container,
 .table-container 
 {
-  max-width: 700px;
   margin: 0 auto;
+}
+
+.shoe-container 
+{
+    margin: 0 auto;
 }
 
 .form-container
 {
-      border:thin solid #aaaaaa;
-    padding: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 5px;
+    padding: 50px;
+    margin-left: 0%;
+    margin-right: 0%;
     background: #f7f7f7;
 }
 
@@ -396,27 +404,86 @@ footer > span
 }
 /* end of link buttons */
 
-
-
-
 input [type="button"] 
 {
 color:pink;
 }
 
-
-
-
-
-
-/* table of cars */
-.table-container table
+/* table of Shoes */
+.table-container
 {
-    width:100%;
-    border-collapse:collapse;
+    width: 100%;
+    border-collapse: collapse;
+    padding-left: 10%;
+    margin: 25px 0;
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+    overflow: auto;
+    background-color: #f7f7f7;
 }
 
-.table-container thead
+.table-container thead tr
+{
+    background-color: #006443;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.table-container th
+{
+    background-color:#363636;
+    color:#fff;
+}
+
+.table-container th:first-of-type
+{
+    border-top-left-radius:10px;
+}
+
+.table-container th:last-of-type
+{
+    border-top-right-radius:10px;
+}
+
+.table-container th,
+.table-container td 
+{
+    padding: 12px 15px;
+}
+
+.table-container tbody tr
+{
+    background-color: #bbb;
+    border:thin solid #F0F0F0;
+}
+
+.table-container tbody tr:hover
+{
+    background-color: #f99;
+}
+
+.table-container tbody tr
+{
+    border-bottom: 1px solid #dddddd;
+}
+
+.add-new-car
+{
+    margin-top:1em;
+}
+/*end of table of Shoes */
+
+/* container table of Shoes */
+.shoe-container table
+{
+    width:350px;
+    height: 500px;
+    border-collapse:collapse;
+    display: inline-block;
+}
+
+.shoe-container thead
 {
     background-color: #aaa;
     color:#fff;
@@ -424,29 +491,24 @@ color:pink;
     text-transform: capitalize;
 }
 
-.table-container tbody tr
+.shoe-container tbody tr
 {
     height:3em;
 }
 
-.table-container thead th,
-.table-container tbody td
+.shoe-container thead th,
+.shoe-container tbody td
 {
     padding:5px;
 }
-.table-container tbody tr:nth-child(odd) 
+.shoe-container tbody tr:nth-child(odd) 
 {
     background-color: #eee;
 }
 
-.table-container tbody tr:nth-child(even) 
+.shoe-container tbody tr:nth-child(even) 
 {
     background-color: #ffa;
 }
-
-.add-new-car
-{
-    margin-top:1em;
-}
-/*end of table of cars */
+/*end of container of Shoes */
 
