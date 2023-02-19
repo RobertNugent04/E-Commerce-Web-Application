@@ -1,5 +1,5 @@
-import React, {Component} from "react"
-import {Link} from "react-router-dom"
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
 
 import axios from "axios"
 
@@ -11,17 +11,15 @@ import Sort from "./Sort"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
 
-import {ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST} from "../config/global_constants"
+import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
 
 
-export default class DisplayAllCars extends Component 
-{
-    constructor(props) 
-    {
+export default class DisplayAllCars extends Component {
+    constructor(props) {
         super(props)
-        
+
         this.state = {
-            shoes:[],
+            shoes: [],
             searchBy: "name",
             attributes: ["name", "brand", "category", "price"],
             selectedShoes: [],
@@ -30,52 +28,48 @@ export default class DisplayAllCars extends Component
             switchKey: "Asc ▲"
         }
     }
-    
-    
-    componentDidMount() 
-    {
+
+
+    componentDidMount() {
         axios.get(`${SERVER_HOST}/cars`)
-        .then(res => 
-        {
-            if(res.data)
-            {
-                if (res.data.errorMessage)
-                {
-                    console.log(res.data.errorMessage)    
+            .then(res => {
+                if (res.data) {
+                    if (res.data.errorMessage) {
+                        console.log(res.data.errorMessage)
+                    }
+                    else {
+                        console.log("Records read")
+                        this.setState({
+                            shoes: res.data,
+                            selectedShoes: res.data
+                        })
+                    }
                 }
-                else
-                {           
-                    console.log("Records read")   
-                    this.setState({shoes: res.data,
-                                   selectedShoes: res.data}) 
-                }   
-            }
-            else
-            {
-                console.log("Record not found")
-            }
-        })
+                else {
+                    console.log("Record not found")
+                }
+            })
     }
-    
-        handleChange = e => {
+
+    handleChange = e => {
         this.setState({ searchBy: e.target.value })
     }
-    
-        handleSearchChange = e => {
+
+    handleSearchChange = e => {
 
         let x = this.state.searchBy
 
         if (!(e.target.value === "")) {
 
 
-            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase())|| finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
+            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
         }
         else
             this.setState({ selectedShoes: this.state.shoes })
 
     }
-    
-        handleSortClick = e => {
+
+    handleSortClick = e => {
         let sortDirection
         if (this.state.sortSwitch) {
             sortDirection = 1
@@ -89,59 +83,59 @@ export default class DisplayAllCars extends Component
         this.setState({ selectedShoes: this.state.selectedShoes.sort((a, b) => a[this.state.sortBy] < b[this.state.sortBy] ? -sortDirection : sortDirection) })
         this.setState({ sortSwitch: !this.state.sortSwitch })
     }
-    
-    
+
+
     handleSortChange = e => {
         this.setState({ sortBy: e.target.value })
     }
 
-  
-    render() 
-    {   
-        return (           
+
+    render() {
+        return (
             <div className="form-container">
-            <div class="navbar-container">
-            <NavBar/>
-            </div> <br/> <br/> <br/>
-            
-                {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? 
+                <div class="navbar-container">
+                    <NavBar />
+                </div> <br /> <br /> <br />
+
+                {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
                     <div className="logout">
-                        <Logout/>
+                        <Logout />
                     </div>
-                :
+                    :
                     <div>
-            <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange}/>
-            <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
+                        <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
+                        <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
                         <Link className="green-button" to={"/Login"}>Login</Link>
-                        <Link className="blue-button" to={"/Register"}>Register</Link>  
-                        <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link> 
-                        <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link> <br/><br/><br/></div>
+                        <Link className="blue-button" to={"/Register"}>Register</Link>
+                        <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
+                        <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link> 
+                        <br /><br /><br /></div>
                 }
-                
+
                 {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                        <div className="add-new-car">
-                            <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
-                            </div>
-                            
+                    <div className="add-new-car">
+                        <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
+                    </div>
+
                     :
-                        null
-                    }
+                    null
+                }
                 {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                        <div className="stock">
-                            <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
-                            </div>
-                            
+                    <div className="stock">
+                        <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
+                    </div>
+
                     :
-                        null
-                    }
-                
+                    null
+                }
+
                 <div className="table-container">
                     <ShoeTable cars={this.state.selectedShoes} />
-                        
-                    
+
+
                 </div>
-                <Footer/>
-            </div> 
+                <Footer />
+            </div>
         )
     }
 }

@@ -40,7 +40,7 @@ export default class App extends Component
                     <Route exact path="/NavBar" component={NavBar} />
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/ResetDatabase" component={ResetDatabase} />   
-                    <Route exact path="/ResetShoes" component={ResetShoes} />                 
+                    <Route exact path="/ResetShoes" component={ResetShoes} />               
                     <Route exact path="/" component={DisplayAllCars} />
                     <Route exact path="/Login" component={Login} />
                     <Route exact path="/Stock" component={Stock} />

@@ -9,6 +9,11 @@ const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const JWT_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILENAME, 'utf8')
 
+const multer = require('multer')
+const upload = multer({ dest: `${process.env.UPLOADED_FILES_FOLDER}` })
+
+const emptyFolder = require('empty-folder')
+
 
 
 
@@ -17,62 +22,113 @@ const JWT_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILENAME, 'u
 // IMPORTANT
 // Obviously, in a production release, you should never have the code below, as it allows a user to delete a database collection
 // The code below is for development testing purposes only 
-router.post(`/users/reset_user_collection`, (req, res) => {
-    usersModel.deleteMany({}, (error, data) => {
-        if (data) {
+router.post(`/users/reset_user_collection`, (req,res) => 
+{
+    usersModel.deleteMany({}, (error, data) => 
+    {
+        if(data)
+        {
             const adminPassword = `123!"£qweQWE`
-            bcrypt.hash(adminPassword, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
-                usersModel.create({ name: "Administrator", email: "admin@admin.com", password: hash, accessLevel: parseInt(process.env.ACCESS_LEVEL_ADMIN) }, (createError, createData) => {
-                    if (createData) {
-                        // const token = jwt.sign({email:data.email, accessLevel:data.accessLevel}, process.env.JWT_PRIVATE_KEY, {algorithm:'HS256', expiresIn:process.env.JWT_EXPIRY})     
-
-                        res.json(createData)
+            bcrypt.hash(adminPassword, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+            {
+                usersModel.create({name:"Administrator",email:"admin@admin.com",password:hash,accessLevel:parseInt(process.env.ACCESS_LEVEL_ADMIN)}, (createError, createData) => 
+                {
+                    if(createData)
+                    {
+                        emptyFolder(process.env.UPLOADED_FILES_FOLDER, false, (result) =>
+                        {
+                            res.json(createData)
+                        })
                     }
-                    else {
-                        res.json({ errorMessage: `Failed to create Admin user for testing purposes` })
+                    else
+                    {
+                        res.json({errorMessage:`Failed to create Admin user for testing purposes`})
                     }
                 })
             })
         }
-        else {
-            res.json({ errorMessage: `User is not logged in` })
+        else
+        {
+            res.json({errorMessage:`User is not logged in`})
         }
-    })
+    })                
 })
 
 
-router.post(`/users/register/:name/:email/:password`, (req, res) => {
+router.post(`/users/register/:name/:email/:password`, upload.single("profilePhoto"), (req, res) => {
     // If a user with this email does not already exist, then create new user
 
     // "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"  Minimum eight characters, at least one letter and one number:
-    usersModel.findOne({ email: req.params.email }, (uniqueError, uniqueData) => {
-        if (uniqueData) {
-            res.json({ errorMessage: `User already exists` })
-        }
-        else {
-           
-            if (req.params.name == "") {
-                res.json({errorMessage: `name cant be empty`});
-            }else if(!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.params.email)){
-                res.json({errorMessage: `enter valid email`});
-            }else if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(req.params.password)){
-                res.json({errorMessage: `Minimum eight characters, at least one letter and one number`});
-            } else {
-                bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
-                    usersModel.create({ name: req.params.name, email: req.params.email, password: hash }, (error, data) => {
-                        if (data) {
-                            const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel },JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
-
-                            res.json({ name: data.name, accessLevel: data.accessLevel, token: token })
-                        }
-                        else {
-                            res.json({ errorMessage: `User was not registered` })
-                        }
-                    })
-                })
+    if (!req.file) {
+        usersModel.findOne({ email: req.params.email }, (uniqueError, uniqueData) => {
+            if (uniqueData) {
+                res.json({ errorMessage: `User already exists` })
             }
-        }
-    })
+            else {
+
+                if (req.params.name == "") {
+                    res.json({ errorMessage: `name cant be empty` });
+                } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.params.email)) {
+                    res.json({ errorMessage: `enter valid email` });
+                } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(req.params.password)) {
+                    res.json({ errorMessage: `Minimum eight characters, at least one letter and one number` });
+                } else {
+                    bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+                    {
+                        usersModel.create({name:req.params.name,email:req.params.email,password:hash}, (error, data) => 
+                        {
+                            if(data)
+                            {
+                                const token = jwt.sign({email: data.email, accessLevel:data.accessLevel}, JWT_PRIVATE_KEY, {algorithm: 'HS256', expiresIn:process.env.JWT_EXPIRY})     
+                   
+                                res.json({name: data.name, accessLevel:data.accessLevel, token:token})
+                            }
+                            else
+                            {
+                                res.json({errorMessage:`User was not registered`})
+                            }
+                        }) 
+                    })
+                }
+            }
+        })
+    }
+    else if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpg" && req.file.mimetype !== "image/jpeg") {
+        fs.unlink(`${process.env.UPLOADED_FILES_FOLDER}/${req.file.filename}`, (error) => { res.json({ errorMessage: `Only .png, .jpg and .jpeg format accepted` }) })
+    } else {
+        usersModel.findOne({ email: req.params.email }, (uniqueError, uniqueData) => {
+            if (uniqueData) {
+                res.json({ errorMessage: `User already exists` })
+            }
+            else {
+
+                if (req.params.name == "") {
+                    res.json({ errorMessage: `name cant be empty` });
+                } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.params.email)) {
+                    res.json({ errorMessage: `enter valid email` });
+                } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(req.params.password)) {
+                    res.json({ errorMessage: `Minimum eight characters, at least one letter and one number` });
+                } else {
+                    bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
+                        usersModel.create({ name: req.params.name, email: req.params.email, password: hash, profilePhotoFilename:req.file.filename }, (error, data) => {
+                            if (data) {
+                                const token = jwt.sign({email: data.email, accessLevel:data.accessLevel}, JWT_PRIVATE_KEY, {algorithm: 'HS256', expiresIn:process.env.JWT_EXPIRY})     
+
+                                fs.readFile(`${process.env.UPLOADED_FILES_FOLDER}/${req.file.filename}`, 'base64', (err, fileData) => 
+                                {
+                                    console.log(req.file.filename)
+                                    res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token})
+                                })
+                            }
+                            else {
+                                res.json({ errorMessage: `User was not registered` })
+                            }
+                        })
+                    })
+                }
+            }
+        })
+    }
 })
 
 
@@ -81,7 +137,7 @@ router.post(`/users/login/:email/:password`, (req, res) => {
         if (data) {
             bcrypt.compare(req.params.password, data.password, (err, result) => {
                 if (result) {
-                    const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel },JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
+                    const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel }, JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
 
                     res.json({ name: data.name, accessLevel: data.accessLevel, token: token })
                 }
