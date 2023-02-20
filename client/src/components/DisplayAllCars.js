@@ -26,8 +26,10 @@ export default class DisplayAllCars extends Component {
             sortBy: "name",
             sortSwitch: true,
             switchKey: "Asc ▲",
-            undo: true,
-            backup: []
+            saved: false,
+            backup: [],
+            usedFilters:[],
+            lastFilter:""
         }
     }
 
@@ -73,15 +75,24 @@ export default class DisplayAllCars extends Component {
 
         let x = this.state.searchBy
 
-        if (!(e.target.value === "")) {
+        if(this.state.saved === false){
 
+            this.setState({backup: this.state.selectedShoes})
+            this.setState({saved: true})
 
-            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
         }
         else{
-            this.setState({ selectedShoes: this.state.backup })
-   //         this.setState({undo: true})
+
+        if (e.target.value === "") {
+
+            this.setState({selectedShoes: this.state.backup})
+            this.setState({saved: false})
+
         }
+        else{
+            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
+        }
+    }
 
     }
 
@@ -106,24 +117,30 @@ export default class DisplayAllCars extends Component {
     }
 
     handleFilterChange = (e) => {
-      const filterBy = e.target.value;
-      let filteredShoes;
-      if (filterBy === "") {
-        filteredShoes = this.state.shoes;
-      } else if (this.state.selectedShoes.filter((shoe) => shoe.gender.includes(filterBy))){
-        filteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filterBy);
-        //filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);
-      }
-      else if (this.state.selectedShoes.filter((shoe) => shoe.brand.includes(filterBy))){
-          filteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filterBy);
-      }
-      this.setState({
-        filterBy: filterBy,
-        selectedShoes: filteredShoes
-      });
-    };
-
-
+        const filterBy = e.target.value;
+        let filteredShoes;
+        let usedFilters = this.state.usedFilters.slice();
+        
+        if (filterBy === "") {
+          filteredShoes = this.state.shoes;
+        } else if (usedFilters.includes(filterBy)) {
+          // filter has already been used, display all shoes
+          filteredShoes = this.state.shoes;
+          usedFilters.splice(usedFilters.indexOf(filterBy), 1);
+        } else if (this.state.selectedShoes.filter((shoe) => shoe.gender.includes(filterBy))) {
+          filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);
+          usedFilters.push(filterBy);
+        }
+        
+        this.setState({
+          filterBy: filterBy,
+          selectedShoes: filteredShoes,
+          usedFilters: usedFilters
+        });
+      };
+      
+      
+      
     render() {
         return (
             <div className="form-container">
