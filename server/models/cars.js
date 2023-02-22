@@ -16,8 +16,10 @@ let carsSchema = new mongoose.Schema(
         is_in_inventory : {type: Boolean},
         items_left : {type: Number, required : true},
         imageURL : {type: String, required : false},
-        photos:[shoesPhotosSchema]
-   },
+        photos:[shoesPhotosSchema],
+        sold: {type: Boolean, default:false}
+
+    },
    {
        collection: `Shoes`
    })

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@paypal/react-paypal-js": "^7.8.2",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "react": "^16.9.0",
@@ -34,7 +35,6 @@
   },
   "description": "Browser sessionStorage example",
   "main": "index.js",
-  "devDependencies": {},
   "author": "Derek O Reilly",
   "license": "ISC"
 }

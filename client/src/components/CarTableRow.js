@@ -3,6 +3,8 @@ import {Link} from "react-router-dom"
 
 import {ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN} from "../config/global_constants"
 
+import BuyShoe from "./BuyShoe"
+
 
 export default class CarTableRow extends Component 
 {    
@@ -20,6 +22,8 @@ export default class CarTableRow extends Component
                     {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/EditCar/" + this.props.car._id}>Edit</Link> : null}
                     
                     {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ? <Link className="red-button" to={"/DeleteCar/" + this.props.car._id}>Delete</Link> : null}   
+                    <BuyShoe price={this.props.car.price}/>
+                
                 </td>
             </tr>
         )

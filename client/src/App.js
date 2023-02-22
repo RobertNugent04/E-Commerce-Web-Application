@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {BrowserRouter, Switch, Route} from "react-router-dom"
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 import "bootstrap/dist/css/bootstrap.css"
 import "./css/App.css"
@@ -17,6 +18,8 @@ import EditCar from "./components/EditCar"
 import DeleteCar from "./components/DeleteCar"
 import DisplayAllCars from "./components/DisplayAllCars"
 import LoggedInRoute from "./components/LoggedInRoute"
+import BuyShoe from "./components/BuyShoe"
+import PayPalMessage from "./components/PayPalMessage"
 
 
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
@@ -43,6 +46,8 @@ export default class App extends Component
                     <Route exact path="/ResetShoes" component={ResetShoes} />               
                     <Route exact path="/" component={DisplayAllCars} />
                     <Route exact path="/Login" component={Login} />
+                    <Route exact path="/BuyShoe/:id" component={BuyShoe} />
+                    <Route exact path="/PayPalMessage/:messageType/:payPalPaymentID" component={PayPalMessage}/>   
                     <Route exact path="/Stock" component={Stock} />
                     <LoggedInRoute exact path="/Logout" component={Logout} />
                     <LoggedInRoute exact path="/AddCar" component={AddCar} />

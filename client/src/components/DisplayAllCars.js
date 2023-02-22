@@ -27,6 +27,8 @@ export default class DisplayAllCars extends Component {
             sortSwitch: true,
             switchKey: "Asc ▲",
             saved: false,
+            beforeFilter:[],
+            restore:false,
             backup: [],
             usedFilters:[],
             lastFilter:""
@@ -117,16 +119,33 @@ export default class DisplayAllCars extends Component {
     }
 
     handleFilterChange = (e) => {
+
+        // if(this.state.restore === false){
+
+        //     this.setState({beforeFilter: this.state.selectedShoes})
+        //     this.setState({restore: true})
+
+        // }else{
+
         const filterBy = e.target.value;
         let filteredShoes;
         let usedFilters = this.state.usedFilters.slice();
         
         if (filterBy === "") {
           filteredShoes = this.state.shoes;
+          //filteredShoes = this.state.beforeFilter;
         } else if (usedFilters.includes(filterBy)) {
           // filter has already been used, display all shoes
           filteredShoes = this.state.shoes;
           usedFilters.splice(usedFilters.indexOf(filterBy), 1);
+
+            // if (usedFilters.length === 0){
+
+            //     filteredShoes = this.state.beforeFilter;
+            //     this.setState({restore: false})
+
+            // }
+
         } else if (this.state.selectedShoes.filter((shoe) => shoe.gender.includes(filterBy))) {
           filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);
           usedFilters.push(filterBy);
@@ -137,6 +156,7 @@ export default class DisplayAllCars extends Component {
           selectedShoes: filteredShoes,
           usedFilters: usedFilters
         });
+   // }
       };
       
       

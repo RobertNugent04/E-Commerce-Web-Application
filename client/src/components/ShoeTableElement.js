@@ -3,11 +3,27 @@ import {Link} from "react-router-dom"
 
 import {ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN} from "../config/global_constants"
 
+import BuyShoe from "./BuyShoe"
+
 
 export default class ShoeTableElement extends Component
 {
     render()
     {
+
+        let soldOrForSale = null
+        if(localStorage.accessLevel <= ACCESS_LEVEL_GUEST)
+        {
+            if(this.props.car.sold !== true)
+            {
+                soldOrForSale = <BuyShoe shoeID={this.props.key} price={this.props.car.price} />
+            }
+            else
+            {
+                soldOrForSale = "SOLD"
+            }
+        }
+
         return (
                 <table className = "shoe">
                     <tr>
@@ -27,6 +43,8 @@ export default class ShoeTableElement extends Component
                             {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/EditCar/" + this.props.car._id}>Edit</Link> : null}
                 
                             {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ? <Link className="red-button" to={"/DeleteCar/" + this.props.car._id}>Delete</Link> : null}   
+                            {soldOrForSale}
+                        
                         </td>
                     </tr>
                 </table>
