@@ -10,7 +10,7 @@ export default class NavBar extends Component
             <a href="#" class="menu-item-item">Link 1</a>
             <a href="#" class="menu-item">Link 2</a>
             <a href="#" class="menu-item">Link 3</a>
-            <a href="#" class="menu-item">Link 4</a>
+            <a href="ProfilePage" class="menu-item">Link 4</a>
             
         </div>
         )

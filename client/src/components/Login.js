@@ -45,10 +45,12 @@ export default class Login extends Component
                 else // user successfully logged in
                 { 
                     console.log("User logged in")
-                    
+                    console.log(res.data)
                     localStorage.name = res.data.name
-                    localStorage.accessLevel = res.data.accessLevel  
-                    localStorage.token = res.data.token
+                        localStorage.accessLevel = res.data.accessLevel
+                        localStorage.token = res.data.token
+                        localStorage.profilePhoto = res.data.profilePhoto
+                        localStorage.email = res.data.email
                     
                     this.setState({isLoggedIn:true})
                 }        
