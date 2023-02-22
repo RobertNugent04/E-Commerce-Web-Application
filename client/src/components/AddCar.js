@@ -22,6 +22,7 @@ export default class AddCar extends Component
             category: ``,
             price: ``,
             stock: ``,
+            selectedFiles:null,
             redirectToDisplayAllCars:localStorage.accessLevel < ACCESS_LEVEL_ADMIN
         }
     }
@@ -37,22 +38,46 @@ export default class AddCar extends Component
     {
         this.setState({[e.target.name]: e.target.value})
     }
+    
+    handleFileChange = (e) => 
+    {
+        this.setState({selectedFiles: e.target.files})
+    }
+    
 
 
     handleSubmit = (e) => 
     {
         e.preventDefault()
 
-        const carObject = {
-            name: this.state.name,
-            brand: this.state.brand,
-            gender: this.state.gender,
-            category: this.state.category,
-            price: this.state.price,
-            items_left: this.state.stock,
+        let formData = new FormData()  
+
+        formData.append("name", this.state.name)
+        formData.append("brand", this.state.brand)
+        formData.append("gender", this.state.gender)
+        formData.append("category", this.state.category) 
+        formData.append("price", this.state.price) 
+        formData.append("items_left", this.state.stock)
+        
+        if(this.state.selectedFiles)
+        {
+            for(let i = 0; i < this.state.selectedFiles.length; i++)
+            {
+                formData.append("shoePhotos", this.state.selectedFiles[i])
+            }
         }
 
-        axios.post(`${SERVER_HOST}/cars`, carObject, {headers:{"authorization":localStorage.token}})
+
+        // const carObject = {
+        //     name: this.state.name,
+        //     brand: this.state.brand,
+        //     gender: this.state.gender,
+        //     category: this.state.category,
+        //     price: this.state.price,
+        //     items_left: this.state.stock,
+        // }
+
+        axios.post(`${SERVER_HOST}/cars`, formData, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {   
             if(res.data)
@@ -111,6 +136,12 @@ export default class AddCar extends Component
                         <Form.Label>Stock</Form.Label>
                         <Form.Control type="text" name="stock" value={this.state.stock} onChange={this.handleChange} />
                     </Form.Group>
+
+                    <Form.Group controlId="photos">
+                    <Form.Label>Photos</Form.Label>
+                    <Form.Control          
+                        type = "file" multiple onChange = {this.handleFileChange}
+                    /></Form.Group> 
   
                     <LinkInClass value="Update" className="green-button" onClick={this.handleSubmit}/>  
     

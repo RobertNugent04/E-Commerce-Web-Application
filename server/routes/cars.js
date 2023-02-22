@@ -7,6 +7,9 @@ const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const JWT_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILENAME, 'utf8')
 
+const multer = require('multer')
+var upload = multer({ dest: `${process.env.UPLOADED_FILES_FOLDER}` })
+
 let shoes =
     [
         { "id": 1, "name": "Nike React Infinity Run Flyknit", "brand": "NIKE", "gender": "MEN", "category": "RUNNING", "price": 160, "is_in_inventory": true, "items_left": 3, "imageURL": "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-665455a5-45de-40fb-945f-c1852b82400d/react-infinity-run-flyknit-mens-running-shoe-zX42Nc.jpg", "slug": "nike-react-infinity-run-flyknit" },
@@ -108,15 +111,52 @@ router.get(`/cars/:id`, (req, res) => {
 // })
 
 // Add new record
-router.post(`/cars`, (req, res) => {
-    jwt.verify(req.headers.authorization,JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+// router.post(`/cars`, (req, res) => {
+//     jwt.verify(req.headers.authorization,JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+//         if (err) {
+//             res.json({ errorMessage: `User is not logged in` })
+//         }
+//         else {
+//             //|| !/^[a-zA-Z]+$/.test(req.body.name)
+//             //^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$
+//             //\s+\d{1,6}\s+
+//             if (decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN) {
+//                 if (req.body.name == "") {
+//                     res.json({ errorMessage: `name cant be empty` });
+//                 } else if (req.body.brand == "") {
+//                     res.json({ errorMessage: `brand cant be empty` });
+//                 } else if (req.body.gender == "") {
+//                     res.json({ errorMessage: `select gender` });
+//                 } else if (req.body.category == "") {
+//                     res.json({ errorMessage: `select a category` });
+//                 }
+//                 else if (!/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/.test(req.body.price)) {
+//                     console.log(req.body.price)
+//                     res.json({ errorMessage: `price must be above 0` });
+//                 } else if (!/^[0-9]{1,6}$/.test(req.body.items_left)) {
+//                     console.log(req.body.items_left)
+//                     res.json({ errorMessage: `no decimal and negative numbers allowed` });
+//                 }
+//                 else {
+//                     // Use the new car details to create a new car document
+//                     carsModel.create(req.body, (error, data) => {
+//                         res.json(data)
+//                     })
+//                 }
+//             }
+//             else {
+//                 res.json({ errorMessage: `User is not an administrator, so they cannot add new records` })
+//             }
+//         }
+//     })
+// })
+
+router.post(`/cars`, upload.array("shoePhotos", parseInt(process.env.MAX_NUMBER_OF_UPLOAD_FILES_ALLOWED)), (req, res) => {
+    jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
         if (err) {
             res.json({ errorMessage: `User is not logged in` })
         }
         else {
-            //|| !/^[a-zA-Z]+$/.test(req.body.name)
-            //^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$
-            //\s+\d{1,6}\s+
             if (decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN) {
                 if (req.body.name == "") {
                     res.json({ errorMessage: `name cant be empty` });
@@ -135,8 +175,23 @@ router.post(`/cars`, (req, res) => {
                     res.json({ errorMessage: `no decimal and negative numbers allowed` });
                 }
                 else {
-                    // Use the new car details to create a new car document
-                    carsModel.create(req.body, (error, data) => {
+                    let carDetails = new Object()
+
+                    carDetails.name = req.body.name
+                    carDetails.brand = req.body.brand
+                    carDetails.gender = req.body.gender
+                    carDetails.price = req.body.price
+                    carDetails.category = req.body.category
+                    carDetails.items_left = req.body.items_left
+
+                    // add the car's photos to the carDetails JSON object
+                    carDetails.photos = []
+
+                    req.files.map((file, index) => {
+                        carDetails.photos[index] = { filename: `${file.filename}` }
+                    })
+                    console.log(carDetails)
+                    carsModel.create(carDetails, (error, data) => {
                         res.json(data)
                     })
                 }
@@ -148,9 +203,10 @@ router.post(`/cars`, (req, res) => {
     })
 })
 
+
 // Update one record
 router.put(`/cars/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization,JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+    jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
         if (err) {
             res.json({ errorMessage: `User is not logged in` })
         }
@@ -183,7 +239,7 @@ router.put(`/cars/:id`, (req, res) => {
 
 // Delete one record
 router.delete(`/cars/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization,JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+    jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
         if (err) {
             res.json({ errorMessage: `User is not logged in` })
         }
