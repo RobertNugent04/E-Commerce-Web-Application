@@ -1,5 +1,10 @@
 const mongoose = require(`mongoose`)
 
+let shoesPhotosSchema = new mongoose.Schema(
+    {
+       filename:{type:String}
+    })
+
 let carsSchema = new mongoose.Schema(
    {
         // id :{type: Number, unique : true, required : true },
@@ -10,7 +15,8 @@ let carsSchema = new mongoose.Schema(
         price : {type : Number, required : true},
         is_in_inventory : {type: Boolean},
         items_left : {type: Number, required : true},
-        imageURL : {type: String, required : false}
+        imageURL : {type: String, required : false},
+        photos:[shoesPhotosSchema]
    },
    {
        collection: `Shoes`
