@@ -81,7 +81,7 @@ router.post(`/users/register/:name/:email/:password`, upload.single("profilePhot
                             {
                                 const token = jwt.sign({email: data.email, accessLevel:data.accessLevel}, JWT_PRIVATE_KEY, {algorithm: 'HS256', expiresIn:process.env.JWT_EXPIRY})     
                    
-                                res.json({name: data.name, accessLevel:data.accessLevel, token:token})
+                                res.json({name: data.name, accessLevel:data.accessLevel, token:token, email:data.email})
                             }
                             else
                             {
@@ -117,7 +117,7 @@ router.post(`/users/register/:name/:email/:password`, upload.single("profilePhot
                                 fs.readFile(`${process.env.UPLOADED_FILES_FOLDER}/${req.file.filename}`, 'base64', (err, fileData) => 
                                 {
                                     console.log(req.file.filename)
-                                    res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token})
+                                    res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token, email:data.email})
                                 })
                             }
                             else {
@@ -132,25 +132,41 @@ router.post(`/users/register/:name/:email/:password`, upload.single("profilePhot
 })
 
 
+router.post(`/users/login/:email/:password`, (req,res) => 
+{
+    usersModel.findOne({email:req.params.email}, (error, data) => 
+    {
+        if(data)
+        {
+            bcrypt.compare(req.params.password, data.password, (err, result) =>
+            {
+                if(result)
+                {                    
+                    const token = jwt.sign({email: data.email, accessLevel:data.accessLevel}, JWT_PRIVATE_KEY, {algorithm: 'HS256', expiresIn:process.env.JWT_EXPIRY})     
 
-router.post(`/users/login/:email/:password`, (req, res) => {
-    usersModel.findOne({ email: req.params.email }, (error, data) => {
-        if (data) {
-            bcrypt.compare(req.params.password, data.password, (err, result) => {
-                if (result) {
-                    const token = jwt.sign({ email: data.email, accessLevel: data.accessLevel }, JWT_PRIVATE_KEY, { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRY })
-
-                    res.json({ name: data.name, accessLevel: data.accessLevel, token: token })
+                    fs.readFile(`${process.env.UPLOADED_FILES_FOLDER}/${data.profilePhotoFilename}`, 'base64', (err, fileData) => 
+                    {        
+                        if(fileData)
+                        {  
+                            res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token, email:data.email})                           
+                        }   
+                        else
+                        {
+                            res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:null, token:token, email:data.email})  
+                        }
+                    })                                                             
                 }
-                else {
-                    res.json({ errorMessage: `User is not logged in` })
+                else
+                {
+                    res.json({errorMessage:`User is not logged in`})
                 }
             })
         }
-        else {
+        else
+        {
             console.log("not found in db")
-            res.json({ errorMessage: `User is not logged in` })
-        }
+            res.json({errorMessage:`User is not logged in`})
+        } 
     })
 })
 
