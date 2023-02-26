@@ -340,7 +340,6 @@ footer > span
     background: #f7f7f7;
 }
 
-
 .logout
 {
     margin-bottom:30px;
@@ -511,8 +510,6 @@ color:pink;
     background-color: #ffa;
 }
 
-
-
 #profilePhoto
 {
     height: 160px;
@@ -522,6 +519,7 @@ color:pink;
     margin-top: 20px;
     background-size: contain;
 }
+
 #profilePage {
     display: grid;
     grid-template-columns: 600px;
@@ -532,9 +530,9 @@ color:pink;
     background-color: #f5f5f5;
     font-family: 'Baloo Paaji 2', cursive;
 }
+
 #profileContainer
 {
-   
     background-color: #222831;
     width: 100%;
     justify-self:center;
@@ -545,13 +543,14 @@ color:pink;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.7);
     color: white;  
-
 }
+
 .profilePict{
     display: flex;
     align-self: center;
     
 }
+
 .profileName{
     margin-top: 15px;
     font-size: 1.5em;

@@ -49,10 +49,10 @@ export default class App extends Component
                     <Route exact path="/ResetShoes" component={ResetShoes} />               
                     <Route exact path="/" component={Home} />
                     <Route exact path="/Login" component={Login} />
-                    <Route exact path="/BuyShoe/:id" component={BuyShoe} />
-                    <Route exact path="/PayPalMessage/:messageType/:payPalPaymentID" component={PayPalMessage}/>   
-                    <Route exact path="/Stock" component={Stock} />
-                    <Route exact path="/ProfilePage" component={ProfilePage} />
+                    <LoggedInRoute exact path="/BuyShoe/:id" component={BuyShoe} />
+                    <LoggedInRoute exact path="/PayPalMessage/:messageType/:payPalPaymentID" component={PayPalMessage}/>   
+                    <LoggedInRoute exact path="/Stock" component={Stock} />
+                    <LoggedInRoute exact path="/ProfilePage" component={ProfilePage} />
                     <LoggedInRoute exact path="/Logout" component={Logout} />
                     <LoggedInRoute exact path="/AddCar" component={AddCar} />
                     <LoggedInRoute exact path="/EditCar/:id" component={EditCar} />
