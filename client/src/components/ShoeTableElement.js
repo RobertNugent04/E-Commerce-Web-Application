@@ -16,7 +16,7 @@ export default class ShoeTableElement extends Component
         {
             if(this.props.car.sold !== true)
             {
-                soldOrForSale = <BuyShoe shoeID={this.props.key} price={this.props.car.price} />
+                soldOrForSale = <BuyShoe shoeID={this.props.car._id} price={this.props.car.price} />
             }
             else
             {

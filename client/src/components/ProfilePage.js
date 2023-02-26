@@ -111,7 +111,7 @@ export default class AddCar extends Component {
                                     ? <div className="profilePict"><img id="profilePhoto" src={`data:;base64,${localStorage.profilePhoto}`} alt="" /></div>
                                     : <div>
 
-                                        <img id="profilePhoto" src={".\client\images\profile_picture.png"} alt="" />
+                                        <img id="profilePhoto" src={"./client/images/profile_picture.png"} alt="" />
                                     </div>
 
 

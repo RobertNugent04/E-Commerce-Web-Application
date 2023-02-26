@@ -16,7 +16,9 @@ export default class BuyShoe extends Component
 
         this.state = {redirectToPayPalMessage:false,
                       payPalMessageType:null,
-                      payPalOrderID:null}
+                      payPalOrderID:null,
+                      name: localStorage.getItem("name"),
+                      email: localStorage.getItem("name")}
     }
     
     
@@ -26,22 +28,39 @@ export default class BuyShoe extends Component
     }
     
     
+    // onApprove = paymentData =>
+    // {      
+    //     axios.post(`${SERVER_HOST}/sales/${paymentData.paymentID}/${this.props.shoeID}/${this.props.price}/${paymentData.email}`, {headers:{"authorization":localStorage.token, "Content-type": "multipart/form-data"}})
+    //     .then(res => 
+    //     {                   
+    //         this.setState({payPalMessageType:PayPalMessage.messageType.SUCCESS, 
+    //                        payPalPaymentID:paymentData.paymentID, 
+    //                        redirectToPayPalMessage:true}) 
+    //     })
+    //     .catch(errorData =>
+    //     {
+    //         console.log("PayPal payment unsuccessful error:", errorData)            
+    //         this.setState({payPalMessageType:PayPalMessage.messageType.ERROR, 
+    //                        redirectToPayPalMessage:true}) 
+    //     })
+    // }
+
     onApprove = paymentData =>
     {      
-        axios.post(`${SERVER_HOST}/sales/${paymentData.paymentID}/${this.props.shoeID}/${this.props.price}/${paymentData.address.recipient_name}/${paymentData.email}`, {headers:{"authorization":localStorage.token, "Content-type": "multipart/form-data"}})
+        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${this.props.shoeID}/${this.props.price}/${this.state.name}/${this.state.email}`, {headers:{"authorization":localStorage.token, "Content-type": "multipart/form-data"}})
         .then(res => 
         {                   
             this.setState({payPalMessageType:PayPalMessage.messageType.SUCCESS, 
-                           payPalPaymentID:paymentData.paymentID, 
+                           payPalOrderID:paymentData.orderID, 
                            redirectToPayPalMessage:true}) 
         })
         .catch(errorData =>
-        {
-            console.log("PayPal payment unsuccessful error:", errorData)            
+        {           
             this.setState({payPalMessageType:PayPalMessage.messageType.ERROR, 
                            redirectToPayPalMessage:true}) 
         })
     }
+ 
     
     
     onError = errorData => 

@@ -2,11 +2,11 @@ const mongoose = require(`mongoose`)
 
 let salesSchema = new mongoose.Schema(
    {
-        paypalPaymentID: {type: String, required:true},
-        shoeID: {type: String, required:true},
-        price: {type: Number, required:true},
-        customerName: {type: String,required:true},
-        customerEmail: {type: String,required:true}
+        paypalPaymentID: {type: String, required:false},
+        shoeID: {type: String, required:false},
+        price: {type: Number, required: false},
+        name: {type: String,required:false},
+        email: {type: String,required:false}
    },
    {
        collection: `sales`
