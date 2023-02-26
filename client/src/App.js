@@ -16,6 +16,7 @@ import Logout from "./components/Logout"
 import AddCar from "./components/AddCar"
 import EditCar from "./components/EditCar"
 import DeleteCar from "./components/DeleteCar"
+import Home from "./components/Home"
 import DisplayAllCars from "./components/DisplayAllCars"
 import LoggedInRoute from "./components/LoggedInRoute"
 import BuyShoe from "./components/BuyShoe"
@@ -46,7 +47,7 @@ export default class App extends Component
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/ResetDatabase" component={ResetDatabase} />   
                     <Route exact path="/ResetShoes" component={ResetShoes} />               
-                    <Route exact path="/" component={DisplayAllCars} />
+                    <Route exact path="/" component={Home} />
                     <Route exact path="/Login" component={Login} />
                     <Route exact path="/BuyShoe/:id" component={BuyShoe} />
                     <Route exact path="/PayPalMessage/:messageType/:payPalPaymentID" component={PayPalMessage}/>   
@@ -57,7 +58,8 @@ export default class App extends Component
                     <LoggedInRoute exact path="/EditCar/:id" component={EditCar} />
                     <LoggedInRoute exact path="/DeleteCar/:id" component={DeleteCar} />
                     <Route exact path="/DisplayAllCars" component={DisplayAllCars}/> 
-                    <Route path="*" component={DisplayAllCars}/> 
+                    <Route exact path="/Home" component={Home}/> 
+                    <Route path="*" component={Home}/> 
                     <Route exact path="/Footer" component={Footer} />
                 </Switch>
             </BrowserRouter>
