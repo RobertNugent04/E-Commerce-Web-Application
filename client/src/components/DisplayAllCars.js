@@ -31,7 +31,9 @@ export default class DisplayAllCars extends Component {
             restore:false,
             backup: [],
             usedFilters:[],
-            lastFilter:""
+            lastFilter:"",
+            brandUsed: false,
+            genderUsed: false
         }
     }
 
@@ -132,24 +134,38 @@ export default class DisplayAllCars extends Component {
         let usedFilters = this.state.usedFilters.slice();
         
         if (filterBy === "") {
-          filteredShoes = this.state.shoes;
-          //filteredShoes = this.state.beforeFilter;
-        } else if (usedFilters.includes(filterBy)) {
-          // filter has already been used, display all shoes
-          filteredShoes = this.state.shoes;
-          usedFilters.splice(usedFilters.indexOf(filterBy), 1);
+            filteredShoes = this.state.shoes;
+          } else if (usedFilters.includes(filterBy)) {
+            // filter has already been used, display all shoes
+            filteredShoes = this.state.shoes;
+            usedFilters.splice(usedFilters.indexOf(filterBy), 1);
+          } else {
+            const brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filterBy);
+            const genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filterBy);
+            if (brandFilteredShoes.length > 0) {
 
-            // if (usedFilters.length === 0){
+                if (this.state.brandUsed === true){
 
-            //     filteredShoes = this.state.beforeFilter;
-            //     this.setState({restore: false})
+                    filteredShoes = this.state.selectedShoes.concat(brandFilteredShoes);
 
-            // }
+                }else{
+                    filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.brand === filterBy);
+                    this.setState({brandUsed: true})
+                }
+            } else {
 
-        } else if (this.state.selectedShoes.filter((shoe) => shoe.gender.includes(filterBy))) {
-          filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);
-          usedFilters.push(filterBy);
-        }
+                if (this.state.genderUsed === true){
+
+                    filteredShoes = this.state.selectedShoes.concat(genderFilteredShoes);
+
+                }else{
+                    filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);;
+                    this.setState({genderUsed: true})
+                }
+
+            }
+            usedFilters.push(filterBy);
+          }
         
         this.setState({
           filterBy: filterBy,
