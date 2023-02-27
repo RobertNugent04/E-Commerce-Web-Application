@@ -104,9 +104,7 @@ export default class Stock extends Component
                     </div> <br/> <br/> <br/>
                 
                     {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
-                                    <div className="logout">
-                                        <Logout/>
-                                    </div>
+                                    null
                             :
                                     <div>
                                     <h1>Authentification Required!</h1>

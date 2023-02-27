@@ -230,7 +230,7 @@ input[type=button]:hover
     color: black;
 }*/
 
-input[type=text]
+input[type=text], input[type=email], input[type=password]
 {
     border: 1px solid #ccc;
     border-radius: 8px;

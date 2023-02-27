@@ -169,16 +169,12 @@ export default class DisplayAllCars extends Component {
                 </div> <br /> <br /> <br />
 
                 {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
-                    <div className="logout">
-                        <Logout />
-                    </div>
+                    null
                     :
                     <div>
                         <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
                         <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
                         <Filter shoes ={this.state.shoes} handleFilterChange={this.handleFilterChange}/>
-                        <Link className="green-button" to={"/Login"}>Login</Link>
-                        <Link className="blue-button" to={"/Register"}>Register</Link>
                         <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
                         <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link> 
                         <br /><br /><br /></div>

@@ -68,8 +68,8 @@ export default class Login extends Component
         return (
             <form className="form-container" noValidate = {true} id = "loginOrRegistrationForm">
             <div class="navbar-container">
-                        <NavBar/>
-                    </div> <br/> <br/> <br/>
+                        <NavBar/> 
+                        </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
                     
                 <h2>Login</h2>
                 
@@ -95,6 +95,7 @@ export default class Login extends Component
                 
                 <LinkInClass value="Login" className="green-button" onClick={this.handleSubmit}/> 
                 <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link> 
+                </center>
                 <Footer/>
             </form>
         )

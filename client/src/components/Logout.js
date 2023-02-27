@@ -1,7 +1,10 @@
 import React, {Component} from "react"
 import {Redirect} from "react-router-dom"
 import axios from "axios"
+import NavBar from "./NavBar"
+import Footer from "./Footer"
 
+import {Link} from "react-router-dom"
 import LinkInClass from "../components/LinkInClass"
 import {ACCESS_LEVEL_GUEST, SERVER_HOST} from "../config/global_constants"
 
@@ -52,12 +55,26 @@ export default class Logout extends Component
     render()
     {
         return (
-            <div>   
+            
+            
+            <form className="form-container" noValidate = {true} id = "loginOrRegistrationForm">
+            <div class="navbar-container">
+                        <NavBar/>
+                    </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
+                <h2>Log Out?</h2>
+                <p>Are you sure you want to logout?</p> 
+                
+                <div>   
         
                 {!this.state.isLoggedIn ? <Redirect to="/DisplayAllCars"/> : null} 
                   
-                <LinkInClass value="Log out" className="red-button" onClick={this.handleSubmit}/> 
-            </div>
+            <LinkInClass value="Log out" className="red-button" onClick={this.handleSubmit}/> 
+            <Link className="green-button" to={"/DisplayAllCars"}>Cancel</Link>
+                    
+            </div> 
+            </center>
+                <Footer/>
+            </form>
         )
     }
 }

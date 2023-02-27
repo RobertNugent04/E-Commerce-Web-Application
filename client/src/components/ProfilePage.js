@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import { Redirect, Link } from "react-router-dom"
 import Form from "react-bootstrap/Form"
+import NavBar from "./NavBar"
+import Footer from "./Footer"
 
 import axios from "axios"
 
@@ -97,6 +99,9 @@ export default class AddCar extends Component {
 
     render() {
         return (
+                <div class="navbar-container">
+        <NavBar/> <br/><br/><br/><br/>
+                   
             <div id="profilePage">
                 {
 
@@ -139,6 +144,9 @@ export default class AddCar extends Component {
 
                 }
 
+            </div>
+            
+                <Footer/>
             </div>
         )
     }
