@@ -92,7 +92,7 @@ hr
 {
     #title
     {
-        padding-top: 50%;
+        display: none;
     }
 
     .navbar .search-container 
@@ -122,6 +122,13 @@ hr
     font-family: Cooper Black;
     font-size: 35px;
     color: #f7f7f7;
+}
+
+#title2 
+{
+    font-family: Cooper Black;
+    font-size: 35px;
+    color: #3A138A;
 }
 
 /*CSS Grids*/
