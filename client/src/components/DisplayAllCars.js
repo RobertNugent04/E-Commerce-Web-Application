@@ -33,7 +33,10 @@ export default class DisplayAllCars extends Component {
             usedFilters:[],
             lastFilter:"",
             brandUsed: false,
-            genderUsed: false
+            genderUsed: false,
+            sizeUsed: false,
+            colorUsed: false,
+            beforeFilter: []
         }
     }
 
@@ -122,35 +125,99 @@ export default class DisplayAllCars extends Component {
 
     handleFilterChange = (e) => {
 
-        // if(this.state.restore === false){
+        if (this.state.restore === false){
 
-        //     this.setState({beforeFilter: this.state.selectedShoes})
-        //     this.setState({restore: true})
+            this.setState({beforeFilter: this.state.selectedShoes});
+            this.setState({restore: true});
 
-        // }else{
+        }
 
         const filterBy = e.target.value;
+        console.log(filterBy)
         let filteredShoes;
         let usedFilters = this.state.usedFilters.slice();
         
         if (filterBy === "") {
             filteredShoes = this.state.shoes;
           } else if (usedFilters.includes(filterBy)) {
-            // filter has already been used, display all shoes
-            filteredShoes = this.state.shoes;
+            
             usedFilters.splice(usedFilters.indexOf(filterBy), 1);
 
+            // apply all the filters in the usedFilters array
+  filteredShoes = this.state.shoes;
+
+let brandCount = 0;
+let genderCount = 0;
+let colorCount = 0;
+let sizeCount = 0;
+console.log(1111)
+console.log(usedFilters)
+  usedFilters.forEach((filter) => {
+
+    let brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filter);
+    let genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filter);
+    let sizeFilteredShoes = this.state.shoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
+          return colorSizeObj.sizes.includes(filter);
+        });
+      });
+      let colorFilteredShoes = this.state.shoes.filter((shoe) => 
+      shoe.in_stock.some((variant) => 
+          variant.color === filter
+      )
+  );
+
+  //Add in if statements for concatting. If (count > 1) filter = filteredShoes.concat(xxx)
+    if (brandFilteredShoes.length > 0){
+
+        filteredShoes = filteredShoes.filter((shoe) => shoe.brand === filter);
+        brandCount++;
+
+    }else if (genderFilteredShoes.length > 0){
+
+        filteredShoes = filteredShoes.filter((shoe) => shoe.gender === filter);
+        genderCount++;
+
+    }else if (sizeFilteredShoes.length > 0){
+
+        filteredShoes = filteredShoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
+            return colorSizeObj.sizes.includes(filter);
+          });
+        });
+        sizeCount++;
+
+    }else{
+
+        filteredShoes = filteredShoes.filter((shoe) => shoe.in_stock.some((variant) => variant.color === filter))
+        console.log(filteredShoes)
+        colorCount++;
+    }
+
+  })
+
+            //Change when these are set
             if (usedFilters.length < 1){
 
                 this.setState({brandUsed: false})
                 this.setState({genderUsed: false})
-                console.log(this.state.genderUsed)
+                this.setState({sizeUsed: false})
+                this.setState({colorUsed: false})
     
             }
 
           } else {
             const brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filterBy);
             const genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filterBy);
+            const sizeFilteredShoes = this.state.shoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
+                  return colorSizeObj.sizes.includes(filterBy);
+                });
+              });
+              const colorFilteredShoes = this.state.shoes.filter((shoe) => 
+              shoe.in_stock.some((variant) => 
+                  variant.color === filterBy
+              )
+          );
+
+              console.log(sizeFilteredShoes)
             if (brandFilteredShoes.length > 0) {
 
                 if (this.state.brandUsed === true){
@@ -161,14 +228,41 @@ export default class DisplayAllCars extends Component {
                     filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.brand === filterBy);
                     this.setState({brandUsed: true})
                 }
-            } else {
+            } else if (colorFilteredShoes.length > 0){
+
+                if (this.state.colorUsed === true){
+
+                    filteredShoes = this.state.selectedShoes.concat(colorFilteredShoes);
+
+                }else{
+                    filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.in_stock.some((variant) => variant.color === filterBy))
+                    this.setState({colorUsed: true})
+                }
+
+            }
+            else if (sizeFilteredShoes.length > 0){
+
+                if (this.state.sizeUsed === true){
+
+                    filteredShoes = this.state.selectedShoes.concat(sizeFilteredShoes);
+
+                }else{
+                    filteredShoes = this.state.selectedShoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
+                        return colorSizeObj.sizes.includes(filterBy);
+                      });
+                    });
+                    this.setState({sizeUsed: true})
+                }
+
+            }
+             else {
 
                 if (this.state.genderUsed === true){
 
                     filteredShoes = this.state.selectedShoes.concat(genderFilteredShoes);
 
                 }else{
-                    filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);;
+                    filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.gender === filterBy);
                     this.setState({genderUsed: true})
                 }
 
@@ -181,8 +275,11 @@ export default class DisplayAllCars extends Component {
           selectedShoes: filteredShoes,
           usedFilters: usedFilters
         });
-   // }
+   
       };
+      
+    
+      
       
       
       

@@ -5,6 +5,9 @@ export default class Filter extends Component {
     const shoes = this.props.shoes
     const genders = [...new Set(shoes.map(shoe => shoe.gender))]; // Get unique genders from the data
     const brands = [...new Set(shoes.map(shoe => shoe.brand))];
+    const colors = [...new Set(shoes.flatMap(shoe => shoe.in_stock.map(stock => stock.color)))];
+    const sizes = [...new Set(shoes.flatMap(shoe => shoe.in_stock.flatMap(color => color.sizes)))];
+
 
     return (
       <div>
@@ -27,6 +30,27 @@ export default class Filter extends Component {
             </label>
           ))}
         </div>
+
+        <div>
+          <span>Filter by Color: </span>
+          {colors.map(color => (
+            <label key={color}>
+              <input type="checkbox" name="colors" value={color} onChange={this.props.handleFilterChange} />
+              {color}
+            </label>
+          ))}
+        </div>
+
+        <div>
+          <span>Filter by Size: </span>
+          {sizes.map(size => (
+            <label key={size}>
+              <input type="checkbox" name="sizes" value={size} onChange={this.props.handleFilterChange} />
+              {size}
+            </label>
+          ))}
+        </div>
+
       </div>
     )
   }
