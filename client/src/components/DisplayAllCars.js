@@ -139,6 +139,15 @@ export default class DisplayAllCars extends Component {
             // filter has already been used, display all shoes
             filteredShoes = this.state.shoes;
             usedFilters.splice(usedFilters.indexOf(filterBy), 1);
+
+            if (usedFilters.length < 1){
+
+                this.setState({brandUsed: false})
+                this.setState({genderUsed: false})
+                console.log(this.state.genderUsed)
+    
+            }
+
           } else {
             const brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filterBy);
             const genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filterBy);
