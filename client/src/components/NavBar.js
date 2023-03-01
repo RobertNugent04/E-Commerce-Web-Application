@@ -16,6 +16,7 @@ export default class NavBar extends Component
             <div id="menu-controls">
             <Link className="menu-item" to={"/Home"}>Home</Link>
             <Link className="menu-item" to={"/DisplayAllCars"}>Store</Link>
+            </div>
             
             
             
@@ -27,7 +28,7 @@ export default class NavBar extends Component
                     :
                         null
                     }
-            </div>
+            
             <div id="account-controls">
             {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
             <div>

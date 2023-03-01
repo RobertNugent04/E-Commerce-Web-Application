@@ -393,7 +393,7 @@ color:pink;
     margin-right: 15%;
 }
 
-#menu-controls > a {
+#menu-controls > a, #menu-controls > div {
     margin-right: 30px;
 } 
 
