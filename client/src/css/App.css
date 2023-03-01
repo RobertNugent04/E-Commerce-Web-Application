@@ -32,6 +32,7 @@ hr
     background-color: #3A138A;
     padding: 16px 32px;
     overflow: hidden;
+    justify-content: space-between;
 }
 
 .navbar button 
@@ -414,6 +415,16 @@ input [type="button"]
 {
 color:pink;
 }
+
+#menu-controls {
+    margin-right: 10%;
+}
+
+#menu-controls > a {
+    margin-right: 20px;
+} 
+
+
 
 /* table of Shoes */
 .table-container

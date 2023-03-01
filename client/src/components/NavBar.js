@@ -13,8 +13,11 @@ export default class NavBar extends Component
         return(
         <div class="navbar">
             <p id="title">Rob's Shoe Exchange</p>
+            <div id="menu-controls">
             <Link className="menu-item" to={"/Home"}>Home</Link>
             <Link className="menu-item" to={"/DisplayAllCars"}>Store</Link>
+            
+            
             
             {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
                     <div className="stock">
@@ -24,7 +27,8 @@ export default class NavBar extends Component
                     :
                         null
                     }
-
+            </div>
+            <div id="account-controls">
             {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
             <div>
                         <Link className="green-button" to={"/Logout"}>Logout</Link>
@@ -38,6 +42,7 @@ export default class NavBar extends Component
                         </div>
 
                 }
+                </div>
                 
         </div>
         )
