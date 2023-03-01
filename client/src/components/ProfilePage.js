@@ -132,6 +132,10 @@ export default class AddCar extends Component {
                                 <p>{localStorage.getItem("email")}</p>
                             </div>
 
+                            {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/PurchaseHistory/" + localStorage.getItem("email")}>Edit</Link> : null}
+                    
+                    {/* {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ? <Link className="red-button" to={"/DeleteCar/" + this.props.car._id}>Delete</Link> : null} */}
+
 
                         </div>
 

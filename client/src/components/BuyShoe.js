@@ -18,7 +18,7 @@ export default class BuyShoe extends Component
                       payPalMessageType:null,
                       payPalOrderID:null,
                       name: localStorage.getItem("name"),
-                      email: localStorage.getItem("name")}
+                      email: localStorage.getItem("email")}
     }
     
     
@@ -47,7 +47,7 @@ export default class BuyShoe extends Component
 
     onApprove = paymentData =>
     {      
-        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${this.props.shoeID}/${this.props.price}/${this.state.name}/${this.state.email}`, {headers:{"authorization":localStorage.token, "Content-type": "multipart/form-data"}})
+        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${this.props.shoeID}/${this.props.shoe_name}/${this.props.price}/${this.state.name}/${this.state.email}`, {headers:{"authorization":localStorage.token, "Content-type": "multipart/form-data"}})
         .then(res => 
         {                   
             this.setState({payPalMessageType:PayPalMessage.messageType.SUCCESS, 
@@ -82,6 +82,7 @@ export default class BuyShoe extends Component
     render()
     {
         return (
+            
             <div>
                 {this.state.redirectToPayPalMessage ? <Redirect to= {`/PayPalMessage/${this.state.payPalMessageType}/${this.state.payPalOrderID}`}/> : null}            
             
