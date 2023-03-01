@@ -76,7 +76,7 @@ export default class Register extends Component {
 
                 {this.state.isRegistered ? <Redirect to="/DisplayAllCars" /> : null}
 
-                <h2>User Registration</h2>
+                <h2 id="title2">User Registration</h2>
 
                 <input
                     name="name"

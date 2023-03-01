@@ -71,7 +71,7 @@ export default class Login extends Component
                         <NavBar/> 
                         </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
                     
-                <h2>Login</h2>
+                <h2 id="title2">Login</h2>
                 
                 {this.state.isLoggedIn ? <Redirect to="/DisplayAllCars"/> : null} 
                 

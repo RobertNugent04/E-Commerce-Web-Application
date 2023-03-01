@@ -61,7 +61,7 @@ export default class Logout extends Component
             <div class="navbar-container">
                         <NavBar/>
                     </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
-                <h2>Log Out?</h2>
+                <h2 id="title2">Log Out?</h2>
                 <p>Are you sure you want to logout?</p> 
                 
                 <div>   
