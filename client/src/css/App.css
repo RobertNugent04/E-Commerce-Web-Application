@@ -211,7 +211,7 @@ input[type=button]:hover
     color: black;
 }*/
 
-input[type=text], input[type=email], input[type=password], select, #sort-btn
+input[type=text], input[type=email], input[type=password], input[type=file], select, #sort-btn
 {
     border: 1px solid #ccc;
     border-radius: 8px;
