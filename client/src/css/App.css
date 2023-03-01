@@ -89,34 +89,7 @@ hr
     background: #ccc;
 }
 
-@media screen and (max-width: 600px) 
-{
-    #title
-    {
-        display: none;
-    }
 
-    .navbar .search-container 
-    {
-        float: none;
-    }
-
-    .navbar button, .navbar input[type=search], .navbar .search-container button 
-    {
-        float: none;
-        display: block;
-        text-align: center;
-        width: 100%;
-        margin: 0;
-        padding: 14px;
-    }
-
-    .navbar input[type=search] 
-    {
-        border: 1px solid #ccc;
-        border-radius: 8px;
-    }
-}
 
 #title 
 {
@@ -417,14 +390,12 @@ color:pink;
 }
 
 #menu-controls {
-    margin-right: 10%;
+    margin-right: 15%;
 }
 
 #menu-controls > a {
     margin-right: 20px;
 } 
-
-
 
 /* table of Shoes */
 .table-container
@@ -574,4 +545,42 @@ color:pink;
     font-size: 1.5em;
 }
 /*end of container of Shoes */
+
+/* For various screen sizes */
+@media screen and (max-width: 900px) 
+{
+    #title
+    {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) 
+{
+    .navbar .search-container 
+    {
+        float: none;
+    }
+
+    .navbar button, .navbar input[type=search], .navbar .search-container button 
+    {
+        float: none;
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+    }
+
+    .navbar input[type=search] 
+    {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+    
+    #menu-controls 
+    {
+        margin: 0;
+    }
+}
 
