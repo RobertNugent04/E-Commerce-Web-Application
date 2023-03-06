@@ -12,11 +12,11 @@ export default class ShoeTableElement extends Component
     {
 
         let soldOrForSale = null
-        if(localStorage.accessLevel <= ACCESS_LEVEL_GUEST)
+        if(localStorage.accessLevel >= ACCESS_LEVEL_GUEST)
         {
             if(this.props.car.sold !== true)
             {
-                soldOrForSale = <BuyShoe shoeID={this.props.car._id} price={this.props.car.price} />
+                soldOrForSale = <BuyShoe shoeID={this.props.car._id} shoe_name={this.props.car.name} price={this.props.car.price} />
             }
             else
             {

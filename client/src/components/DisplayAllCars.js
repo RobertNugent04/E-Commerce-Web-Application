@@ -442,15 +442,15 @@ let sizeConcat = false;
                 </div> <br /> <br /> <br />
 
                 {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
-                    null
-                    :
                     <div>
-                        <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
-                        <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
-                        <Filter shoes ={this.state.shoes} handleFilterChange={this.handleFilterChange}/>
-                        <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
-                        <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link> 
-                        <br /><br /><br /></div>
+                    <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
+                    <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
+                    <Filter shoes ={this.state.shoes} handleFilterChange={this.handleFilterChange}/>
+                    <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
+                    <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link> 
+                    <br /><br /><br /></div>
+                    :
+                    null
                 }
 
                 {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?

@@ -23,6 +23,8 @@ import BuyShoe from "./components/BuyShoe"
 import PayPalMessage from "./components/PayPalMessage"
 import ProfilePage from "./components/ProfilePage"
 import ContactUs from "./components/ContactUs"
+import PurchaseHistory from "./components/PurchaseHistory"
+
 
 
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
@@ -59,6 +61,7 @@ export default class App extends Component
                     <LoggedInRoute exact path="/AddCar" component={AddCar} />
                     <LoggedInRoute exact path="/EditCar/:id" component={EditCar} />
                     <LoggedInRoute exact path="/DeleteCar/:id" component={DeleteCar} />
+                    <LoggedInRoute exact path="/PurchaseHistory/:email" component={PurchaseHistory} />
                     <Route exact path="/DisplayAllCars" component={DisplayAllCars}/> 
                     <Route exact path="/Home" component={Home}/> 
                     <Route path="*" component={Home}/> 
