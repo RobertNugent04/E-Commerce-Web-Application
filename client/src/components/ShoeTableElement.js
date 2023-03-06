@@ -30,7 +30,7 @@ export default class ShoeTableElement extends Component
                     <td><h5>{this.props.car.name}</h5></td>
                     </tr>
                     <tr>
-                        <td><img src = {this.props.car.imageURL} alt = {this.props.car.name}></img></td>
+                    <Link to={`/Product?shoeID=${this.props.car._id}`}><td><img src={this.props.car.imageURL} alt={this.props.car.name}></img></td></Link>
                     </tr>
                     <tr>
                         <td>{this.props.car.brand}</td>

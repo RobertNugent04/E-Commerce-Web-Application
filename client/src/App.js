@@ -24,7 +24,8 @@ import PayPalMessage from "./components/PayPalMessage"
 import ProfilePage from "./components/ProfilePage"
 import ContactUs from "./components/ContactUs"
 import PurchaseHistory from "./components/PurchaseHistory"
-
+import Cart from "./components/Cart"
+import Product from "./components/Product"
 
 
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
@@ -48,6 +49,8 @@ export default class App extends Component
                 <Switch>
                     <Route exact path="/NavBar" component={NavBar} />
                     <Route exact path="/ContactUs" component={ContactUs} />
+                    <Route exact path="/Cart" component={Cart} />
+                    <Route exact path="/Product" component={Product} />
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/ResetDatabase" component={ResetDatabase} />   
                     <Route exact path="/ResetShoes" component={ResetShoes} />               

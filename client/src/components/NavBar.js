@@ -14,16 +14,17 @@ export default class NavBar extends Component
         <div class="navbar">
             <p id="title">Rob's Shoe Exchange</p>
             <div id="menu-controls">
-            <Link className="menu-item" to={"/Home"}>Home</Link>
-            <Link className="menu-item" to={"/DisplayAllCars"}>Store</Link>
-            <Link className="menu-item" to={"/ContactUs"}>Contact Us</Link>
+            <Link className="menu-item" class="navButton" to={"/Home"}>Home</Link>
+            <Link className="menu-item" class="navButton" to={"/DisplayAllCars"}>Store</Link>
+            <Link className="menu-item" class="navButton" to={"/ContactUs"}>Contact Us</Link>
+            <Link className="menu-item" class="navButton" to={"/Cart"}>Cart</Link>
             </div>
             
             
             
             {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
                     <div className="stock">
-                        <Link className="menu-item" to={"/Stock"}>View Stock Table</Link>
+                        <Link className="menu-item" class="navButton" to={"/Stock"}>View Stock Table</Link>
                     </div>
 
                     :
