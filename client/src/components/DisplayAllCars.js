@@ -31,12 +31,13 @@ export default class DisplayAllCars extends Component {
             restore:false,
             backup: [],
             usedFilters:[],
-            lastFilter:"",
             brandUsed: false,
             genderUsed: false,
             sizeUsed: false,
             colorUsed: false,
-            beforeFilter: []
+            beforeFilter: [],
+            updateFilters:true,
+            filtered: []
         }
     }
 
@@ -125,6 +126,8 @@ export default class DisplayAllCars extends Component {
 
     handleFilterChange = (e) => {
 
+        this.setState({updateFilters: true})
+
         if (this.state.restore === false){
 
             this.setState({beforeFilter: this.state.selectedShoes});
@@ -132,26 +135,38 @@ export default class DisplayAllCars extends Component {
 
         }
 
+                this.setState({brandUsed: false})
+                this.setState({genderUsed: false})
+                this.setState({sizeUsed: false})
+                this.setState({colorUsed: false})
+    
+            
+
         const filterBy = e.target.value;
         console.log(filterBy)
         let filteredShoes;
         let usedFilters = this.state.usedFilters.slice();
+
+        console.log(55)
+        console.log(usedFilters)
         
         if (filterBy === "") {
             filteredShoes = this.state.shoes;
           } else if (usedFilters.includes(filterBy)) {
             
+            this.setState({updateFilters: false})
+
             usedFilters.splice(usedFilters.indexOf(filterBy), 1);
 
             // apply all the filters in the usedFilters array
-  filteredShoes = this.state.shoes;
+  filteredShoes = this.state.beforeFilter;
 
-let brandCount = 0;
-let genderCount = 0;
-let colorCount = 0;
-let sizeCount = 0;
-console.log(1111)
-console.log(usedFilters)
+let brandConcat = false;
+let genderConcat = false;
+let colorConcat = false;
+let sizeConcat = false;
+
+
   usedFilters.forEach((filter) => {
 
     let brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filter);
@@ -166,45 +181,109 @@ console.log(usedFilters)
       )
   );
 
-  //Add in if statements for concatting. If (count > 1) filter = filteredShoes.concat(xxx)
     if (brandFilteredShoes.length > 0){
 
-        filteredShoes = filteredShoes.filter((shoe) => shoe.brand === filter);
-        brandCount++;
+        if (brandConcat === true){
+
+            filteredShoes = filteredShoes.concat(brandFilteredShoes);
+
+
+        }
+        else{
+
+            filteredShoes = filteredShoes.filter((shoe) => shoe.brand === filter);
+            brandConcat = true;
+
+        }
 
     }else if (genderFilteredShoes.length > 0){
 
-        filteredShoes = filteredShoes.filter((shoe) => shoe.gender === filter);
-        genderCount++;
+        if (genderConcat === true){
+
+            filteredShoes = filteredShoes.concat(brandFilteredShoes);
+
+        }
+        else{
+
+            filteredShoes = filteredShoes.filter((shoe) => shoe.gender === filter);
+            genderConcat = true;
+
+        }
 
     }else if (sizeFilteredShoes.length > 0){
 
-        filteredShoes = filteredShoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
-            return colorSizeObj.sizes.includes(filter);
-          });
-        });
-        sizeCount++;
+        if (sizeConcat === true){
+
+            filteredShoes = filteredShoes.concat(brandFilteredShoes);
+
+        }
+        else{
+            
+
+            filteredShoes = filteredShoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
+                return colorSizeObj.sizes.includes(filter);
+              });
+            });
+            sizeConcat = true;
+
+        }
 
     }else{
 
+        if (colorConcat === true){
+
+            filteredShoes = this.state.selectedShoes.concat(brandFilteredShoes);
+
+        }
+        else{
+
         filteredShoes = filteredShoes.filter((shoe) => shoe.in_stock.some((variant) => variant.color === filter))
         console.log(filteredShoes)
-        colorCount++;
+        colorConcat = true;
+
+        }
     }
 
   })
 
-            //Change when these are set
-            if (usedFilters.length < 1){
-
-                this.setState({brandUsed: false})
-                this.setState({genderUsed: false})
-                this.setState({sizeUsed: false})
-                this.setState({colorUsed: false})
-    
-            }
-
           } else {
+
+            usedFilters.forEach((filter) => {
+
+                let brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filter);
+                let genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filter);
+                let sizeFilteredShoes = this.state.shoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
+                      return colorSizeObj.sizes.includes(filter);
+                    });
+                  });
+                  let colorFilteredShoes = this.state.shoes.filter((shoe) => 
+                  shoe.in_stock.some((variant) => 
+                      variant.color === filter
+                  )
+              );
+            
+                if (brandFilteredShoes.length > 0){
+            
+                    this.setState({brandUsed: true});
+                    console.log(999)
+                    console.log(this.state.brandUsed)
+            
+                }else if (genderFilteredShoes.length > 0){
+            
+                    this.setState({genderUsed: true});
+            
+                }else if (sizeFilteredShoes.length > 0){
+            
+                    this.setState({sizeUsed: true});
+            
+                }else{
+    
+                    this.setState({colorUsed: true});
+            
+                }
+            
+              })
+
             const brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filterBy);
             const genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filterBy);
             const sizeFilteredShoes = this.state.shoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
@@ -217,17 +296,85 @@ console.log(usedFilters)
               )
           );
 
-              console.log(sizeFilteredShoes)
+              console.log(this.state.genderUsed)
             if (brandFilteredShoes.length > 0) {
 
                 if (this.state.brandUsed === true){
 
-                    filteredShoes = this.state.selectedShoes.concat(brandFilteredShoes);
+                    console.log(this.state.selectedShoes)
+                    let concated = this.state.selectedShoes.concat(brandFilteredShoes);
 
+                    if (this.state.genderUsed || this.state.sizeUsed || this.state.colorUsed){
+                    //Apply rest of filters to concatted data
+let genderConcat = false;
+let colorConcat = false;
+let sizeConcat = false;
+
+                    usedFilters.forEach((filter) => {
+
+                        let genderFilteredShoes = concated.filter((shoe) => shoe.gender === filter);
+                        console.log(genderFilteredShoes)
+                        let sizeFilteredShoes = concated.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
+                              return colorSizeObj.sizes.includes(filter);
+                            });
+                          });
+                          let colorFilteredShoes = concated.filter((shoe) => 
+                          shoe.in_stock.some((variant) => 
+                              variant.color === filter
+                          )
+                      );
+                        if (genderFilteredShoes.length > 0){
+                    
+                            if (genderConcat === true){
+                    
+                                //filteredShoes = concated.concat(genderFilteredShoes);
+                    
+                            }
+                            else{
+                    
+                                filteredShoes = genderFilteredShoes
+                                console.log(filteredShoes)
+                                genderConcat = true;
+                    
+                            }
+                    
+                        }else if (sizeFilteredShoes.length > 0){
+                    
+                            if (sizeConcat === true){
+                    
+                                //filteredShoes = filteredShoes.concat(sizeFilteredShoes);
+                    
+                            }
+                            else{
+                                
+                    
+                                filteredShoes = sizeFilteredShoes
+                                sizeConcat = true;
+                    
+                            }
+                    
+                        }else if(colorFilteredShoes.length > 0){
+                    
+                            if (colorConcat === true){
+                    
+                                //filteredShoes = filteredShoes.concat(colorFilteredShoes);
+                    
+                            }
+                            else{
+                    
+                            filteredShoes = colorFilteredShoes;
+                            colorConcat = true;
+                    
+                            }
+                        }
+                    })
+                    console.log(filteredShoes)
+                }
                 }else{
                     filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.brand === filterBy);
                     this.setState({brandUsed: true})
                 }
+            
             } else if (colorFilteredShoes.length > 0){
 
                 if (this.state.colorUsed === true){
@@ -267,7 +414,11 @@ console.log(usedFilters)
                 }
 
             }
+
+            if (this.state.updateFilters === true){
             usedFilters.push(filterBy);
+            }
+            console.log(usedFilters)
           }
         
         this.setState({

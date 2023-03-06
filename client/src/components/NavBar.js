@@ -16,6 +16,7 @@ export default class NavBar extends Component
             <div id="menu-controls">
             <Link className="menu-item" to={"/Home"}>Home</Link>
             <Link className="menu-item" to={"/DisplayAllCars"}>Store</Link>
+            <Link className="menu-item" to={"/ContactUs"}>Contact Us</Link>
             </div>
             
             

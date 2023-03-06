@@ -43,7 +43,7 @@ export default class ShoeTableElement extends Component
                             {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/EditCar/" + this.props.car._id}>Edit</Link> : null}
                 
                             {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ? <Link className="red-button" to={"/DeleteCar/" + this.props.car._id}>Delete</Link> : null}   
-                            {soldOrForSale}
+                            
                         
                         </td>
                     </tr>

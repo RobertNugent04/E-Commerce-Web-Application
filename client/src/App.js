@@ -22,6 +22,7 @@ import LoggedInRoute from "./components/LoggedInRoute"
 import BuyShoe from "./components/BuyShoe"
 import PayPalMessage from "./components/PayPalMessage"
 import ProfilePage from "./components/ProfilePage"
+import ContactUs from "./components/ContactUs"
 
 
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
@@ -44,6 +45,7 @@ export default class App extends Component
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/NavBar" component={NavBar} />
+                    <Route exact path="/ContactUs" component={ContactUs} />
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/ResetDatabase" component={ResetDatabase} />   
                     <Route exact path="/ResetShoes" component={ResetShoes} />               
