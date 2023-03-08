@@ -40,6 +40,35 @@ class Product extends Component {
         })
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+  
+    const shoeID = this.props.location.search.slice(8)
+    const name = this.state.shoe.name;
+    const imageURL = "insertImage";
+    const price = this.state.shoe.price;
+    console.log(this.state.shoe.imageURL)
+  
+    axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${imageURL}/${price}`)
+      .then(res => {
+        if (res.data) {
+          if (res.data.errorMessage) {
+            console.log(res.data.errorMessage)
+          } else {
+            console.log("Shoe Added to Cart Successfully")
+  
+            localStorage.shoeID = res.data.shoeID
+            localStorage.name = res.data.name
+            localStorage.imageURL = res.data.imageURL
+            localStorage.price = res.data.price;
+          }
+        } else {
+          console.log("Add to cart failed")
+        }
+      })
+  }
+  
+
   render() {
     const shoe = this.state.shoe
     const colors = shoe.in_stock ? shoe.in_stock.reduce((acc, item) => {
@@ -87,6 +116,7 @@ class Product extends Component {
         </div>
         <p>Price: €{shoe.price}</p>
         <p>Description: {shoe.description}</p>
+        <input type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit}/>
       </div>
     );
   }

@@ -57,7 +57,7 @@ export default class App extends Component
                     <Route exact path="/" component={Home} />
                     <Route exact path="/Login" component={Login} />
                     <LoggedInRoute exact path="/BuyShoe/:id" component={BuyShoe} />
-                    <LoggedInRoute exact path="/PayPalMessage/:messageType/:payPalPaymentID" component={PayPalMessage}/>   
+                    <LoggedInRoute exact path="/PayPalMessage/:msessageType/:payPalPaymentID" component={PayPalMessage}/>   
                     <LoggedInRoute exact path="/Stock" component={Stock} />
                     <LoggedInRoute exact path="/ProfilePage" component={ProfilePage} />
                     <LoggedInRoute exact path="/Logout" component={Logout} />

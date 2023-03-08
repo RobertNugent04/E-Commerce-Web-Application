@@ -124,9 +124,30 @@ export default class DisplayAllCars extends Component {
         this.setState({ sortBy: e.target.value })
     }
 
-    handleFilterChange = (e) => {
+    checkFilters = (brand,gender,size,color) =>{
 
-        this.setState({updateFilters: true})
+        console.log(2222333)
+        if (brand.length > 0){
+            
+            this.setState({brandUsed: true});
+    
+        }else if (gender.length > 0){
+    
+            this.setState({genderUsed: true});
+    
+        }else if (size.length > 0){
+    
+            this.setState({sizeUsed: true});
+    
+        }else if(color.length > 0){
+
+            this.setState({colorUsed: true});
+    
+        }
+
+    }
+
+    handleFilterChange = (e) => {
 
         if (this.state.restore === false){
 
@@ -146,17 +167,18 @@ export default class DisplayAllCars extends Component {
         console.log(filterBy)
         let filteredShoes;
         let usedFilters = this.state.usedFilters.slice();
-
-        console.log(55)
-        console.log(usedFilters)
         
+        this.setState({updateFilters: true})
+        //If there are no filters, display all the shoes
         if (filterBy === "") {
             filteredShoes = this.state.shoes;
+
+            //If the filter has already been applied then undo it
           } else if (usedFilters.includes(filterBy)) {
-            
-            this.setState({updateFilters: false})
 
             usedFilters.splice(usedFilters.indexOf(filterBy), 1);
+
+            console.log("Used Filters after splice: " + usedFilters)
 
             // apply all the filters in the usedFilters array
   filteredShoes = this.state.beforeFilter;
@@ -167,6 +189,7 @@ let colorConcat = false;
 let sizeConcat = false;
 
 
+//for each loop to apply filters
   usedFilters.forEach((filter) => {
 
     let brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filter);
@@ -181,6 +204,7 @@ let sizeConcat = false;
       )
   );
 
+  //If there are brand filters to be applied...
     if (brandFilteredShoes.length > 0){
 
         if (brandConcat === true){
@@ -246,6 +270,7 @@ let sizeConcat = false;
 
   })
 
+            //Else if the filter has not been applied yet
           } else {
 
             usedFilters.forEach((filter) => {
@@ -262,25 +287,8 @@ let sizeConcat = false;
                   )
               );
             
-                if (brandFilteredShoes.length > 0){
-            
-                    this.setState({brandUsed: true});
-                    console.log(999)
-                    console.log(this.state.brandUsed)
-            
-                }else if (genderFilteredShoes.length > 0){
-            
-                    this.setState({genderUsed: true});
-            
-                }else if (sizeFilteredShoes.length > 0){
-            
-                    this.setState({sizeUsed: true});
-            
-                }else{
-    
-                    this.setState({colorUsed: true});
-            
-                }
+                  //Call function to check if filters have been app;ied yet
+                  this.checkFilters(brandFilteredShoes,genderFilteredShoes,sizeFilteredShoes,colorFilteredShoes);
             
               })
 
@@ -303,6 +311,7 @@ let sizeConcat = false;
 
                     console.log(this.state.selectedShoes)
                     let concated = this.state.selectedShoes.concat(brandFilteredShoes);
+                    filteredShoes = concated;
 
                     if (this.state.genderUsed || this.state.sizeUsed || this.state.colorUsed){
                     //Apply rest of filters to concatted data
@@ -414,11 +423,8 @@ let sizeConcat = false;
                 }
 
             }
-
-            if (this.state.updateFilters === true){
             usedFilters.push(filterBy);
-            }
-            console.log(usedFilters)
+            console.log("Used Filters after filter: " + usedFilters)
           }
         
         this.setState({
@@ -428,11 +434,6 @@ let sizeConcat = false;
         });
    
       };
-      
-    
-      
-      
-      
       
     render() {
         return (
