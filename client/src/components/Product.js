@@ -16,6 +16,7 @@ class Product extends Component {
     super(props);
     this.state = {
       shoe: {},
+      size:null
     };
   }
 
@@ -47,9 +48,12 @@ class Product extends Component {
     const name = this.state.shoe.name;
     const imageURL = "insertImage";
     const price = this.state.shoe.price;
-    console.log(this.state.shoe.imageURL)
+    const size = this.state.size;
+    console.log(this.state.shoe)
   
-    axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${imageURL}/${price}`)
+    axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/`, {
+      size: this.state.size // Pass the selected size to the server
+    })
       .then(res => {
         if (res.data) {
           if (res.data.errorMessage) {
@@ -61,6 +65,7 @@ class Product extends Component {
             localStorage.name = res.data.name
             localStorage.imageURL = res.data.imageURL
             localStorage.price = res.data.price;
+            localStorage.size = this.state.size;
           }
         } else {
           console.log("Add to cart failed")
@@ -68,23 +73,19 @@ class Product extends Component {
       })
   }
   
+  handleSizeChange = (e) => {
+    this.setState({
+      size: e.target.value
+    });
+  }
 
   render() {
     const shoe = this.state.shoe
-    const colors = shoe.in_stock ? shoe.in_stock.reduce((acc, item) => {
-      if (!acc.includes(item.color)) {
-        acc.push(item.color)
-      }
-      return acc
-    }, []) : []
-    const sizes = shoe.in_stock ? shoe.in_stock.reduce((acc, item) => {
-      item.sizes.forEach((size) => {
-        if (!acc.includes(size)) {
-          acc.push(size)
-        }
-      })
-      return acc
-    }, []) : []
+    const sizes = shoe.sizes ? shoe.sizes.map(size => {
+      return size; // return the original size value (this is not necessary but can be useful in some cases)
+    }) : [];
+
+console.log(this.state.shoe)
 
     return (
 
@@ -99,21 +100,13 @@ class Product extends Component {
           <p>Size:</p>
           {sizes.map(size => (
             <label key={size}>
-              <input type="radio" name="size" value={size} onChange={this.props.handleFilterChange} />
+              <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange}/>
               {size}
             </label>
           ))}
         </div>
         <p>Gender: {shoe.gender}</p>
-        <div>
-          <p>Color:</p>
-          {colors.map(color => (
-            <label key={color}>
-              <input type="radio" name="color" value={color} onChange={this.props.handleFilterChange} />
-              {color}
-            </label>
-          ))}
-        </div>
+          <p>Color: {shoe.color}</p>
         <p>Price: €{shoe.price}</p>
         <p>Description: {shoe.description}</p>
         <input type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit}/>

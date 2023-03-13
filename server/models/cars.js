@@ -18,7 +18,8 @@ let carsSchema = new mongoose.Schema(
         imageURL : {type: String, required : false},
         photos:[shoesPhotosSchema],
         sold: {type: Boolean, default:false},
-        in_stock: {type: Object, required: true}
+        color: {type:String, required: true},
+        sizes: {type: Object, required: true}
 
     },
    {

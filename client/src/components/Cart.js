@@ -1,17 +1,13 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
-import Filter from "./Filter"
-import CarTable from "./CarTable"
-import ShoeTable from "./ShoeTable"
-import Logout from "./Logout"
-import Search from "./Search"
-import Sort from "./Sort"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
-import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
+import { ACCESS_LEVEL_NORMAL_USER, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
+import CartTable from "./CartTable"
+import BuyShoe from "./BuyShoe"
 
-export default class DisplayAllCars extends Component {
+export default class Cart extends Component {
     constructor(props) {
         super(props)
 
@@ -43,7 +39,18 @@ export default class DisplayAllCars extends Component {
     }
 
     render() {
-        console.log(this.state.shoes)
+        let soldOrForSale = null
+        if(localStorage.accessLevel >= ACCESS_LEVEL_NORMAL_USER)
+        {
+            // if(this.props.car.sold !== true)
+            // {
+                soldOrForSale = <BuyShoe shoeID={this.state.shoes.shoeID} shoe_name={this.state.shoes.name} price={this.state.shoes.price} />
+            // }
+            // else
+            // {
+            //     soldOrForSale = "SOLD"
+            // }
+        }
         return (
                 <div className="form-container">
                     <div class="navbar-container">
@@ -51,8 +58,8 @@ export default class DisplayAllCars extends Component {
                     </div><br/><br/><br/><br/>
 
                     <div className="shoe-container">
-                    <ShoeTable cars={this.state.shoes} />
-
+                    <CartTable cars={this.state.shoes} />
+                    {soldOrForSale}
 
                 </div>
                     <Footer />

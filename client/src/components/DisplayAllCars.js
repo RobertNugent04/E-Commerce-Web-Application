@@ -194,15 +194,8 @@ let sizeConcat = false;
 
     let brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filter);
     let genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filter);
-    let sizeFilteredShoes = this.state.shoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
-          return colorSizeObj.sizes.includes(filter);
-        });
-      });
-      let colorFilteredShoes = this.state.shoes.filter((shoe) => 
-      shoe.in_stock.some((variant) => 
-          variant.color === filter
-      )
-  );
+    let colorFilteredShoes = this.state.shoes.filter((shoe) => shoe.color === filter);
+    let sizeFilteredShoes = this.state.shoes.filter((shoe) => shoe.sizes === filter);
 
   //If there are brand filters to be applied...
     if (brandFilteredShoes.length > 0){
@@ -261,7 +254,7 @@ let sizeConcat = false;
         }
         else{
 
-        filteredShoes = filteredShoes.filter((shoe) => shoe.in_stock.some((variant) => variant.color === filter))
+        filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.brand === filterBy);
         console.log(filteredShoes)
         colorConcat = true;
 
@@ -277,15 +270,8 @@ let sizeConcat = false;
 
                 let brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filter);
                 let genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filter);
-                let sizeFilteredShoes = this.state.shoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
-                      return colorSizeObj.sizes.includes(filter);
-                    });
-                  });
-                  let colorFilteredShoes = this.state.shoes.filter((shoe) => 
-                  shoe.in_stock.some((variant) => 
-                      variant.color === filter
-                  )
-              );
+                let colorFilteredShoes = this.state.shoes.filter((shoe) => shoe.color === filter);
+                let sizeFilteredShoes = this.state.shoes.filter((shoe) => shoe.sizes === filter);
             
                   //Call function to check if filters have been app;ied yet
                   this.checkFilters(brandFilteredShoes,genderFilteredShoes,sizeFilteredShoes,colorFilteredShoes);
@@ -294,15 +280,8 @@ let sizeConcat = false;
 
             const brandFilteredShoes = this.state.shoes.filter((shoe) => shoe.brand === filterBy);
             const genderFilteredShoes = this.state.shoes.filter((shoe) => shoe.gender === filterBy);
-            const sizeFilteredShoes = this.state.shoes.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
-                  return colorSizeObj.sizes.includes(filterBy);
-                });
-              });
-              const colorFilteredShoes = this.state.shoes.filter((shoe) => 
-              shoe.in_stock.some((variant) => 
-                  variant.color === filterBy
-              )
-          );
+            let colorFilteredShoes = this.state.shoes.filter((shoe) => shoe.color === filterBy);
+            let sizeFilteredShoes = this.state.shoes.filter((shoe) => shoe.sizes === filterBy);
 
               console.log(this.state.genderUsed)
             if (brandFilteredShoes.length > 0) {
@@ -323,15 +302,8 @@ let sizeConcat = false;
 
                         let genderFilteredShoes = concated.filter((shoe) => shoe.gender === filter);
                         console.log(genderFilteredShoes)
-                        let sizeFilteredShoes = concated.filter((shoe) => {return shoe.in_stock.some((colorSizeObj) => {
-                              return colorSizeObj.sizes.includes(filter);
-                            });
-                          });
-                          let colorFilteredShoes = concated.filter((shoe) => 
-                          shoe.in_stock.some((variant) => 
-                              variant.color === filter
-                          )
-                      );
+                        let colorFilteredShoes = this.state.shoes.filter((shoe) => shoe.color === filter);
+                        let sizeFilteredShoes = this.state.shoes.filter((shoe) => shoe.sizes === filter);
                         if (genderFilteredShoes.length > 0){
                     
                             if (genderConcat === true){
@@ -391,7 +363,7 @@ let sizeConcat = false;
                     filteredShoes = this.state.selectedShoes.concat(colorFilteredShoes);
 
                 }else{
-                    filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.in_stock.some((variant) => variant.color === filterBy))
+                    filteredShoes = this.state.selectedShoes.filter((shoe) => shoe.color === filterBy);
                     this.setState({colorUsed: true})
                 }
 

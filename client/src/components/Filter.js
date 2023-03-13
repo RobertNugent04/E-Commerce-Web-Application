@@ -5,9 +5,8 @@ export default class Filter extends Component {
     const shoes = this.props.shoes
     const genders = [...new Set(shoes.map(shoe => shoe.gender))]; // Get unique genders from the data
     const brands = [...new Set(shoes.map(shoe => shoe.brand))];
-    const colors = [...new Set(shoes.flatMap(shoe => shoe.in_stock.map(stock => stock.color)))];
-    const sizes = [...new Set(shoes.flatMap(shoe => shoe.in_stock.flatMap(color => color.sizes)))];
-
+    const colors = [...new Set(shoes.map(shoe => shoe.color))];
+    const sizes = [...new Set(shoes.flatMap(shoe => shoe.sizes))];
 
     return (
       <div>
