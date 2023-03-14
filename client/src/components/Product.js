@@ -46,7 +46,7 @@ class Product extends Component {
   
     const shoeID = this.props.location.search.slice(8)
     const name = this.state.shoe.name;
-    const imageURL = "insertImage";
+    //const imageURL = "insertImage";
     const price = this.state.shoe.price;
     const size = this.state.size;
     console.log(this.state.shoe)
@@ -63,7 +63,7 @@ class Product extends Component {
   
             localStorage.shoeID = res.data.shoeID
             localStorage.name = res.data.name
-            localStorage.imageURL = res.data.imageURL
+           // localStorage.imageURL = res.data.imageURL
             localStorage.price = res.data.price;
             localStorage.size = this.state.size;
           }
