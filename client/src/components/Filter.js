@@ -39,17 +39,6 @@ export default class Filter extends Component {
             </label>
           ))}
         </div>
-
-        <div>
-          <span>Filter by Size: </span>
-          {sizes.map(size => (
-            <label key={size}>
-              <input type="checkbox" name="sizes" value={size} onChange={this.props.handleFilterChange} />
-              {size}
-            </label>
-          ))}
-        </div>
-
       </div>
     )
   }
