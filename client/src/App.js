@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import {BrowserRouter, Switch, Route} from "react-router-dom"
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-import "bootstrap/dist/css/bootstrap.css"
 import "./css/App.css"
 
 import NavBar from "./components/NavBar"

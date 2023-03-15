@@ -11,35 +11,38 @@ import NavBar from "./NavBar"
 import Footer from "./Footer"
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
 
-class Product extends Component {
+export default class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
       shoe: {},
-      size:null
+      size:null,
+      slideIndex: 1
     };
+     this.showSlides = this.showSlides.bind(this);
   }
 
   componentDidMount() {
     const shoeID = this.props.location.search.slice(8);
     axios.get(`${SERVER_HOST}/cars/${shoeID}`,{headers:{"authorization":localStorage.token}})
-        .then(res => {
-            if (res.data) {
-                if (res.data.errorMessage) {
-                    console.log(res.data.errorMessage)
-                }
-                else {
-                    console.log("Records read")
-                    this.setState({
-                        shoe: res.data,
-                    })
-                }
-            }
-            else {
-                console.log("Record not found")
-            }
-        })
+      .then(res => {
+        if (res.data) {
+          if (res.data.errorMessage) {
+            console.log(res.data.errorMessage)
+          } else {
+            console.log("Records read")
+            this.setState({
+              shoe: res.data,
+            }, () => {
+              this.showSlides(this.state.slideIndex); 
+            });
+          }
+        } else {
+          console.log("Record not found")
+        }
+      })
   }
+  
 
   handleSubmit = (e) => {
     e.preventDefault()
@@ -79,6 +82,41 @@ class Product extends Component {
     });
   }
 
+  plusSlides(n) {
+    this.showSlides(this.state.slideIndex + n);
+  }
+
+  currentSlide(n) {
+    this.showSlides(n);
+  }
+
+  showSlides(slideIndex) {
+    const slides = document.getElementsByClassName("mySlides");
+    const dots = document.getElementsByClassName("dot");
+
+    if (slideIndex > slides.length) {
+      slideIndex = 1;
+    }
+    if (slideIndex < 1) {
+      slideIndex = slides.length;
+    }
+
+    this.setState({
+      slideIndex: slideIndex
+    });
+
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    if (slides && slides[slideIndex - 1]) {
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+    }
+  }
+  
   render() {
     const shoe = this.state.shoe
     const sizes = shoe.sizes ? shoe.sizes.map(size => {
@@ -91,10 +129,34 @@ console.log(this.state.shoe)
 
       <div>
                             <div class="navbar-container">
-                        <NavBar />
+                  <NavBar/>
                     </div><br/><br/><br/><br/><br/><br/><br/><br/>
         <h1>{shoe.name}</h1>
-        <img src={shoe.imageURL} alt={shoe.name} />
+
+
+        <div className="slideshow-container">
+        {shoe.photos && shoe.photos.map((photo, index) => {
+          return (
+            <div className="mySlides fade" key={index}>
+              <img src={photo}/>
+            </div>
+          );
+        })}
+        <a className="prev" onClick={() => this.plusSlides(-1)}>&#10094;</a>
+        <a className="next" onClick={() => this.plusSlides(1)}>&#10095;</a>
+      </div>
+      <div className="dots-container">
+        {shoe.photos && shoe.photos.map((photo, index) => {
+          return (
+            <span
+              className="dot"
+              key={index}
+              onClick={() => this.currentSlide(index + 1)}
+            ></span>
+          );
+        })}
+      </div>
+
         <p>Brand: {shoe.brand}</p>
         <div>
           <p>Size:</p>
@@ -109,10 +171,8 @@ console.log(this.state.shoe)
           <p>Color: {shoe.color}</p>
         <p>Price: €{shoe.price}</p>
         <p>Description: {shoe.description}</p>
-        <input type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit}/>
+        <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit}/>
       </div>
     );
   }
 }
-
-export default Product;
