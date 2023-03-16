@@ -487,13 +487,20 @@ color:pink;
 * {box-sizing: border-box}
 body {font-family: Verdana, sans-serif; margin:0}
 .mySlides {display: none}
-img {vertical-align: middle;}
+img {vertical-align: middle}
 
 /* Slideshow container */
 .slideshow-container {
   max-width: 1000px;
   position: relative;
   margin: auto;
+}
+
+.slideshow-container img{
+
+width: 600px;
+height: 500px;
+
 }
 
 /* Next & previous buttons */
