@@ -12,7 +12,7 @@ export default class NavBar extends Component
     {   
         return(
         <div class="navbar">
-            <p id="title">Rob's Shoe Exchange&nbsp;&nbsp;&nbsp;</p>
+            <p id="title">Rob's Shoe Exchange</p>
             <div id="menu-controls">
             <Link className="menu-item" class="navButton" to={"/Home"}>Home</Link>
             <Link className="menu-item" class="navButton" to={"/DisplayAllCars"}>Store</Link>
