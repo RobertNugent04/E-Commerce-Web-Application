@@ -136,44 +136,6 @@ hr
     grid-area: footer; 
 }
 
-/*#grid-container 
-{
-    display: grid;
-    grid-template-areas:
-        'left left menu menu menu right right'
-        'left left header header header right right'
-        'left left main main main right right'
-        'left left footer footer footer right right';
-    gap: 10px;
-    padding: 10px;
-}
-
-#grid-container > div 
-{
-    text-align: center;
-    padding: 20px 0;
-    font-size: 30px;
-}
-
-button 
-{
-    background-color: #6528E2; 
-    border: 5px solid #3A138A;
-    color: white;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 15px;
-    border-radius: 8px;
-}
-
-button:hover 
-{
-    background-color: #F0F0F0;
-    color: black;
-}*/
-
 .navButton 
 {
     background-color: #6528E2; 
@@ -192,26 +154,7 @@ a:hover
     color: black;
 }
 
-/*input[type=button]
-{
-    background-color: #6528E2; 
-    border: 5px solid #3A138A;
-    color: white;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 15px;
-    border-radius: 8px;  
-}
-
-input[type=button]:hover
-{
-    background-color: #F0F0F0;
-    color: black;
-}*/
-
-input[type=text], input[type=email], input[type=password], input[type=file], select, #sort-btn
+input, textarea, input[type=text], input[type=email], input[type=password], input[type=file], select, #sort-btn
 {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -253,13 +196,6 @@ img
     width: 300px;
     height: 450px;
 }
-
-/*div > table 
-{
-    float:left;
-    margin-left: 5%;
-    margin-right: 3%;
-}*/
 
 fieldset 
 {
@@ -396,19 +332,6 @@ color:pink;
 #menu-controls > a, #menu-controls > div {
     margin-right: 30px;
 } 
-
-div#menu-controls {
-    display:table-cell;
-}
-
-div#account-controls {
-    display:table-cell;
-    
-}
-
-p#title {
-    display:table-cell;
-}
 
 /* table of Shoes */
 .table-container
@@ -653,7 +576,7 @@ img {vertical-align: middle;}
 }
 
 /* For various screen sizes */
-@media screen and (max-width: 900px) 
+ @media screen and (max-width: 900px) 
 {
     #title
     {
@@ -661,38 +584,91 @@ img {vertical-align: middle;}
     }
 }
 
-@media screen and (max-width: 600px) 
-{
-    .navbar .search-container 
-    {
-        float: none;
-    }
 
-    .navbar button, .navbar input[type=search], .navbar .search-container button 
-    {
-        float: none;
-        display: block;
-        text-align: center;
-        width: 100%;
-        margin: 0;
-        padding: 14px;
-    }
-
-    .navbar input[type=search] 
-    {
-        border: 1px solid #ccc;
-        border-radius: 8px;
-    }
-    
-    #menu-controls 
-    {
-        margin-right: 0;
-    }
-    
-    #menu-controls > a {
+  /* Navigation bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  #title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  #menu-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .menu-item {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+  }
+  
+  .navButton {
+    font-weight: bold;
+  }
+  
+  #account-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .green-button {
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
     margin-right: 10px;
-}
-}
+  }
+  
+  .blue-button {
+    background-color: #008CBA;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .red-button {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .stock {
+    margin-right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    /* Responsive styles */
+    #menu-controls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .menu-item {
+      margin: 5px 0;
+    }
+  
+    #account-controls {
+      margin-top: 10px;
+    }
+  }
 
 
 

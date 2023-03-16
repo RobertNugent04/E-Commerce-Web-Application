@@ -3,6 +3,7 @@ import { Redirect, Link } from "react-router-dom"
 import axios from "axios";
 
 import NavBar from "./NavBar"
+import Footer from "./Footer"
 
 class ContactUs extends Component {
   state = {
@@ -52,56 +53,62 @@ class ContactUs extends Component {
       <div>
 
 <div class="navbar-container">
-                    <NavBar />
-                </div>
-<br /> <br /> <br /><br /> <br /> <br />
+<NavBar/> 
+                        </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
+                    
+                <h2 id="title2">Contact Us</h2>
 
         {successMessage && <div className="success">{successMessage}</div>}
         {errorMessage && <div className="error">{errorMessage}</div>}
         <form onSubmit={this.handleSubmit}>
-        <label>
-            Name:
             <input
               type="name"
               name="name"
+              placeholder = "Name"
+              autoComplete="name"
               value={name}
               onChange={this.handleInputChange}
             />
-          </label>
           <br />
-          <label>
-            Email:
             <input
               type="email"
               name="email"
+              placeholder = "Email"
+              autoComplete="email"
               value={email}
               onChange={this.handleInputChange}
             />
-          </label>
           <br />
-          <label>
-            Subject:
             <input
               type="subject"
               name="subject"
+              placeholder = "Subject"
+              autoComplete="subject"
               value={subject}
               onChange={this.handleInputChange}
             />
-          </label>
           <br />
-          <label>
-            Message:
             <textarea
               name="message"
+              placeholder = "Message"
+              autoComplete="message"
               value={message}
               onChange={this.handleInputChange}
             />
-          </label>
           <br />
-          <button type="submit">Send</button>
+          <button type="submit" className = "green-button">Send</button>
           <Link className="red-button" to={"/Home"}>Cancel</Link>
         </form>
+        </center>
+                <Footer/>
       </div>
+
+
+
+
+
+      
+
     );
   }
 }
