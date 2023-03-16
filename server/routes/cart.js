@@ -1,80 +1,108 @@
 const express = require('express');
 const router = express.Router();
 const cartModel = require('../models/cart');
+const carsModel = require('../models/cars');
+// const JWT_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILENAME, 'utf8')
 
 // read all records
 router.get(`/cart`, (req, res) => {
-    //user does not have to be logged in to see car details
-    cartModel.find((error, data) => {
-        res.json(data)
-    })
+  //user does not have to be logged in to see car details
+  cartModel.find((error, data) => {
+    res.json(data)
+  })
+})
+
+//get by email
+router.get(`/cart/:email`, (req, res) => {
+  //user does not have to be logged in to see car details
+  cartModel.find( { email:req.params.email },(error, data) => {
+    console.log(req.params.email)
+    res.json(data)
+  })
 })
 
 // Read one record
 router.get(`/cart/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
-        if (err) {
-            res.json({ errorMessage: `User is not logged in` })
-        }
-        else {
-            cartModel.findById(req.params.id, (error, data) => {
-                res.json(data)
-            })
-        }
-    })
-})
-
-router.post(`/cart/:shoeID/:name/:price/:size`, (req, res) => {
-    // If a user with this email does not already exist, then create new user
-  
-    // "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"  Minimum eight characters, at least one letter and one number:
-    if (!req.file) {
-      cartModel.findOne({ shoeID: req.params.shoeID }, (uniqueError, uniqueData) => {
-  
-        cartModel.create({
-          shoeID: req.params.shoeID,
-          name: req.params.name,
-          //imageURL: req.params.imageURL,
-          price: req.params.price,
-          size: req.body.size, // Retrieve size from request body
-        }, (error, data) => {
-          if (data) {
-            res.json({
-              shoeID: data.shoeID,
-              name: data.name,
-            //  imageURL: data.imageURL,
-              price: data.price,
-              size: req.body.size, // Return size in the response
-              accessLevel: data.accessLevel,
-            })
-          }
-          else {
-            res.json({ errorMessage: `Shoe not added to cart` })
-          }
-        })
+  jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+    if (err) {
+      res.json({ errorMessage: `User is not logged in` })
+    }
+    else {
+      cartModel.findById(req.params.id, (error, data) => {
+        res.json(data)
       })
     }
   })
-  
-
-        // Delete one record
-router.delete(`/cart/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
-        if (err) {
-            res.json({ errorMessage: `User is not logged in` })
-        }
-        else {
-            if (decodedToken.accessLevel >= process.env.ACCESS_LEVEL_NORMAL_USER) {
-                cartModel.findByIdAndRemove(req.params.id, (error, data) => {
-                    res.json(data)
-                })
-            }
-            else {
-                res.json({ errorMessage: `User is not an administrator, so they cannot delete records` })
-            }
-        }
-    })
 })
+
+router.post(`/cart/:shoeID/:name/:price/:size/:email`, (req, res) => {
+  if (!req.file) {
+    let image = null;
+    carsModel.findById(req.params.shoeID, (error, data) => {
+      image = data.imageURL
+      // console.log("INSIDE" + image)
+      cartModel.findOneAndUpdate({ shoeID: req.params.shoeID, email: req.params.email, price:req.params.price,name:req.params.name, imageURL:image, size:req.body.size }, { $inc: { 'amount': 1 } }, { upsert: true }, (error, data) => {
+      })
+    })
     
+      // console.log("outside" + image)
+      
+    
+   
+
+      // console.log("ERROR")
+      // cartModel.create({
+      //   shoeID: req.params.shoeID,
+      //   name: req.params.name,
+      //   price: req.params.price,
+      //   size: req.body.size,
+      //   imageURL: image,
+      //   email: req.params.email,
+      //   amount: 1
+
+      // }, (error, data) => {
+      //   if (data) {
+      //     res.json({
+      //       shoeID: data.shoeID,
+      //       name: data.name,
+      //       price: data.price,
+      //       size: req.body.size,
+      //       imageURL: data.imageURL, // Return size in the response
+      //       accessLevel: data.accessLevel,
+      //       email: data.email,
+      //       amount: data.amount
+      //     })
+      //   }
+      //   else {
+      //     // console.log(error)
+      //     res.json({ errorMessage: `Shoe not added to cart` })
+      //   }
+      // })
+
+    
+
+
+
+
+  }
+})
+
+
+// Delete one record
+router.delete(`/cart/:id`, (req, res) => {
+  console.log(req.params)
+  cartModel.findByIdAndRemove(req.params.id, (error, data) => {
+    res.json(data)
+    console.log("Cart Item Deleted")
+  })
+
+})
+
+router.delete(`/cartdelete/:email`, (req, res) => {
+  carsModel.deleteMany({ email: req.params.email }, (error, data) => {
+  })
+
+})
+
 
 module.exports = router;

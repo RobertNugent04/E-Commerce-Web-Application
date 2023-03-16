@@ -52,9 +52,11 @@ export default class Product extends Component {
     //const imageURL = "insertImage";
     const price = this.state.shoe.price;
     const size = this.state.size;
+    const imageURL= this.state.shoe.imageURL
+    const email = localStorage.email
     console.log(this.state.shoe)
-  
-    axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/`, {
+    // console.log(imageURL)
+    axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}`, {
       size: this.state.size // Pass the selected size to the server
     })
       .then(res => {
@@ -68,6 +70,7 @@ export default class Product extends Component {
             localStorage.name = res.data.name
            // localStorage.imageURL = res.data.imageURL
             localStorage.price = res.data.price;
+            localStorage.image= res.data.imageURL;
             localStorage.size = this.state.size;
           }
         } else {

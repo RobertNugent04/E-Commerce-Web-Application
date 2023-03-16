@@ -1,33 +1,32 @@
-import React, {Component} from "react"
+import React, { Component } from "react"
 import axios from "axios"
-import {Redirect} from "react-router-dom"
+import { Redirect } from "react-router-dom"
 
 import PayPalMessage from "./PayPalMessage"
 
-import {SANDBOX_CLIENT_ID, SERVER_HOST} from "../config/global_constants"
-import {PayPalButtons, PayPalScriptProvider} from "@paypal/react-paypal-js"
+import { SANDBOX_CLIENT_ID, SERVER_HOST } from "../config/global_constants"
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js"
 
 
-export default class BuyShoe extends Component
-{
-    constructor(props)
-    {
+export default class BuyShoe extends Component {
+    constructor(props) {
         super(props)
 
-        this.state = {redirectToPayPalMessage:false,
-                      payPalMessageType:null,
-                      payPalOrderID:null,
-                      name: localStorage.getItem("name"),
-                      email: localStorage.getItem("email")}
+        this.state = {
+            redirectToPayPalMessage: false,
+            payPalMessageType: null,
+            payPalOrderID: null,
+            name: localStorage.getItem("name"),
+            email: localStorage.getItem("email")
+        }
     }
-    
-    
-    createOrder = (data, actions) => 
-    {
-        return actions.order.create({purchase_units:[{amount:{value:this.props.price}}]})
+
+
+    createOrder = (data, actions) => {
+        return actions.order.create({ purchase_units: [{ amount: { value: this.props.price } }] })
     }
-    
-    
+
+
     // onApprove = paymentData =>
     // {      
     //     axios.post(`${SERVER_HOST}/sales/${paymentData.paymentID}/${this.props.shoeID}/${this.props.price}/${paymentData.email}`, {headers:{"authorization":localStorage.token, "Content-type": "multipart/form-data"}})
@@ -45,50 +44,78 @@ export default class BuyShoe extends Component
     //     })
     // }
 
-    onApprove = paymentData =>
-    {      
-        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${this.props.shoeID}/${this.props.shoe_name}/${this.props.price}/${this.state.name}/${this.state.email}`, {headers:{"authorization":localStorage.token, "Content-type": "multipart/form-data"}})
-        .then(res => 
-        {                   
-            this.setState({payPalMessageType:PayPalMessage.messageType.SUCCESS, 
-                           payPalOrderID:paymentData.orderID, 
-                           redirectToPayPalMessage:true}) 
-        })
-        .catch(errorData =>
-        {           
-            this.setState({payPalMessageType:PayPalMessage.messageType.ERROR, 
-                           redirectToPayPalMessage:true}) 
-        })
+    onApprove = paymentData => {
+
+        // let formData = new FormData()  
+
+        // formData.append("name", this.state.name)
+        // formData.append("brand", this.state.brand)
+        // formData.append("gender", this.state.gender)
+        // formData.append("category", this.state.category) 
+        // formData.append("price", this.state.price) 
+        // formData.append("items_left", this.state.stock)
+
+
+        // let orderDetails = new Object();
+        // orderDetails.paymentId = paymentData.id;
+        // orderDetails.amount = this.props.amount;
+        // orderDetails.shippingCost = this.props.shippingCost;
+        // orderDetails.userId = localStorage._id;
+        // orderDetails.products = [];
+
+
+        // for (let i = 0; i < this.props.shoes.length; i++) {
+        //     formData.append("shoeID", this.props.shoes.shoeID)
+        //     form
+        // }
+
+        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${this.props.shoeID}/${this.props.shoe_name}/${this.props.price}/${this.state.name}/${this.state.email}`, { headers: { "authorization": localStorage.token, "Content-type": "multipart/form-data" } })
+            .then(res => {
+                this.setState({
+                    payPalMessageType: PayPalMessage.messageType.SUCCESS,
+                    payPalOrderID: paymentData.orderID,
+                    redirectToPayPalMessage: true
+                })
+            })
+            .catch(errorData => {
+                this.setState({
+                    payPalMessageType: PayPalMessage.messageType.ERROR,
+                    redirectToPayPalMessage: true
+                })
+            })
     }
- 
-    
-    
-    onError = errorData => 
-    {
+
+
+
+    onError = errorData => {
         console.log("PayPal error:", errorData)
-        this.setState({payPalMessageType:PayPalMessage.messageType.ERROR, 
-                       redirectToPayPalMessage:true})         
+        this.setState({
+            payPalMessageType: PayPalMessage.messageType.ERROR,
+            redirectToPayPalMessage: true
+        })
     }
-    
-    
-    onCancel = cancelData => 
-    {
+
+
+    onCancel = cancelData => {
         // The user pressed the Paypal checkout popup window cancel button or closed the Paypal checkout popup window
         console.log("Payment cancelled by user:", cancelData)
-        this.setState({payPalMessageType:PayPalMessage.messageType.CANCEL, 
-                       redirectToPayPalMessage:true})       
+        this.setState({
+            payPalMessageType: PayPalMessage.messageType.CANCEL,
+            redirectToPayPalMessage: true
+        })
     }
-                
-    render()
-    {
+
+    render() {
         return (
-            
+
             <div>
-                {this.state.redirectToPayPalMessage ? <Redirect to= {`/PayPalMessage/${this.state.payPalMessageType}/${this.state.payPalOrderID}`}/> : null}            
-            
-                <PayPalScriptProvider options={{currency:"EUR", "client-id":SANDBOX_CLIENT_ID }}>
-                    <PayPalButtons style={{layout: "horizontal"}} createOrder={this.createOrder} onApprove={this.onApprove} onError={this.onError} onCancel={this.onCancel}/>
+                {console.log(this.props.shoes)}
+                {this.state.redirectToPayPalMessage ? <Redirect to={`/PayPalMessage/${this.state.payPalMessageType}/${this.state.payPalOrderID}`} /> : null}
+
+                <PayPalScriptProvider options={{ currency: "EUR", "client-id": SANDBOX_CLIENT_ID }}>
+                    <PayPalButtons style={{ layout: "horizontal" }} createOrder={this.createOrder} onApprove={this.onApprove} onError={this.onError} onCancel={this.onCancel} />
                 </PayPalScriptProvider>
             </div>
-    )}
+        )
+    }
 }

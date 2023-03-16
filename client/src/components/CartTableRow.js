@@ -26,6 +26,9 @@ export default class CartTableRow extends Component
                         <td>Price: €{this.props.car.price}</td>
                     </tr>
                     <tr>
+                        <td>Amount: {this.props.car.amount}<br></br></td>
+                    </tr>
+                    <tr>
                         <td>
                 
                             {localStorage.accessLevel >= ACCESS_LEVEL_NORMAL_USER ? <Link className="red-button" to={"/CartDelete/" + this.props.car._id}>Delete</Link> : null}   

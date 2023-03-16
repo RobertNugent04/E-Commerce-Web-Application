@@ -17,7 +17,7 @@ export default class Cart extends Component {
     }
 
     componentDidMount() {
-        axios.get(`${SERVER_HOST}/cart`)
+        axios.get(`${SERVER_HOST}/cart/${localStorage.email}`)
             .then(res => {
                 if (res.data) {
                     if (res.data.errorMessage) {
@@ -44,7 +44,7 @@ export default class Cart extends Component {
         {
             // if(this.props.car.sold !== true)
             // {
-                soldOrForSale = <BuyShoe shoeID={this.state.shoes.shoeID} shoe_name={this.state.shoes.name} price={this.state.shoes.price} />
+                soldOrForSale = <BuyShoe shoes= {this.state.shoes} />
             // }
             // else
             // {
