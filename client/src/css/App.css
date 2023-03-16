@@ -397,6 +397,19 @@ color:pink;
     margin-right: 30px;
 } 
 
+div#menu-controls {
+    display:table-cell;
+}
+
+div#account-controls {
+    display:table-cell;
+    
+}
+
+p#title {
+    display:table-cell;
+}
+
 /* table of Shoes */
 .table-container
 {
@@ -680,5 +693,7 @@ img {vertical-align: middle;}
     margin-right: 10px;
 }
 }
+
+
 
 

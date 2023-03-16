@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import Form from "react-bootstrap/Form"
 import {Redirect, Link} from "react-router-dom"
 import axios from "axios"
 
@@ -200,49 +199,49 @@ export default class EditCar extends Component
     
                 {this.state.redirectToDisplayAllCars ? <Redirect to="/DisplayAllCars"/> : null}  
                         
-                <Form>
-                    <Form.Group controlId="model">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control ref = {(input) => { this.inputToFocus = input }} type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+                <div>
+                    <div controlId="model">
+                        <label>Name</label>
+                        <input ref = {(input) => { this.inputToFocus = input }} type="text" name="name" value={this.state.name} onChange={this.handleChange} />
                         {" "}
                         {nameError}
-                    </Form.Group>
+                    </div>
 
-                    <Form.Group controlId="brand">
-                        <Form.Label>Brand</Form.Label>
-                        <Form.Control type="text" name="brand" value={this.state.brand} onChange={this.handleChange} />
+                    <div controlId="brand">
+                        <label>Brand</label>
+                        <input type="text" name="brand" value={this.state.brand} onChange={this.handleChange} />
                         {" "}
                         {brandError}
-                    </Form.Group>
+                    </div>
 
-                    <Form.Group controlId="gender">
-                        <Form.Label>Gender</Form.Label>
-                        <Form.Control type="text" name="gender" value={this.state.gender} onChange={this.handleChange} />
-                    </Form.Group>
+                    <div controlId="gender">
+                        <label>Gender</label>
+                        <input type="text" name="gender" value={this.state.gender} onChange={this.handleChange} />
+                    </div>
                     
-                    <Form.Group controlId="category">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control type="text" name="category" value={this.state.category} onChange={this.handleChange} />
-                    </Form.Group>
+                    <div controlId="category">
+                        <label>Category</label>
+                        <input type="text" name="category" value={this.state.category} onChange={this.handleChange} />
+                    </div>
         
-                    <Form.Group controlId="price">
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control type="text" name="price" value={this.state.price} onChange={this.handleChange} />
+                    <div controlId="price">
+                        <label>Price</label>
+                        <input type="text" name="price" value={this.state.price} onChange={this.handleChange} />
                         {" "}
                         {priceError}
-                    </Form.Group>
+                    </div>
                     
-                    <Form.Group controlId="items_left">
-                        <Form.Label>Stock</Form.Label>
-                        <Form.Control type="text" name="items_left" value={this.state.items_left} onChange={this.handleChange} />
+                    <div controlId="items_left">
+                        <label>Stock</label>
+                        <input type="text" name="items_left" value={this.state.items_left} onChange={this.handleChange} />
                         {" "}
                         {stockError}
-                    </Form.Group>
+                    </div>
   
                     <LinkInClass value="Update" className="green-button" onClick={this.handleSubmit}/>  
     
                     <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
-                </Form>
+                </div>
             </div>
         )
     }

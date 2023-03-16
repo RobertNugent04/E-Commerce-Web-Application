@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { Redirect, Link } from "react-router-dom"
-import Form from "react-bootstrap/Form"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
 
@@ -123,12 +122,12 @@ export default class AddCar extends Component {
                             }
 
                             <div id="profileName">
-                                <Form.Label>Name :</Form.Label>
+                                <label>Name :</label>
                                 <p>{localStorage.getItem("name")}</p>
                             </div>
 
                             <div id="profileEmail">
-                                <Form.Label>Email :</Form.Label>
+                                <label>Email :</label>
                                 <p>{localStorage.getItem("email")}</p>
                             </div>
 
