@@ -103,6 +103,37 @@ router.get(`/history/:email`, (req, res) => {
 
 })
 
+router.put('/sales/:id', (req, res) => {
+    const id = req.params.id;
+    const updates = req.body;
+  
+    // check if the shoesID array is empty
+    if (updates.shoesID && updates.shoesID.length === 0) {
+      // delete the record from the sales database
+      salesModel.findByIdAndDelete(id, (err, data) => {
+        if (err) {
+          console.error("Error deleting sales data:", err);
+          return res.status(500).send(err);
+        } else {
+          console.log("Sales data deleted:", data);
+          return res.send(data);
+        }
+      });
+    } else {
+      // update the record with the new data
+      salesModel.findByIdAndUpdate(id, updates, { new: true }, (err, data) => {
+        if (err) {
+          console.error("Error updating sales data:", err);
+          return res.status(500).send(err);
+        } else {
+          console.log("Sales data updated:", data);
+          return res.send(data);
+        }
+      });
+    }
+  });
+  
+
 // Save a record of each Paypal payment
 // router.post('/sales/:paymentID/:shoeID/:shoe_name/:price/:name/:email', createNewSaleDocument)
 router.post('/sales/:paymentID/:ids/:amount/:shoeNames/:name/:email/:totalPrice', createNewSaleDocument)
