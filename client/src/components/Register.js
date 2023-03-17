@@ -56,6 +56,8 @@ export default class Register extends Component {
                         localStorage.token = res.data.token
                         localStorage.profilePhoto = res.data.profilePhoto
                         localStorage.email = res.data.email
+                        localStorage.cart_item = res.data.cart_item
+
 
                         this.setState({ isRegistered: true })
                     }

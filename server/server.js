@@ -76,6 +76,7 @@ app.use(require(`./routes/cars`))
 app.use(require(`./routes/users`))
 app.use(require(`./routes/sales`))
 app.use(require(`./routes/cart`))
+app.use(require(`./routes/comment`))
 
 // Port
 app.listen(process.env.SERVER_PORT, () => 

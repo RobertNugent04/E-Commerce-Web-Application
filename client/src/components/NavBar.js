@@ -17,7 +17,7 @@ export default class NavBar extends Component
             <Link className="menu-item" class="navButton" to={"/Home"}>Home</Link>
             <Link className="menu-item" class="navButton" to={"/DisplayAllCars"}>Store</Link>
             <Link className="menu-item" class="navButton" to={"/ContactUs"}>Contact Us</Link>
-            <Link className="menu-item" class="navButton" to={"/Cart"}>Cart</Link>
+            <Link className="menu-item" class="navButton" to={"/Cart"}>Cart({localStorage.cart_item})</Link>
             </div>
             
             

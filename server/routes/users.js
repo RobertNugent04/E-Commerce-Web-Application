@@ -75,13 +75,13 @@ router.post(`/users/register/:name/:email/:password`, upload.single("profilePhot
                 } else {
                     bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
                     {
-                        usersModel.create({name:req.params.name,email:req.params.email,password:hash}, (error, data) => 
+                        usersModel.create({name:req.params.name,email:req.params.email,password:hash,cart_item: 0}, (error, data) => 
                         {
                             if(data)
                             {
                                 const token = jwt.sign({email: data.email, accessLevel:data.accessLevel}, JWT_PRIVATE_KEY, {algorithm: 'HS256', expiresIn:process.env.JWT_EXPIRY})     
                    
-                                res.json({name: data.name, accessLevel:data.accessLevel, token:token, email:data.email})
+                                res.json({name: data.name, accessLevel:data.accessLevel, token:token, email:data.email, cart_item:data.cart_item})
                             }
                             else
                             {
@@ -110,14 +110,14 @@ router.post(`/users/register/:name/:email/:password`, upload.single("profilePhot
                     res.json({ errorMessage: `Minimum eight characters, at least one letter and one number` });
                 } else {
                     bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
-                        usersModel.create({ name: req.params.name, email: req.params.email, password: hash, profilePhotoFilename:req.file.filename }, (error, data) => {
+                        usersModel.create({ name: req.params.name, email: req.params.email, password: hash, profilePhotoFilename:req.file.filename, cart_item: 0 }, (error, data) => {
                             if (data) {
                                 const token = jwt.sign({email: data.email, accessLevel:data.accessLevel}, JWT_PRIVATE_KEY, {algorithm: 'HS256', expiresIn:process.env.JWT_EXPIRY})     
 
                                 fs.readFile(`${process.env.UPLOADED_FILES_FOLDER}/${req.file.filename}`, 'base64', (err, fileData) => 
                                 {
                                     console.log(req.file.filename)
-                                    res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token, email:data.email})
+                                    res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token, email:data.email, cart_item:data.cart_item})
                                 })
                             }
                             else {
@@ -148,11 +148,11 @@ router.post(`/users/login/:email/:password`, (req,res) =>
                     {        
                         if(fileData)
                         {  
-                            res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token, email:data.email})                           
+                            res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:fileData, token:token, email:data.email, cart_item:data.cart_item})                           
                         }   
                         else
                         {
-                            res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:null, token:token, email:data.email})  
+                            res.json({name: data.name, accessLevel:data.accessLevel, profilePhoto:null, token:token, email:data.email,cart_item:data.cart_item})  
                         }
                     })                                                             
                 }

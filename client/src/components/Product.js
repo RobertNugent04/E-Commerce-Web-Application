@@ -9,7 +9,7 @@ import Search from "./Search"
 import Sort from "./Sort"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
-import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
+import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST,cart_item } from "../config/global_constants"
 
 export default class Product extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ export default class Product extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-
+    localStorage.cart_item++;
     const shoeID = this.props.location.search.slice(8)
     const name = this.state.shoe.name;
     //const imageURL = "insertImage";
@@ -79,6 +79,7 @@ export default class Product extends Component {
           console.log("Add to cart failed")
         }
       })
+      window.location.reload(false);
   }
 
   handleSizeChange = (e) => {
@@ -95,7 +96,7 @@ export default class Product extends Component {
     this.showSlides(n);
   }
   commentToggle = (e) => {
-    axios.get(`${SERVER_HOST}/comment`)
+    axios.get(`${SERVER_HOST}/comment/${this.props.location.search.slice(8)}`)
       .then(res => {
         if (res.data) {
           if (res.data.errorMessage) {
@@ -103,6 +104,10 @@ export default class Product extends Component {
           }
           else {
             console.log("Records read")
+            console.log(res.data.comments)
+            // let comments =[]
+            // res.data.map((data)=>comments.push(data.comments))
+            // console.log(comments)
             this.setState({
               comments: res.data.comments
 
@@ -155,7 +160,8 @@ export default class Product extends Component {
     }) : [];
 
     console.log(this.state.shoe)
-    console.log(this.state.showComments)
+    console.log(this.state.comments)
+
     return (
 
       <div>
@@ -202,12 +208,15 @@ export default class Product extends Component {
         <p>Color: {shoe.color}</p>
         <p>Price: €{shoe.price}</p>
         <p>Description: {shoe.description}</p>
-        <button id="btn" onClick={this.commentToggle}>Click me</button>
+        <button id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
-          <h1>HELLOs</h1>
+          <table>
+            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
+          </table>
           :
           null
         }
+            {console.log(localStorage.cart_item)}
 
         <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
       </div>

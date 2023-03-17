@@ -37,6 +37,7 @@ if (typeof localStorage.accessLevel === "undefined")
     localStorage.accessLevel = ACCESS_LEVEL_GUEST
     localStorage.token = null
     localStorage.email = null
+    localStorage.cart_item= 0
 }
 
     
@@ -65,7 +66,7 @@ export default class App extends Component
                     <LoggedInRoute exact path="/EditCar/:id" component={EditCar} />
                     <LoggedInRoute exact path="/DeleteCar/:id" component={DeleteCar} />
                     <LoggedInRoute exact path="/PurchaseHistory/:email" component={PurchaseHistory} />
-                    <LoggedInRoute exact path="/CartDelete/:id" component={CartDelete} />
+                    <LoggedInRoute exact path="/CartDelete/:id/:amount" component={CartDelete} />
 
                     <Route exact path="/DisplayAllCars" component={DisplayAllCars}/> 
                     <Route exact path="/Home" component={Home}/> 
