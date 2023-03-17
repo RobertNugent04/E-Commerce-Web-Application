@@ -50,7 +50,15 @@ const createNewSaleDocument = (req, res, next) => {
     
    
     
-    cartModel.deleteMany( { email : req.params.email } );
+    cartModel.deleteMany( { email : req.params.email } ,(err,data)=>{
+        if (err) {
+            console.log("cart not cleared")
+            return next(err)
+        }else{
+            console.log("cart cleared")
+        }
+    })
+    
 
     
     salesModel.create(saleDetails, (err, data) => {
