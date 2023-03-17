@@ -8,12 +8,12 @@ const cartModel = require('../models/cart');
 
 
 const createNewSaleDocument = (req, res, next) => {
-    console.log( "BODY: "+ req.body)
+    console.log("BODY: " + req.body)
     console.log("PARAMS: " + JSON.parse(req.params.ids)[1])
     console.log("PARAMS: " + req.params.ids)
 
     // cartModel.deleteMany( { 'email' : saleDetails.email } );
-    
+
 
 
     // Use the PayPal details to create a new sale document                
@@ -34,33 +34,51 @@ const createNewSaleDocument = (req, res, next) => {
     // saleDetails.customerName = req.params.customerName
     // saleDetails.customerEmail = req.params.customerEmail
     // console.log()
-    
-    
-    for(let i=0;i<saleDetails.shoesID.length;i++){
 
-        carsModel.findByIdAndUpdate({ _id: saleDetails.shoesID[i]},  { $inc: { 'items_left': -  saleDetails.amount[i]} }, (err, data) => {
-            if (err) {
-                return next(err)
-            }else{
-                console.log("stockReduced")
+
+    for (let i = 0; i < saleDetails.shoesID.length; i++) {
+
+        carsModel.findById({ _id: saleDetails.shoesID[i] }, (err, data) => {
+            if (data) {
+                if (data.items_left - saleDetails.amount[i] >= 0) {
+                    carsModel.findByIdAndUpdate({ _id: saleDetails.shoesID[i], items_left: { $gt: 0 } }, { $inc: { 'items_left': -  saleDetails.amount[i] } }, (err, data) => {
+                        if (err) {
+                            return next(err)
+                        } else {
+                            console.log("stockReduced")
+                        }
+                    })
+                }else{
+                    console.log("not enough stock")
+                }
+            } else {
+                console.log("no data")
             }
         })
+
+        // carsModel.findByIdAndUpdate({ _id: saleDetails.shoesID[i], items_left: { $gt: 0 }},  { $inc: { 'items_left': -  saleDetails.amount[i]} }, (err, data) => {
+        //     if (err) {
+        //         return next(err)
+        //     }else{
+        //         console.log("stockReduced")
+        //     }
+        // })
     }
-        
-    
-   
-    
-    cartModel.deleteMany( { email : req.params.email } ,(err,data)=>{
+
+
+
+
+    cartModel.deleteMany({ email: req.params.email }, (err, data) => {
         if (err) {
             console.log("cart not cleared")
             return next(err)
-        }else{
+        } else {
             console.log("cart cleared")
         }
     })
-    
 
-    
+
+
     salesModel.create(saleDetails, (err, data) => {
 
         if (err) {
@@ -71,13 +89,13 @@ const createNewSaleDocument = (req, res, next) => {
 
     return res.json({ success: true })
 
-   
+
 
 }
 
 router.get(`/history/:email`, (req, res) => {
 
-    salesModel.find({email: req.params.email}, (error, data) => {
+    salesModel.find({ email: req.params.email }, (error, data) => {
         console.log(data)
         res.json(data)
     })
