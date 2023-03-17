@@ -2,22 +2,39 @@ const router = require(`express`).Router()
 
 const salesModel = require(`../models/sales`)
 const carsModel = require(`../models/cars`)
+const cartModel = require('../models/cart');
+
+
 
 
 const createNewSaleDocument = (req, res, next) => {
-    console.log(req.params)
+    console.log( "BODY: "+ req.body)
+    console.log("PARAMS: " + JSON.parse(req.params.ids)[1])
+    console.log("PARAMS: " + req.params.ids)
+
+
+    cartModel.deleteMany( { email : req.params.email } );
+
+
     // Use the PayPal details to create a new sale document                
     let saleDetails = new Object()
     saleDetails.paypalPaymentID = req.params.paymentID
-    saleDetails.shoeID = req.params.shoeID
-    saleDetails.price = req.params.price
+    saleDetails.shoesID = JSON.parse(req.params.ids)
+    saleDetails.amount = JSON.parse(req.params.amount)
+    saleDetails.shoe_name = JSON.parse(req.params.shoeNames)
+    // for(let i =0; i<JSON.parse(req.params.ids).length ;i++){
+    //     saleDetails.shoesID[i].amount= JSON.parse(req.params.ids)[i]
+    // }
+
+    // saleDetails.shoeID = req.params.shoeID
+    saleDetails.price = req.params.totalPrice
     saleDetails.name = req.params.name
-    saleDetails.shoe_name = req.params.shoe_name
+    // saleDetails.images = JSON.parse(req.params.images)
     saleDetails.email = req.params.email
     // saleDetails.customerName = req.params.customerName
     // saleDetails.customerEmail = req.params.customerEmail
     // console.log()
-
+    cartModel.deleteMany( { email : req.params.email } );
 
     carsModel.findByIdAndUpdate({ _id: req.params.shoeID }, { sold: true }, (err, data) => {
         if (err) {
@@ -32,6 +49,9 @@ const createNewSaleDocument = (req, res, next) => {
     })
     console.log(saleDetails)
     return res.json({ success: true })
+
+   
+
 }
 
 router.get(`/history/:email`, (req, res) => {
@@ -45,7 +65,8 @@ router.get(`/history/:email`, (req, res) => {
 })
 
 // Save a record of each Paypal payment
-router.post('/sales/:paymentID/:shoeID/:shoe_name/:price/:name/:email', createNewSaleDocument)
+// router.post('/sales/:paymentID/:shoeID/:shoe_name/:price/:name/:email', createNewSaleDocument)
+router.post('/sales/:paymentID/:ids/:amount/:shoeNames/:name/:email/:totalPrice', createNewSaleDocument)
 
 
 module.exports = router

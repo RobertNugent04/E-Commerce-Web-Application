@@ -260,23 +260,7 @@ router.get(`/reset`, (req, res) => {
 
     carsModel.deleteMany({}, (error, data) => {
     })
-    // let key1 = '@context'
-    // let key2 = '@type'
-    // let key3 = 'caption'
-    // let key4 = 'addressCountry'
-    // for (let index = 0; index < attractions.results.length; index++) {
-    //     delete attractions.results[index][key1]
-    //     delete attractions.results[index].geo[key2]
-    //     delete attractions.results[index].address[key2]
-    //     delete attractions.results[index].address[key4]
-    //     delete attractions.results[index].image[key2]
-    //     delete attractions.results[index].image[key3]
-    //     for (let p = 0; p < attractions.results[index][key2].length; p++) {
-    //         attractions.results[index][key2][p] = attractions.results[index][key2][p].replace(/([a-z])([A-Z])/g, '$1 $2');
-    //     }
-    // }
 
-    //    attractions.results.map((item, _id) => Object.assign(item, { _id }))
     shoes.map(shoe => {
 
         // console.log(shoe)

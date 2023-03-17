@@ -46,31 +46,25 @@ export default class BuyShoe extends Component {
 
     onApprove = paymentData => {
 
-        // let formData = new FormData()  
+        // let formData = new FormData();
 
-        // formData.append("name", this.state.name)
-        // formData.append("brand", this.state.brand)
-        // formData.append("gender", this.state.gender)
-        // formData.append("category", this.state.category) 
-        // formData.append("price", this.state.price) 
-        // formData.append("items_left", this.state.stock)
-
-
-        // let orderDetails = new Object();
-        // orderDetails.paymentId = paymentData.id;
-        // orderDetails.amount = this.props.amount;
-        // orderDetails.shippingCost = this.props.shippingCost;
-        // orderDetails.userId = localStorage._id;
-        // orderDetails.products = [];
+        // this.props.ids.forEach((item) => {
+        //     formData.append('shoesID', item);
+        //     console.log(item)
+        // });
+        // console.log(formData)
+        const data = JSON.stringify( this.props.ids)
+        const amount = JSON.stringify(this.props.quantity)
+        const names = JSON.stringify(this.props.names)
+        const images = JSON.stringify(this.props.images)
 
 
-        // for (let i = 0; i < this.props.shoes.length; i++) {
-        //     formData.append("shoeID", this.props.shoes.shoeID)
-        //     form
-        // }
+        console.log("data" + data)
+        console.log("names" + names)
 
-        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${this.props.shoeID}/${this.props.shoe_name}/${this.props.price}/${this.state.name}/${this.state.email}`, { headers: { "authorization": localStorage.token, "Content-type": "multipart/form-data" } })
+        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${data}/${amount}/${names}/${this.state.name}/${this.state.email}/${this.props.price}`,{ headers: { "authorization": localStorage.token, "Content-type": "multipart/form-data" } })
             .then(res => {
+                console.log("good")
                 this.setState({
                     payPalMessageType: PayPalMessage.messageType.SUCCESS,
                     payPalOrderID: paymentData.orderID,
@@ -78,6 +72,7 @@ export default class BuyShoe extends Component {
                 })
             })
             .catch(errorData => {
+                console.log("fail")
                 this.setState({
                     payPalMessageType: PayPalMessage.messageType.ERROR,
                     redirectToPayPalMessage: true
@@ -107,9 +102,9 @@ export default class BuyShoe extends Component {
 
     render() {
         return (
-
+            
             <div>
-                {console.log(this.props.shoes)}
+                {console.log(JSON.stringify(this.props.images))}
                 {this.state.redirectToPayPalMessage ? <Redirect to={`/PayPalMessage/${this.state.payPalMessageType}/${this.state.payPalOrderID}`} /> : null}
 
                 <PayPalScriptProvider options={{ currency: "EUR", "client-id": SANDBOX_CLIENT_ID }}>

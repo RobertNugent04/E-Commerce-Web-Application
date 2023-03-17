@@ -13,6 +13,12 @@ export default class Cart extends Component {
 
         this.state = {
             shoes: [],
+            price:0,
+            names:[],
+            ids:[],
+            quantity:[],
+            names:[],
+            images:[]
         }
     }
 
@@ -25,10 +31,28 @@ export default class Cart extends Component {
                     }
                     else {
                         console.log("Records read")
-                        this.setState({
-                            shoes: res.data,
-                         
-                        })
+                        
+                        this.setState({shoes: res.data })
+
+                        let totalPrice=0;
+                        let ids = [];
+                        let quantity =[];
+                        let names =[]
+                        let images =[]
+
+                        // let names=[]
+                        this.state.shoes.map((shoe) => totalPrice+= (shoe.amount * shoe.price))
+                        this.state.shoes.map((shoe) => ids.push(shoe.shoeID))
+                        this.state.shoes.map((shoe) => quantity.push(shoe.amount))
+                        this.state.shoes.map((shoe) => names.push(shoe.name))
+                        this.state.shoes.map((shoe) => images.push(shoe.imageURL))
+
+
+
+                        console.log(ids)
+                        
+                        this.setState({price:totalPrice, ids:ids, quantity:quantity, names:names,images:images})
+                        console.log(totalPrice)
                         console.log(res.data)
                     }
                 }
@@ -44,7 +68,15 @@ export default class Cart extends Component {
         {
             // if(this.props.car.sold !== true)
             // {
-                soldOrForSale = <BuyShoe shoes= {this.state.shoes} />
+                console.log(this.state.price)
+                console.log(this.state.ids)
+                console.log(this.state.quantity)
+                console.log(this.state.names)
+                console.log(this.state.images)
+
+
+
+                soldOrForSale = <BuyShoe shoes={this.state.shoes}  price={this.state.price}  ids={this.state.ids} quantity={this.state.quantity} names={this.state.names} images={this.state.images}/>
             // }
             // else
             // {
@@ -53,6 +85,7 @@ export default class Cart extends Component {
         }
         return (
                 <div className="form-container">
+                    {/* {console.log(this.state.price)} */}
                     <div class="navbar-container">
                         <NavBar />
                     </div><br/><br/><br/><br/>
