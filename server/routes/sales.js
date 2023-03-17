@@ -8,12 +8,13 @@ const cartModel = require('../models/cart');
 
 
 const createNewSaleDocument = (req, res, next) => {
+    // cartModel.deleteMany( { email : req.params.email } );
     console.log( "BODY: "+ req.body)
     console.log("PARAMS: " + JSON.parse(req.params.ids)[1])
     console.log("PARAMS: " + req.params.ids)
 
-
-    cartModel.deleteMany( { email : req.params.email } );
+    // cartModel.deleteMany( { 'email' : saleDetails.email } );
+    
 
 
     // Use the PayPal details to create a new sale document                
@@ -34,7 +35,7 @@ const createNewSaleDocument = (req, res, next) => {
     // saleDetails.customerName = req.params.customerName
     // saleDetails.customerEmail = req.params.customerEmail
     // console.log()
-    cartModel.deleteMany( { email : req.params.email } );
+    
 
     carsModel.findByIdAndUpdate({ _id: req.params.shoeID }, { sold: true }, (err, data) => {
         if (err) {
@@ -43,11 +44,13 @@ const createNewSaleDocument = (req, res, next) => {
     })
 
     salesModel.create(saleDetails, (err, data) => {
+
         if (err) {
             return next(err)
         }
     })
     console.log(saleDetails)
+
     return res.json({ success: true })
 
    
