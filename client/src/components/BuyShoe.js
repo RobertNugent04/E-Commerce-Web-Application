@@ -57,12 +57,13 @@ export default class BuyShoe extends Component {
         const amount = JSON.stringify(this.props.quantity)
         const names = JSON.stringify(this.props.names)
         const images = JSON.stringify(this.props.images)
+        const sizes = JSON.stringify(this.props.sizes)
 
 
         console.log("data" + data)
         console.log("names" + names)
 
-        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${data}/${amount}/${names}/${this.state.name}/${this.state.email}/${this.props.price}`,{ headers: { "authorization": localStorage.token, "Content-type": "multipart/form-data" } })
+        axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${data}/${amount}/${sizes}/${names}/${this.state.name}/${this.state.email}/${this.props.price}`,{ headers: { "authorization": localStorage.token, "Content-type": "multipart/form-data" } })
             .then(res => {
                 console.log("good")
                 this.setState({

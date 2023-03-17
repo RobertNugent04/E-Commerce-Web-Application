@@ -21,6 +21,7 @@ const createNewSaleDocument = (req, res, next) => {
     saleDetails.paypalPaymentID = req.params.paymentID
     saleDetails.shoesID = JSON.parse(req.params.ids)
     saleDetails.amount = JSON.parse(req.params.amount)
+    saleDetails.size = JSON.parse(req.params.size)
     saleDetails.shoe_name = JSON.parse(req.params.shoeNames)
     // for(let i =0; i<JSON.parse(req.params.ids).length ;i++){
     //     saleDetails.shoesID[i].amount= JSON.parse(req.params.ids)[i]
@@ -136,7 +137,7 @@ router.put('/sales/:id', (req, res) => {
 
 // Save a record of each Paypal payment
 // router.post('/sales/:paymentID/:shoeID/:shoe_name/:price/:name/:email', createNewSaleDocument)
-router.post('/sales/:paymentID/:ids/:amount/:shoeNames/:name/:email/:totalPrice', createNewSaleDocument)
+router.post('/sales/:paymentID/:ids/:amount/:size/:shoeNames/:name/:email/:totalPrice', createNewSaleDocument)
 
 
 module.exports = router

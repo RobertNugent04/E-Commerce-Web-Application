@@ -10,6 +10,7 @@ let salesSchema = new mongoose.Schema(
         email: {type: String,required:false},
         shoesID: {type: Object, required: false},
         amount: {type: Object, required: false},
+        size: {type: Object, required: false},
         images: {type: Object, required: false}
    },
    {

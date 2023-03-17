@@ -18,7 +18,8 @@ export default class Cart extends Component {
             ids:[],
             quantity:[],
             names:[],
-            images:[]
+            images:[],
+            sizes:[]
         }
     }
 
@@ -37,8 +38,9 @@ export default class Cart extends Component {
                         let totalPrice=0;
                         let ids = [];
                         let quantity =[];
-                        let names =[]
-                        let images =[]
+                        let names =[];
+                        let images =[];
+                        let sizes = [];
 
                         // let names=[]
                         this.state.shoes.map((shoe) => totalPrice+= (shoe.amount * shoe.price))
@@ -46,12 +48,13 @@ export default class Cart extends Component {
                         this.state.shoes.map((shoe) => quantity.push(shoe.amount))
                         this.state.shoes.map((shoe) => names.push(shoe.name))
                         this.state.shoes.map((shoe) => images.push(shoe.imageURL))
+                        this.state.shoes.map((shoe) => sizes.push(shoe.size))
 
 
 
                         console.log(ids)
                         
-                        this.setState({price:totalPrice, ids:ids, quantity:quantity, names:names,images:images})
+                        this.setState({price:totalPrice, ids:ids, quantity:quantity, names:names,images:images, sizes:sizes})
                         console.log(totalPrice)
                         console.log(res.data)
                     }
@@ -76,7 +79,7 @@ export default class Cart extends Component {
 
 
 
-                soldOrForSale = <BuyShoe shoes={this.state.shoes}  price={this.state.price}  ids={this.state.ids} quantity={this.state.quantity} names={this.state.names} images={this.state.images}/>
+                soldOrForSale = <BuyShoe shoes={this.state.shoes}  price={this.state.price}  ids={this.state.ids} quantity={this.state.quantity} names={this.state.names} images={this.state.images} sizes={this.state.sizes}/>
             // }
             // else
             // {

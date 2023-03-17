@@ -9,6 +9,7 @@ export default class ShoeTableHistory extends Component {
     car.shoesID.splice(index, 1);
     car.shoe_name.splice(index, 1);
     car.amount.splice(index, 1);
+    car.size.splice(index, 1);
     this.updateSales(car); 
     this.forceUpdate();
 
@@ -31,6 +32,7 @@ export default class ShoeTableHistory extends Component {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Size</th>
               <th>Amount</th>
             </tr>
           </thead>
@@ -39,6 +41,7 @@ export default class ShoeTableHistory extends Component {
       car.shoe_name.map((name, index) => (
         <tr key={index}>
           <td>{name.trim()}</td>
+          <td>{car.size[index]}</td>
           <td>{car.amount[index]}</td>
           <td>
             <input
