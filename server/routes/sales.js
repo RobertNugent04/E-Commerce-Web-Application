@@ -8,7 +8,6 @@ const cartModel = require('../models/cart');
 
 
 const createNewSaleDocument = (req, res, next) => {
-    // cartModel.deleteMany( { email : req.params.email } );
     console.log( "BODY: "+ req.body)
     console.log("PARAMS: " + JSON.parse(req.params.ids)[1])
     console.log("PARAMS: " + req.params.ids)
@@ -36,13 +35,24 @@ const createNewSaleDocument = (req, res, next) => {
     // saleDetails.customerEmail = req.params.customerEmail
     // console.log()
     
+    
+    for(let i=0;i<saleDetails.shoesID.length;i++){
 
-    carsModel.findByIdAndUpdate({ _id: req.params.shoeID }, { sold: true }, (err, data) => {
-        if (err) {
-            return next(err)
-        }
-    })
+        carsModel.findByIdAndUpdate({ _id: saleDetails.shoesID[i]},  { $inc: { 'items_left': -  saleDetails.amount[i]} }, (err, data) => {
+            if (err) {
+                return next(err)
+            }else{
+                console.log("stockReduced")
+            }
+        })
+    }
+        
+    
+   
+    
+    cartModel.deleteMany( { email : req.params.email } );
 
+    
     salesModel.create(saleDetails, (err, data) => {
 
         if (err) {

@@ -7,6 +7,7 @@ export default class ShoeTable extends Component {
 
 
 render() {
+    let separatedname=[]
     let names = this.props.cars.map((car)=>car.shoe_name);
     let amount = this.props.cars.map((car)=>car.amount);
     let amountsep=[]
@@ -22,7 +23,7 @@ render() {
                 <th>name</th>
                 <th>amount</th>
                 <tr>
-                    {console.log(amountsep)}
+                    {console.log(separatedname)}
                    <td> {names.map((name) =>
                         <tr> {name}</tr>
                     )}</td>
