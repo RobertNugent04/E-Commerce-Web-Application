@@ -4,7 +4,7 @@ import axios from "axios";
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
 
 export default class ShoeTableHistory extends Component {
-    
+
   handleSelect = (car, index) => {
     car.shoesID.splice(index, 1);
     car.shoe_name.splice(index, 1);
@@ -25,7 +25,17 @@ export default class ShoeTableHistory extends Component {
   };
 
   render() {
-    const rows = this.props.cars.flatMap((car, index) =>
+    return (
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.props.cars.flatMap((car, index) =>
       car.shoe_name.map((name, index) => (
         <tr key={index}>
           <td>{name.trim()}</td>
@@ -41,18 +51,8 @@ export default class ShoeTableHistory extends Component {
           </td>
         </tr>
       ))
-    );
-
-    return (
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
+    )}
+    </tbody>
         </table>
       </div>
     );
