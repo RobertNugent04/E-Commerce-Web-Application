@@ -91,14 +91,15 @@ export default class Cart extends Component {
                     {/* {console.log(this.state.price)} */}
                     <div class="navbar-container">
                         <NavBar />
-                    </div><br/><br/><br/><br/>
+                    </div><br/><br/>
 
                     <div className="shoe-container">
-                    <CartTable cars={this.state.shoes} />
+                    <CartTable cars={this.state.shoes} /><br></br><br></br><br></br>
+                    <center>
                     {soldOrForSale}
-
+                    </center>
                 </div>
-                    <Footer />
+
                 </div>
                 )
     }

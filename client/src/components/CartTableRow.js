@@ -30,10 +30,13 @@ export default class CartTableRow extends Component
                     </tr>
                     <tr>
                         <td>
+                        <div className="shoeButtons">
                 
                             {localStorage.accessLevel >= ACCESS_LEVEL_NORMAL_USER ? <Link className="red-button" to={"/CartDelete/" + this.props.car._id + "/" +this.props.car.amount }>Delete</Link> : null}   
-                                                 
+                        </div>                    
                         </td>
+                    </tr>
+                    <tr>
                     </tr>
                 </table>
                 )
