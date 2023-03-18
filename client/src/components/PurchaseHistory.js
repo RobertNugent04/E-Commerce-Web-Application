@@ -104,7 +104,7 @@ export default class DisplayAllCars extends Component {
             <div className="form-container">
                 <div class="navbar-container">
                     <NavBar />
-                </div> <br /> <br /> <br />
+                </div> <br /> <br /> <br /><center>
 
                 {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
                       <div>
@@ -118,28 +118,12 @@ export default class DisplayAllCars extends Component {
                         null
                 }
 
-                {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                    <div className="add-new-car">
-                        <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
-                    </div>
-
-                    :
-                    null
-                }
-                {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                    <div className="stock">
-                        <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
-                    </div>
-
-                    :
-                    null
-                }
-
                 <div className="shoe-container">
                     <ShoeTableHistory cars={this.state.selectedShoes} />
 
 
                 </div>
+                </center>
                 <Footer />
             </div>
         )
