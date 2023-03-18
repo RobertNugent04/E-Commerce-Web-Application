@@ -167,8 +167,40 @@ export default class Product extends Component {
       <div>
         <div class="navbar-container">
           <NavBar />
-        </div><br /><br /><br /><br /><br /><br /><br /><br />
-        <h1>{shoe.name}</h1>
+        </div><br /><br /><br /><br /><br />
+        <center><h1 id = "title2">{shoe.name}</h1></center>
+
+        <div className = "superContainer">
+
+
+        <div className="productControls">
+        <p className="filter-heading">Brand: {shoe.brand}</p>
+        <div>
+          <p className="filter-heading">Size:</p>
+          {sizes.map(size => (
+            <label class="radio-label">
+            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+            <span class="radio-button"></span>
+            {size}
+          </label>
+          ))}
+        </div>
+        <p className="filter-heading">Gender: {shoe.gender}</p>
+        <p className="filter-heading">Color: {shoe.color}</p>
+        <p className="filter-heading">Price: €{shoe.price}</p><br></br>
+        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+        {this.state.showComments ?
+          <table>
+            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
+          </table>
+          :
+          null
+        }
+        <br></br><br></br>
+            {console.log(localStorage.cart_item)}
+
+        <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
+        </div>
 
 
         <div className="slideshow-container">
@@ -181,8 +213,7 @@ export default class Product extends Component {
           })}
           <a className="prev" onClick={() => this.plusSlides(-1)}>&#10094;</a>
           <a className="next" onClick={() => this.plusSlides(1)}>&#10095;</a>
-        </div>
-        <div className="dots-container">
+          <div className="dots-container"><center>
           {shoe.photos && shoe.photos.map((photo, index) => {
             return (
               <span
@@ -192,23 +223,22 @@ export default class Product extends Component {
               ></span>
             );
           })}
+        </center></div>
         </div>
 
-        <p>Brand: {shoe.brand}</p>
+        <div className="productControlsMobile"><center>
         <div>
-          <p>Size:</p>
+          <p className="filter-heading">Size:</p>
           {sizes.map(size => (
-            <label key={size}>
-              <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
-              {size}
-            </label>
+            <label class="radio-label">
+            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+            <span class="radio-button"></span>
+            {size}
+          </label>
           ))}
         </div>
-        <p>Gender: {shoe.gender}</p>
-        <p>Color: {shoe.color}</p>
-        <p>Price: €{shoe.price}</p>
-        <p>Description: {shoe.description}</p>
-        <button id="btn" onClick={this.commentToggle}>Comments</button>
+        <p className="filter-heading">Price: €{shoe.price}</p><br></br>
+        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           <table>
             {this.state.comments.map((comment)=><tr>{comment}</tr>)}
@@ -219,6 +249,13 @@ export default class Product extends Component {
             {console.log(localStorage.cart_item)}
 
         <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
+        </center></div>
+
+        
+
+          
+        </div><br></br><br></br>
+        <Footer />
       </div>
     );
   }
