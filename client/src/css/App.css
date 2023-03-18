@@ -707,6 +707,10 @@ button {
     background: none;
 }
 
+.controlsMobile {
+    display: none;
+}
+
   @media (max-width: 768px) {
     /* Responsive styles */
     #menu-controls {
@@ -732,7 +736,11 @@ button {
       }
 
       .controls {
-        text-align: center;
+        display: none;
+      }
+
+      .controlsMobile {
+        display: inherit;
       }
 
       .productControls {

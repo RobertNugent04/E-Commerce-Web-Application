@@ -29,7 +29,7 @@ export default class DisplayAllCars extends Component {
             saved: false,
             filters: [],
             selectedBrands: [],
-            selectedColors:[],
+            selectedColors: [],
             selectedGenders: []
         }
     }
@@ -76,24 +76,24 @@ export default class DisplayAllCars extends Component {
 
         let x = this.state.searchBy
 
-        if(this.state.saved === false){
+        if (this.state.saved === false) {
 
-            this.setState({backup: this.state.selectedShoes})
-            this.setState({saved: true})
-
-        }
-        else{
-
-        if (e.target.value === "") {
-
-            this.setState({selectedShoes: this.state.backup})
-            this.setState({saved: false})
+            this.setState({ backup: this.state.selectedShoes })
+            this.setState({ saved: true })
 
         }
-        else{
-            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
+        else {
+
+            if (e.target.value === "") {
+
+                this.setState({ selectedShoes: this.state.backup })
+                this.setState({ saved: false })
+
+            }
+            else {
+                this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
+            }
         }
-    }
 
     }
 
@@ -121,53 +121,53 @@ export default class DisplayAllCars extends Component {
         const selectedValue = e.target.value;
         const isChecked = e.target.checked;
         const { selectedBrands, selectedColors, selectedGenders } = this.state;
-    
+
         if (e.target.name === "brands") {
-          if (isChecked) {
-            const updatedBrands = [...selectedBrands, selectedValue];
-            this.setState({ selectedBrands: updatedBrands }, this.applyFilters);
-          } else {
-            const unfilteredBrands = selectedBrands.filter((brand) => brand !== selectedValue);
-            this.setState({ selectedBrands: unfilteredBrands }, this.applyFilters);
-          }
+            if (isChecked) {
+                const updatedBrands = [...selectedBrands, selectedValue];
+                this.setState({ selectedBrands: updatedBrands }, this.applyFilters);
+            } else {
+                const unfilteredBrands = selectedBrands.filter((brand) => brand !== selectedValue);
+                this.setState({ selectedBrands: unfilteredBrands }, this.applyFilters);
+            }
         } else if (e.target.name === "colors") {
-          if (isChecked) {
-            const updatedColors = [...selectedColors, selectedValue];
-            this.setState({ selectedColors: updatedColors }, this.applyFilters);
-          } else {
-            const unfilteredColors = selectedColors.filter((color) => color !== selectedValue);
-            this.setState({ selectedColors: unfilteredColors }, this.applyFilters);
-          }
+            if (isChecked) {
+                const updatedColors = [...selectedColors, selectedValue];
+                this.setState({ selectedColors: updatedColors }, this.applyFilters);
+            } else {
+                const unfilteredColors = selectedColors.filter((color) => color !== selectedValue);
+                this.setState({ selectedColors: unfilteredColors }, this.applyFilters);
+            }
         } else if (e.target.name === "genders") {
             if (isChecked) {
-              const updatedGenders = [...selectedGenders, selectedValue];
-              this.setState({ selectedGenders: updatedGenders }, this.applyFilters);
+                const updatedGenders = [...selectedGenders, selectedValue];
+                this.setState({ selectedGenders: updatedGenders }, this.applyFilters);
             } else {
-              const unfilteredGenders = selectedGenders.filter((gender) => gender !== selectedValue);
-              this.setState({ selectedGenders: unfilteredGenders }, this.applyFilters);
+                const unfilteredGenders = selectedGenders.filter((gender) => gender !== selectedValue);
+                this.setState({ selectedGenders: unfilteredGenders }, this.applyFilters);
             }
-          }
-      }
-    
-      applyFilters = () => {
+        }
+    }
+
+    applyFilters = () => {
         const { selectedBrands, selectedColors, selectedGenders } = this.state;
         let filteredShoes = [...this.state.shoes];
-    
+
         if (selectedBrands.length > 0) {
-          filteredShoes = filteredShoes.filter(shoe => selectedBrands.includes(shoe.brand));
+            filteredShoes = filteredShoes.filter(shoe => selectedBrands.includes(shoe.brand));
         }
-    
+
         if (selectedColors.length > 0) {
-          filteredShoes = filteredShoes.filter(shoe => selectedColors.includes(shoe.color));
+            filteredShoes = filteredShoes.filter(shoe => selectedColors.includes(shoe.color));
         }
 
         if (selectedGenders.length > 0) {
             filteredShoes = filteredShoes.filter(shoe => selectedGenders.includes(shoe.gender));
-          }
-    
+        }
+
         this.setState({ selectedShoes: filteredShoes });
-      }
-      
+    }
+
     render() {
         return (
             <div className="form-container">
@@ -176,38 +176,63 @@ export default class DisplayAllCars extends Component {
                 </div> <br /> <br /> <br />
                 <div className="superContainer">
                     <div className="controls">
-                {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
-                    <div>
-                        <br /> <br />
-                    <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
-                    <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
-                    <br></br>
-                    <div>
-                    <Filter shoes ={this.state.shoes} handleFilterChange={this.handleFilterChange}/>
+                        {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                            <div>
+                                <br /> <br />
+                                <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
+                                <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
+                                <br></br>
+                                <div>
+                                    <Filter shoes={this.state.shoes} handleFilterChange={this.handleFilterChange} />
+                                </div>
+                                <br /></div>
+                            :
+                            null
+                        }
+
+                        {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
+                            <div className="stock">
+                                <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link><br /><br /><br />
+                                <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
+                            </div>
+
+                            :
+                            null
+                        }
+                        <br></br>
                     </div>
-                    <br /></div>
-                    :
-                    null
-                }
 
-                {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                    <div className="stock">
-                        <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link><br/><br/><br/>
-                        <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
+
+                    <div className="controlsMobile"><center>
+                        {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                            <div>
+                                <div className="search-sort">
+                                    <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
+                                    <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
+                                </div><br></br>
+                                <br /></div>
+                            :
+                            null
+                        }
+
+                        {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
+                            <div className="stock">
+                                <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
+                                <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
+                            </div>
+
+                            :
+                            null
+                        }
+                        <br></br>
+                        </center></div>
+
+
+                    <div className="shoe-container">
+                        <ShoeTable cars={this.state.selectedShoes} />
+
+
                     </div>
-
-                    :
-                        null
-                    }
-                    <br></br>
-                    </div>
-
-
-                <div className="shoe-container">
-                    <ShoeTable cars={this.state.selectedShoes} />
-
-
-                </div>
                 </div>
                 <Footer />
             </div>
