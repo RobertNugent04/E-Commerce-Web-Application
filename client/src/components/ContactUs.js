@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom"
 import axios from "axios";
+import LinkInClass from "../components/LinkInClass";
 
 import NavBar from "./NavBar"
 import Footer from "./Footer"
@@ -50,7 +51,7 @@ class ContactUs extends Component {
     const { name, email, subject, message, successMessage, errorMessage } = this.state;
 
     return (
-      <div>
+      <div className="form-container">
 
 <div class="navbar-container">
 <NavBar/> 
@@ -95,8 +96,8 @@ class ContactUs extends Component {
               value={message}
               onChange={this.handleInputChange}
             />
-          <br />
-          <button type="submit" className = "green-button">Send</button>
+          <br /><br/>
+          <LinkInClass value="Send" className="green-button" onClick={this.handleSubmit}/>
           <Link className="red-button" to={"/Home"}>Cancel</Link>
         </form>
         </center>

@@ -174,33 +174,40 @@ export default class DisplayAllCars extends Component {
                 <div class="navbar-container">
                     <NavBar />
                 </div> <br /> <br /> <br />
-
+                <div className="superContainer">
+                    <div className="controls">
                 {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
                     <div>
+                        <br /> <br />
                     <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
                     <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
-                    <Filter shoes ={this.state.shoes} handleFilterChange={this.handleFilterChange}/><br></br>
-                    <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
-                    <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link> 
-                    <br /><br /><br /></div>
+                    <br></br>
+                    <div>
+                    <Filter shoes ={this.state.shoes} handleFilterChange={this.handleFilterChange}/>
+                    </div>
+                    <br /></div>
                     :
                     null
                 }
 
                 {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
                     <div className="stock">
-                        <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
+                        <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link><br/><br/><br/>
                         <Link className="blue-button" to={"/Stock"}>View Stock Table</Link>
                     </div>
 
                     :
                         null
                     }
-                
+                    <br></br>
+                    </div>
+
+
                 <div className="shoe-container">
                     <ShoeTable cars={this.state.selectedShoes} />
 
 
+                </div>
                 </div>
                 <Footer />
             </div>

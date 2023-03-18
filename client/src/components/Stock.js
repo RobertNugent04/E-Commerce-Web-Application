@@ -114,13 +114,15 @@ export default class Stock extends Component
                     }
                 
                     {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                                    <div className="admin-controls">
+                                    <div className="admin-controls"><center>
+                                        <div className="search-sort">
                                     <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange}/>
                                         <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
+                                        </div><br></br>
                                         <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
                                         <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
                                         <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link>
-                                    </div>
+                                        </center></div>
 
                             :
                             null

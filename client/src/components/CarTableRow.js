@@ -11,10 +11,10 @@ export default class CarTableRow extends Component
         return (
             <tr>
                 <td>{this.props.car.name}</td>
-                <td>{this.props.car.brand}</td>
-                <td>{this.props.car.gender}</td>
-                <td>{this.props.car.category}</td>
-                <td>{this.props.car.price}</td>
+                <td className = "hide">{this.props.car.brand}</td>
+                <td className = "hide">{this.props.car.gender}</td>
+                <td className = "hide">{this.props.car.category}</td>
+                <td className = "hide">{this.props.car.price}</td>
                 <td>{this.props.car.items_left}</td>
                 <td>
                     {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/EditCar/" + this.props.car._id}>Edit</Link> : null}

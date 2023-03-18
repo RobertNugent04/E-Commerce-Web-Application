@@ -12,24 +12,13 @@ export default class NavBar extends Component
     {   
         return(
         <div class="navbar">
-            <p id="title">Rob's Shoe Exchange</p>
+            <p id="title" className = "hide">Rob's Shoe Exchange</p>
             <div id="menu-controls">
             <Link className="menu-item" class="navButton" to={"/Home"}>Home</Link>
             <Link className="menu-item" class="navButton" to={"/DisplayAllCars"}>Store</Link>
-            <Link className="menu-item" class="navButton" to={"/ContactUs"}>Contact Us</Link>
+            <Link id = "contactUsButton" className="menu-item" class="navButton" to={"/ContactUs"}>Contact Us</Link>
             <Link className="menu-item" class="navButton" to={"/Cart"}>Cart({localStorage.cart_item})</Link>
             </div>
-            
-            
-            
-            {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                    <div className="stock">
-                        <Link className="menu-item" class="navButton" to={"/Stock"}>View Stock Table</Link>
-                    </div>
-
-                    :
-                        null
-                    }
             
             <div id="account-controls">
             {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?

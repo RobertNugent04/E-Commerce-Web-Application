@@ -8,6 +8,9 @@ import LinkInClass from "../components/LinkInClass"
 
 import {ACCESS_LEVEL_ADMIN, SERVER_HOST} from "../config/global_constants"
 
+import NavBar from "./NavBar"
+import Footer from "./Footer"
+
 
 export default class AddCar extends Component
 {
@@ -195,59 +198,60 @@ export default class AddCar extends Component
     }
 
         return (
-            <div className="form-container"> 
+            <div className="form-container">
+
+<div class="navbar-container">
+<NavBar/> 
+                        </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
+                    
+                <h2 id="title2">Add Shoe</h2> 
                 {this.state.redirectToDisplayAllCars ? <Redirect to="/DisplayAllCars"/> : null}                                            
                     
                 <div>
                     <div controlId="model">
-                        <label>Name</label>
-                        <input ref = {(input) => { this.inputToFocus = input }} type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+                        <input ref = {(input) => { this.inputToFocus = input }} type="text" name="name" placeholder = "Name" value={this.state.name} onChange={this.handleChange} />
                         {" "}
                         {nameError}
                     </div>
 
                     <div controlId="brand">
-                        <label>Brand</label>
-                        <input type="text" name="brand" value={this.state.brand} onChange={this.handleChange} />
+                        <input type="text" name="brand" placeholder = "Brand" value={this.state.brand} onChange={this.handleChange} />
                         {" "}
                         {brandError}
                     </div>
 
                     <div controlId="gender">
-                        <label>Gender</label>
-                        <input type="text" name="gender" value={this.state.gender} onChange={this.handleChange} />
+                        <input type="text" name="gender" placeholder = "Gender" value={this.state.gender} onChange={this.handleChange} />
                     </div>
                     
                     <div controlId="category">
-                        <label>Category</label>
-                        <input type="text" name="category" value={this.state.category} onChange={this.handleChange} />
+                        <input type="text" name="category" placeholder = "Category" value={this.state.category} onChange={this.handleChange} />
                     </div>
         
                     <div controlId="price">
-                        <label>Price</label>
-                        <input type="text" name="price" value={this.state.price} onChange={this.handleChange} />
+                        <input type="text" name="price" placeholder = "Price" value={this.state.price} onChange={this.handleChange} />
                         {" "}
                         {priceError}
                     </div>
                     
                     <div controlId="stock">
-                        <label>Stock</label>
-                        <input type="text" name="stock" value={this.state.stock} onChange={this.handleChange} />
+                        <input type="text" name="stock" placeholder = "Number in Stock" value={this.state.stock} onChange={this.handleChange} />
                         {" "}
                         {stockError}
                     </div>
 
                     <div controlId="photos">
-                    <label>Photos</label>
                     <input          
-                        type = "file" multiple onChange = {this.handleFileChange}
-                    /></div> 
+                        type = "file" placeholder = "Photo" multiple onChange = {this.handleFileChange}
+                    /></div><br></br> 
   
                     <LinkInClass value="Update" className="green-button" onClick={this.handleSubmit}/>  
     
                     <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
-                </div>
-            </div>
+                    </div>
+        </center>
+                <Footer/>
+      </div>
         )
     }
 }

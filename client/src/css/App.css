@@ -482,7 +482,7 @@ color:pink;
 }
 /*end of container of Shoes */
 
-/* CSS for slideshow from  */
+/* CSS for slideshow */
 
 * {box-sizing: border-box}
 body {font-family: Verdana, sans-serif; margin:0}
@@ -585,10 +585,11 @@ height: 500px;
 /* For various screen sizes */
  @media screen and (max-width: 900px) 
 {
-    #title
-    {
+    /*hide items on mobiel view*/
+    .hide {
         display: none;
     }
+    
 }
 
 
@@ -611,9 +612,7 @@ height: 500px;
   
   #menu-controls {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
     margin-right: 20px;
   }
   
@@ -630,7 +629,6 @@ height: 500px;
   #account-controls {
     display: flex;
     justify-content: space-between;
-    align-items: center;
   }
   
   .green-button {
@@ -660,22 +658,95 @@ height: 500px;
   .stock {
     margin-right: 10px;
   }
+
+  .superContainer {
+    display: flex;
+  }
+
   
   @media (max-width: 768px) {
     /* Responsive styles */
     #menu-controls {
-      flex-direction: column;
-      align-items: flex-start;
+        margin-right: 0px;
     }
+
+    #menu-controls > a, #menu-controls > div {
+        margin-right: 15px;
+    }
+
+    #contactUsButton {
+        display: none;
+    }
+
+    .shoe {
+        margin-left: 0px;
+        padding-bottom: 5px;
+        padding-top: 10px;
+    }
+
+    .superContainer {
+        display: inherit;
+      }
+
+      .controls {
+        text-align: center;
+      }
+
+      .filter-container {
+        display: none;
+      }
+
   
     .menu-item {
       margin: 5px 0;
     }
-  
-    #account-controls {
-      margin-top: 10px;
-    }
   }
+
+  .search-sort {
+    display: inline-flex;
+    padding-bottom: 1%;
+  }
+
+  .shoeButtons {
+    padding-top: 3%;
+  }
+
+  .shoeImage {
+    max-height: 340px;
+  }
+
+  .shoe {
+    text-align: center;
+  }
+
+  .filter-container {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .filter-heading {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  
+  label {
+    color: #666;
+  }
+  
+  input[type="checkbox"] {
+    background-color: #f8f8f8;
+    border-color: #ccc;
+  }
+  
+  input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+  }
+
+  
 
 
 
