@@ -245,7 +245,7 @@ export default class AddCar extends Component
                         type = "file" placeholder = "Photo" multiple onChange = {this.handleFileChange}
                     /></div><br></br> 
   
-                    <LinkInClass value="Update" className="green-button" onClick={this.handleSubmit}/>  
+                    <LinkInClass value="Add" className="green-button" onClick={this.handleSubmit}/>  
     
                     <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
                     </div>
