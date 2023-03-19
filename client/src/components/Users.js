@@ -64,12 +64,10 @@ export default class User extends Component
     
         handleSearchChange = e => {
 
-        let x = this.state.searchBy
-
-        if (!(e.target.value === "")) {
+        if (!(e === "")) {
 
 
-            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase())|| finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
+            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.email.toUpperCase().includes(e.toUpperCase())) });
         }
         else
             this.setState({ selectedShoes: this.state.shoes })
@@ -98,6 +96,7 @@ export default class User extends Component
     
     render()
     {
+        console.log(this.state.shoes)
         return (
                 <div className="form-container">
                     <div class="navbar-container">
