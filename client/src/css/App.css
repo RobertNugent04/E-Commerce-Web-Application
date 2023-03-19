@@ -720,6 +720,27 @@ button {
     display: none;
 }
 
+.error{
+  color:red;
+  margin-left: 43%;
+}
+
+.error ul {
+  list-style: disc;
+  margin: 0;
+  padding: 0;
+}
+
+.error li {
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.error .bullet {
+  float: left;
+  margin-right: 10px;
+}
+
   @media (max-width: 768px) {
     /* Responsive styles */
     #menu-controls {
@@ -733,6 +754,10 @@ button {
     .checkout {
       margin-right: 0%;
       margin-top: 5%;
+    }
+
+    .error{
+      margin-left: 28%;
     }
 
     #menu-controls > a, #menu-controls > div {
@@ -833,9 +858,7 @@ button {
     float: inline-end;
   }
 
-  .error{
-    color:red;
-  }
+  
   
 
 

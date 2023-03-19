@@ -18,7 +18,7 @@ export default class Register extends Component {
             email: "",
             password: "",
             confirmPassword: "",
-            selectedFile:null, 
+            selectedFile: null,
             isRegistered: false
         }
     }
@@ -26,7 +26,7 @@ export default class Register extends Component {
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
-       
+
     }
 
     handleFileChange = (e) => {
@@ -42,10 +42,10 @@ export default class Register extends Component {
 
         const formInputsState = this.validate();
 
-        let formData = new FormData()  
+        let formData = new FormData()
         formData.append("profilePhoto", this.state.selectedFile)
 
-        axios.post(`${SERVER_HOST}/users/register/${this.state.name}/${this.state.email}/${this.state.password}`, formData, {headers: {"Content-type": "multipart/form-data"}})
+        axios.post(`${SERVER_HOST}/users/register/${this.state.name}/${this.state.email}/${this.state.password}`, formData, { headers: { "Content-type": "multipart/form-data" } })
             .then(res => {
                 if (res.data) {
                     if (res.data.errorMessage) {
@@ -63,7 +63,7 @@ export default class Register extends Component {
                         localStorage.cart_item = res.data.cart_item
 
 
-                        this.setState({ isRegistered: true , wasSubmittedAtLeastOnce: false})
+                        this.setState({ isRegistered: true, wasSubmittedAtLeastOnce: false })
                     }
                 }
                 else {
@@ -98,8 +98,7 @@ export default class Register extends Component {
 
     }
 
-    validate() 
-    {
+    validate() {
         return {
             name: this.validateName(),
             email: this.validateEmail(),
@@ -115,8 +114,7 @@ export default class Register extends Component {
         let passwordError = ""
         let confirmPasswordError = ""
 
-        if(this.state.wasSubmittedAtLeastOnce)
-        {
+        if (this.state.wasSubmittedAtLeastOnce) {
 
             if (!this.validateName()) {
                 nameError = <p class="error">Name can't be empty</p>;
@@ -140,13 +138,13 @@ export default class Register extends Component {
 
         return (
             <div className="form-container">
-            <div class="navbar-container">
-                        <NavBar/>
-                    </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
+                <div class="navbar-container">
+                    <NavBar />
+                </div> <br /> <br /> <br /> <br /> <br /> <br /> <center>
 
-                {this.state.isRegistered ? <Redirect to="/DisplayAllCars" /> : null}
+                    {this.state.isRegistered ? <Redirect to="/DisplayAllCars" /> : null}
 
-                <h2 id="title2">User Registration</h2>
+                    <h2 id="title2">User Registration</h2>
 
                 <input
                     name="name"
@@ -200,13 +198,13 @@ export default class Register extends Component {
                     onChange={this.handleFileChange}
                 /><br/><br/>
 
-                <LinkInClass value="Register" className="green-button" onClick={this.handleSubmit} />
-                <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
+                    <LinkInClass value="Register" className="green-button" onClick={this.handleSubmit} />
+                    <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
                 </center>
-               
-                <Footer/>
-                </div>
-            
+
+                <Footer />
+            </div>
+
         )
     }
 }
