@@ -58,17 +58,13 @@ router.get(`/cars`, (req, res) => {
 
 // Read one record
 router.get(`/cars/:id`, (req, res) => {
-    jwt.verify(req.headers.authorization, JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
-        if (err) {
-            res.json({ errorMessage: `User is not logged in` })
-        }
-        else {
+       
             carsModel.findById(req.params.id, (error, data) => {
                 res.json(data)
             })
-        }
+        
     })
-})
+
 
 
 // router.post(`/cars`, (req, res) =>
@@ -182,7 +178,7 @@ router.post(`/cars`, upload.array("shoePhotos", parseInt(process.env.MAX_NUMBER_
                     carDetails.color = req.body.color
                     carDetails.price = req.body.price
                     carDetails.category = req.body.category
-                    carDetails.sizes = [req.body.sizes]
+                    carDetails.sizes = Array.isArray(req.body.sizes) ? req.body.sizes : [req.body.sizes]
                     carDetails.items_left = req.body.items_left
 
                     // add the car's photos to the carDetails JSON object
