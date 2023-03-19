@@ -46,6 +46,8 @@ export default class BuyShoe extends Component {
 
     onApprove = paymentData => {
 
+        localStorage.cart_item = 0;
+
         // let formData = new FormData();
 
         // this.props.ids.forEach((item) => {
@@ -65,12 +67,14 @@ export default class BuyShoe extends Component {
 
         axios.post(`${SERVER_HOST}/sales/${paymentData.orderID}/${data}/${amount}/${sizes}/${names}/${this.state.name}/${this.state.email}/${this.props.price}`,{ headers: { "authorization": localStorage.token, "Content-type": "multipart/form-data" } })
             .then(res => {
-                console.log("good")
                 this.setState({
                     payPalMessageType: PayPalMessage.messageType.SUCCESS,
                     payPalOrderID: paymentData.orderID,
                     redirectToPayPalMessage: true
                 })
+                console.log("good")
+                localStorage.cart_item = 0;
+               
             })
             .catch(errorData => {
                 console.log("fail")
