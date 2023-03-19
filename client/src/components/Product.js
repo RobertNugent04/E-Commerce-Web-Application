@@ -9,7 +9,7 @@ import Search from "./Search"
 import Sort from "./Sort"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
-import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST,cart_item } from "../config/global_constants"
+import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item } from "../config/global_constants"
 
 export default class Product extends Component {
   constructor(props) {
@@ -19,13 +19,17 @@ export default class Product extends Component {
       size: null,
       slideIndex: 1,
       showComments: false,
-      comments: []
+      comments: [],
+      embeddedImage: false,
+      imageFiles: []
     };
     this.showSlides = this.showSlides.bind(this);
   }
 
   componentDidMount() {
+    // const el = document.getElementById(photo._id)
     const shoeID = this.props.location.search.slice(8);
+    
     axios.get(`${SERVER_HOST}/cars/${shoeID}`, { headers: { "authorization": localStorage.token } })
       .then(res => {
         if (res.data) {
@@ -36,18 +40,58 @@ export default class Product extends Component {
             this.setState({
               shoe: res.data,
             }, () => {
+              this.getFromFile();
+
               this.showSlides(this.state.slideIndex);
+
+              
             });
           }
         } else {
           console.log("Record not found")
         }
       })
+
+
+  }
+
+  getFromFile() {
+    console.log("get from file")
+    let imageFiles = []
+    this.state.shoe.photos.map(photo => {
+      return axios.get(`${SERVER_HOST}/cars/photo/${photo.filename}`)
+        .then(res => {
+          if (res.data) {
+            console.log(res.data)
+            if (res.data.errorMessage) {
+              console.log(res.data.errorMessage)
+            }
+            else {
+              if (res.data.image != null) {
+                
+                // console.log( document.getElementById(photo._id) )
+                imageFiles.push(`data:;base64,${res.data.image}`)
+                this.setState({embeddedImage:true, imageFiles: imageFiles })
+              }
+              else {
+                console.log("no embedded image")
+              }
+              // console.log(`data:;base64,${res.data.image}` )                                                     
+            }
+          }
+          else {
+            console.log("Record not found")
+          }
+        })
+    })
+    // window.location.reload(false);
+
   }
 
 
   handleSubmit = (e) => {
     e.preventDefault()
+
     localStorage.cart_item++;
     const shoeID = this.props.location.search.slice(8)
     const name = this.state.shoe.name;
@@ -79,7 +123,7 @@ export default class Product extends Component {
           console.log("Add to cart failed")
         }
       })
-      window.location.reload(false);
+    window.location.reload(false);
   }
 
   handleSizeChange = (e) => {
@@ -153,6 +197,7 @@ export default class Product extends Component {
     }
   }
 
+
   render() {
     const shoe = this.state.shoe
     const sizes = shoe.sizes ? shoe.sizes.map(size => {
@@ -160,100 +205,119 @@ export default class Product extends Component {
     }) : [];
 
     console.log(this.state.shoe)
-    console.log(this.state.comments)
+    // console.log(this.state.comments)
+    console.log(this.state.embeddedImage)
+    console.log(this.state.imageFiles)
 
     return (
 
       <div>
+
         <div class="navbar-container">
           <NavBar />
         </div><br /><br /><br /><br /><br />
-        <center><h1 id = "title2">{shoe.name}</h1></center>
+        <center><h1 id="title2">{shoe.name}</h1></center>
 
-        <div className = "superContainer">
+        <div className="superContainer">
 
 
-        <div className="productControls">
-        <p className="filter-heading">Brand: {shoe.brand}</p>
-        <div>
-          <p className="filter-heading">Size:</p>
-          {sizes.map(size => (
-            <label class="radio-label">
-            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
-            <span class="radio-button"></span>
-            {size}
-          </label>
-          ))}
-        </div>
-        <p className="filter-heading">Gender: {shoe.gender}</p>
-        <p className="filter-heading">Color: {shoe.color}</p>
-        <p className="filter-heading">Price: €{shoe.price}</p><br></br>
-        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
-        {this.state.showComments ?
-          <table>
-            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
-          </table>
-          :
-          null
-        }
-        <br></br><br></br>
+          <div className="productControls">
+            <p className="filter-heading">Brand: {shoe.brand}</p>
+            <div>
+              <p className="filter-heading">Size:</p>
+              {sizes.map(size => (
+                <label class="radio-label">
+                  <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+                  <span class="radio-button"></span>
+                  {size}
+                </label>
+              ))}
+            </div>
+            <p className="filter-heading">Gender: {shoe.gender}</p>
+            <p className="filter-heading">Color: {shoe.color}</p>
+            <p className="filter-heading">Price: €{shoe.price}</p><br></br>
+            <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+            {this.state.showComments ?
+              <table>
+                {this.state.comments.map((comment) => <tr>{comment}</tr>)}
+              </table>
+              :
+              null
+            }
+            <br></br><br></br>
             {console.log(localStorage.cart_item)}
 
-        <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
-        </div>
+            <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
+          </div>
 
 
-        <div className="slideshow-container">
-          {shoe.photos && shoe.photos.map((photo, index) => {
-            return (
-              <div className="mySlides fade" key={index}>
-                <img src={photo} />
-              </div>
-            );
-          })}
-          <a className="prev" onClick={() => this.plusSlides(-1)}>&#10094;</a>
-          <a className="next" onClick={() => this.plusSlides(1)}>&#10095;</a>
-          <div className="dots-container"><center>
-          {shoe.photos && shoe.photos.map((photo, index) => {
-            return (
-              <span
-                className="dot"
-                key={index}
-                onClick={() => this.currentSlide(index + 1)}
-              ></span>
-            );
-          })}
-        </center></div>
-        </div>
+          <div className="slideshow-container">
+            {!this.state.embeddedImage ?
+              shoe.photos && shoe.photos.map((photo, index) => {
+                {
+                  return(
+                <div className="mySlides fade" key={index}>
+                  <img src={photo}/>
+                  {/* {this.state.embeddedImage ?  this.getFromFile() : null} */}
+                  {/* {this.state.embeddedImage ?  <img src={photo} key={photo._id} id={photo._id}/> : <img src={photo}/>} */}
+                </div>)
+                }
+              })
+              :
+              (
+              this.state.imageFiles.map((file,index) => {
+                {
+                  return(
+                <div className="mySlides fade" key={index}>
+                  <img src={file}/>
+                </div>)
+                }
+              }))}
 
-        <div className="productControlsMobile"><center>
-        <div>
-          <p className="filter-heading">Size:</p>
-          {sizes.map(size => (
-            <label class="radio-label">
-            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
-            <span class="radio-button"></span>
-            {size}
-          </label>
-          ))}
-        </div>
-        <p className="filter-heading">Price: €{shoe.price}</p><br></br>
-        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
-        {this.state.showComments ?
-          <table>
-            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
-          </table>
-          :
-          null
-        }
+
+            <a className="prev" onClick={() => this.plusSlides(-1)}>&#10094;</a>
+            <a className="next" onClick={() => this.plusSlides(1)}>&#10095;</a>
+            <div className="dots-container"><center>
+              {shoe.photos && shoe.photos.map((photo, index) => {
+                return (
+                  <span
+                    className="dot"
+                    key={index}
+                    onClick={() => this.currentSlide(index + 1)}
+                  ></span>
+                );
+              })}
+            </center></div>
+          </div>
+
+          <div className="productControlsMobile"><center>
+            <div>
+              <p className="filter-heading">Size:</p>
+              {sizes.map(size => (
+                <label class="radio-label">
+                  <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+                  <span class="radio-button"></span>
+                  {size}
+                </label>
+              ))}
+            </div>
+            <p className="filter-heading">Price: €{shoe.price}</p><br></br>
+            <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+            {this.state.showComments ?
+              <table>
+                {this.state.comments.map((comment) => <tr>{comment}</tr>)}
+              </table>
+              :
+              null
+            }
             {console.log(localStorage.cart_item)}
 
-        <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
-        </center></div>
+            <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
+          </center></div>
 
-        
 
-          
+
+
         </div><br></br><br></br>
         <Footer />
       </div>

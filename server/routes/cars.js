@@ -185,7 +185,7 @@ router.post(`/cars`, upload.array("shoePhotos", parseInt(process.env.MAX_NUMBER_
                     carDetails.photos = []
 
                     req.files.map((file, index) => {
-                        carDetails.photos[index] = { filename: `${file.filename}` }
+                        carDetails.photos[index] = {filename: `${file.filename}` }
                     })
                     console.log(carDetails)
                     carsModel.create(carDetails, (error, data) => {
@@ -198,6 +198,21 @@ router.post(`/cars`, upload.array("shoePhotos", parseInt(process.env.MAX_NUMBER_
             }
         }
     })
+})
+
+router.get(`/cars/photo/:filename`, (req, res) => 
+{   
+    fs.readFile(`${process.env.UPLOADED_FILES_FOLDER}/${req.params.filename}`, 'base64', (err, fileData) => 
+        {        
+            if(fileData)
+            {  
+                res.json({image:fileData})                           
+            }   
+        else
+        {
+            res.json({image:null})
+        }
+    })             
 })
 
 
