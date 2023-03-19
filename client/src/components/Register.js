@@ -18,7 +18,7 @@ export default class Register extends Component {
             email: "",
             password: "",
             confirmPassword: "",
-            selectedFile:null, 
+            selectedFile: null,
             isRegistered: false
         }
     }
@@ -26,7 +26,7 @@ export default class Register extends Component {
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
-       
+
     }
 
     handleFileChange = (e) => {
@@ -42,10 +42,10 @@ export default class Register extends Component {
 
         const formInputsState = this.validate();
 
-        let formData = new FormData()  
+        let formData = new FormData()
         formData.append("profilePhoto", this.state.selectedFile)
 
-        axios.post(`${SERVER_HOST}/users/register/${this.state.name}/${this.state.email}/${this.state.password}`, formData, {headers: {"Content-type": "multipart/form-data"}})
+        axios.post(`${SERVER_HOST}/users/register/${this.state.name}/${this.state.email}/${this.state.password}`, formData, { headers: { "Content-type": "multipart/form-data" } })
             .then(res => {
                 if (res.data) {
                     if (res.data.errorMessage) {
@@ -63,7 +63,7 @@ export default class Register extends Component {
                         localStorage.cart_item = res.data.cart_item
 
 
-                        this.setState({ isRegistered: true , wasSubmittedAtLeastOnce: false})
+                        this.setState({ isRegistered: true, wasSubmittedAtLeastOnce: false })
                     }
                 }
                 else {
@@ -72,14 +72,12 @@ export default class Register extends Component {
             })
     }
 
-    validatePassword()
-    {    
+    validatePassword() {
         const pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/])[A-Za-z\d!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/]{8,}$/;
         return pattern.test(String(this.state.password))
     }
 
-    validate() 
-    {
+    validate() {
         return {
             password: this.validatePassword(),
         };
@@ -89,82 +87,82 @@ export default class Register extends Component {
 
         let passwordError = ""
 
-        if(this.state.wasSubmittedAtLeastOnce)
-        {
+        if (this.state.wasSubmittedAtLeastOnce) {
 
-        if (!this.validatePassword()) {
-            passwordError = <p class="error">Password must have at least: <ul>
-                                            <li>one letter</li>
-                                            <li>one number</li>
-                                            <li>one special character</li>
-                                            <li>8 characters</li></ul></p>;
-        }else {
-            passwordError = "";
+            if (!this.validatePassword()) {
+                passwordError = <p class="error">Password must have at least: <ul>
+                    <li>one letter</li>
+                    <li>one number</li>
+                    <li>one special character</li>
+                    <li>8 characters</li></ul></p>;
+            } else {
+                passwordError = "";
+            }
         }
-    }
 
         return (
             <div className="form-container">
-            <div class="navbar-container">
-                        <NavBar/>
-                    </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
+                <div class="navbar-container">
+                    <NavBar />
+                </div> <br /> <br /> <br /> <br /> <br /> <br /> <center>
 
-                {this.state.isRegistered ? <Redirect to="/DisplayAllCars" /> : null}
+                    {this.state.isRegistered ? <Redirect to="/DisplayAllCars" /> : null}
 
-                <h2 id="title2">User Registration</h2>
+                    <h2 id="title2">User Registration</h2>
 
-                <input
-                    name="name"
-                    type="text"
-                    placeholder="Name"
-                    autoComplete="name"
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                    ref={(input) => { this.inputToFocus = input }}
-                /><br />
+                    <input
+                        name="name"
+                        type="text"
+                        placeholder="Name"
+                        autoComplete="name"
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                        ref={(input) => { this.inputToFocus = input }}
+                    /><br />
 
-                <input
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    autoComplete="email"
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                /><br />
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        autoComplete="email"
+                        value={this.state.email}
+                        onChange={this.handleChange}
+                    /><br />
 
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    autoComplete="password"
-                    title="Password must be at least ten-digits long and contains at least one lowercase letter, one uppercase letter, one digit and one of the following characters (£!#€$%^&*)"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                /><br />
-                                        {" "}
-                        {passwordError}
-
-                <input
-                    name="confirmPassword"
-                    type="password"
-                    placeholder="Confirm password"
-                    autoComplete="confirmPassword"
-                    value={this.state.confirmPassword}
-                    onChange={this.handleChange}
-                /><br /><br />
-                
-                <input
-                    type="file"
-                    onChange={this.handleFileChange}
-                /><br/><br/>
-
-                <LinkInClass value="Register" className="green-button" onClick={this.handleSubmit} />
-                <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        autoComplete="password"
+                        title="Password must be at least ten-digits long and contains at least one lowercase letter, one uppercase letter, one digit and one of the following characters (£!#€$%^&*)"
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                    /><br />
                 </center>
-               
-                <Footer/>
-                </div>
-            
+                {" "}
+                {passwordError}
+                <center>
+                    <input
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Confirm password"
+                        autoComplete="confirmPassword"
+                        value={this.state.confirmPassword}
+                        onChange={this.handleChange}
+                    /><br /><br />
+
+                    <input
+                        type="file"
+                        onChange={this.handleFileChange}
+                    /><br /><br />
+
+                    <LinkInClass value="Register" className="green-button" onClick={this.handleSubmit} />
+                    <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
+                </center>
+
+                <Footer />
+            </div>
+
         )
     }
 }
