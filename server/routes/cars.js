@@ -180,6 +180,7 @@ router.post(`/cars`, upload.array("shoePhotos", parseInt(process.env.MAX_NUMBER_
                     carDetails.category = req.body.category
                     carDetails.sizes = Array.isArray(req.body.sizes) ? req.body.sizes : [req.body.sizes]
                     carDetails.items_left = req.body.items_left
+                    carDetails.imageURL = req.body.imageURL
 
                     // add the car's photos to the carDetails JSON object
                     carDetails.photos = []

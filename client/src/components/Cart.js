@@ -24,7 +24,9 @@ export default class Cart extends Component {
             quantity:[],
             names:[],
             images:[],
-            sizes:[]
+            sizes:[],
+            embeddedImage:false,
+            imageFiles:[]
         }
     }
 
@@ -56,7 +58,6 @@ export default class Cart extends Component {
                         this.state.shoes.map((shoe) => sizes.push(shoe.size))
 
 
-
                         console.log(ids)
                         
                         this.setState({price:totalPrice, ids:ids, quantity:quantity, names:names,images:images, sizes:sizes})
@@ -69,6 +70,8 @@ export default class Cart extends Component {
                 }
             })
     }
+
+
 
     render() {
         let soldOrForSale = null
@@ -96,6 +99,7 @@ export default class Cart extends Component {
             // }
 
         }
+        console.log(this.state.shoes)
         return (
                 <div className="form-container">
                     {/* {console.log(this.state.price)} */}

@@ -99,6 +99,7 @@ export default class AddCar extends Component
         formData.append("category", this.state.category) 
         formData.append("price", this.state.price) 
         formData.append("items_left", this.state.stock)
+        formData.append("imageURL", null)
         this.state.sizes.forEach(size => {
             formData.append("sizes", size)
         })
