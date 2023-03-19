@@ -18,7 +18,8 @@ export default class PayPalMessage extends Component
     
     componentDidMount() 
     {     
-        if(this.props.match.params.messageType === PayPalMessage.messageType.SUCCESS)
+        console.log(this.props.match.params)
+        if(this.props.match.params.msessageType === PayPalMessage.messageType.SUCCESS)
         {
             this.setState({heading:"PayPal Transaction Confirmation",
                            message:"Your PayPal transaction was successful.", 

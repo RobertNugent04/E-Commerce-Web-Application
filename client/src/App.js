@@ -31,6 +31,9 @@ import CartDelete from "./components/CartDelete"
 import Users from "./components/Users"
 import ThankYou from "./components/ThankYou"
 import AddedToCart from "./components/AddedToCart"
+import AddComment from "./components/AddComment"
+
+
 
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
 
@@ -76,6 +79,8 @@ export default class App extends Component
                     <LoggedInRoute exact path="/UserDelete/:id" component={UserDelete} />
                     <LoggedInRoute exact path="/PurchaseHistory/:email" component={PurchaseHistory} />
                     <LoggedInRoute exact path="/CartDelete/:id/:amount" component={CartDelete} />
+                    <LoggedInRoute exact path="/AddComment/:name" component={AddComment} />
+
 
                     <Route exact path="/DisplayAllCars" component={DisplayAllCars}/> 
                     <Route exact path="/Home" component={Home}/> 
