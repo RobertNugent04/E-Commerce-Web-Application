@@ -243,7 +243,7 @@ export default class Product extends Component {
 
   console.log("Items: " + this.state.shoe.items_left)
     if(this.state.shoe.items_left < 1){
-      stockError = <p class="error">This item is currently out of stock</p>;
+      stockError = <center><p class="error">This item is currently out of stock</p></center>;
     }
 
     return (
