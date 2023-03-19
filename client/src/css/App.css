@@ -668,6 +668,15 @@ height: 400px;
     margin-top: 5%;
   }
 
+  .checkout {
+    margin-right: 25%;
+    margin-top: 3%;
+  }
+
+  .checkoutPricing {
+    position: fixed;
+  }
+
   .productControlsMobile {
     display: none;
   }
@@ -715,6 +724,15 @@ button {
     /* Responsive styles */
     #menu-controls {
         margin-right: 0px;
+    }
+
+    .checkoutPricing {
+      position: inherit;
+    }
+
+    .checkout {
+      margin-right: 0%;
+      margin-top: 5%;
     }
 
     #menu-controls > a, #menu-controls > div {
