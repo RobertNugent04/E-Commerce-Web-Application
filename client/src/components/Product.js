@@ -154,12 +154,12 @@ export default class Product extends Component {
           }
           else {
             console.log("Records read")
-            console.log(res.data.comments)
+            console.log(res.data)
             // let comments =[]
             // res.data.map((data)=>comments.push(data.comments))
             // console.log(comments)
             this.setState({
-              comments: res.data.comments
+              comments: res.data
 
             })
             if (this.state.showComments) {
@@ -211,7 +211,7 @@ export default class Product extends Component {
     }) : [];
 
     console.log(this.state.shoe.photos)
-    // console.log(this.state.comments)
+    console.log("comments" + this.state.comments)
     console.log(this.state.embeddedImage)
     console.log(this.state.imageFiles)
 
@@ -242,14 +242,14 @@ export default class Product extends Component {
         <p><b>Gender: </b>{shoe.gender}</p>
         <p><b>Color: </b>{shoe.color}</p>
         <p><b>Price: </b>€{shoe.price}</p><br></br>
-        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+        {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           <table>
-            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
+            {this.state.comments.map((comment)=><tr><td>{comment.userName}</td> <td>{comment.comments}</td></tr> )}
           </table>
           :
           null
-        }
+        } */}
         <br></br><br></br>
             {console.log(localStorage.cart_item)}
 
@@ -310,9 +310,17 @@ export default class Product extends Component {
         <p><b>Price:</b> €{shoe.price}</p><br></br>
         <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
-          <table>
-            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
-          </table>
+          (<table>
+            <div style={{display:"inline-block"}}>
+            {this.state.comments.userName.map((comment)=><tr><td>{comment}:</td> </tr>)} 
+            </div>
+            <div style={{display:"inline-block"}}>
+            {this.state.comments.comments.map((comment)=><tr><td>{comment}</td> </tr>)} 
+            </div>
+            <tr>
+            <Link className="green-button" to={"/AddComment/" + shoe.name}>add comment</Link> 
+            </tr>
+          </table>)
           :
           null
         }

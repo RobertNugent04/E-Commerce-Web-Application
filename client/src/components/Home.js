@@ -42,13 +42,13 @@ export default class DisplayAllCars extends Component {
 
                     <h1 id="title2">Featured Items</h1>
                     <div className="slideshow-container">
-                        {shoe.photos && shoe.photos.map((photo, index) => {
+                        {/* {shoe.photos && shoe.photos.map((photo, index) => {
                             return (
                                 <div className="mySlides fade" key={index}>
                                     <img src={photo} />
                                 </div>
                             );
-                        })}
+                        })} */}
                         <a className="prev" onClick={() => this.plusSlides(-1)}>&#10094;</a>
                         <a className="next" onClick={() => this.plusSlides(1)}>&#10095;</a>
                     </div>

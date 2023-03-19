@@ -64,6 +64,7 @@ const createNewSaleDocument = (req, res, next) => {
         //         console.log("stockReduced")
         //     }
         // })
+        return res.json({success:true})
     }
 
 
