@@ -188,7 +188,7 @@ export default class DisplayAllCars extends Component {
                 </div> <br /> <br /> <br />
                 <div className="superContainer">
                     <div className="controls">
-                        {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+ 
                             <div>
                                 <br /> <br />
                                 <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
@@ -198,9 +198,7 @@ export default class DisplayAllCars extends Component {
                                     <Filter shoes={this.state.shoes} handleFilterChange={this.handleFilterChange} />
                                 </div>
                                 <br /></div>
-                            :
-                            null
-                        }
+
 
                         {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
                             <div className="stock">
@@ -216,16 +214,13 @@ export default class DisplayAllCars extends Component {
 
 
                     <div className="controlsMobile"><center>
-                        {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                    
                             <div>
                                 <div className="search-sort">
                                     <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
                                     <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
                                 </div><br></br>
                                 <br /></div>
-                            :
-                            null
-                        }
 
                         {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
                             <div className="stock">
