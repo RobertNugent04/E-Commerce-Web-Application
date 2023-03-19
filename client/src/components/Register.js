@@ -38,6 +38,10 @@ export default class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
 
+        this.setState({ wasSubmittedAtLeastOnce: true });
+
+        const formInputsState = this.validate();
+
         let formData = new FormData()  
         formData.append("profilePhoto", this.state.selectedFile)
 
@@ -59,7 +63,7 @@ export default class Register extends Component {
                         localStorage.cart_item = res.data.cart_item
 
 
-                        this.setState({ isRegistered: true })
+                        this.setState({ isRegistered: true , wasSubmittedAtLeastOnce: false})
                     }
                 }
                 else {
@@ -68,10 +72,39 @@ export default class Register extends Component {
             })
     }
 
+    validatePassword()
+    {    
+        const pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/])[A-Za-z\d!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/]{8,}$/;
+        return pattern.test(String(this.state.password))
+    }
+
+    validate() 
+    {
+        return {
+            password: this.validatePassword(),
+        };
+    }
 
     render() {
+
+        let passwordError = ""
+
+        if(this.state.wasSubmittedAtLeastOnce)
+        {
+
+        if (!this.validatePassword()) {
+            passwordError = <p class="error">Password must have at least: <ul>
+                                            <li>one letter</li>
+                                            <li>one number</li>
+                                            <li>one special character</li>
+                                            <li>8 characters</li></ul></p>;
+        }else {
+            passwordError = "";
+        }
+    }
+
         return (
-            <form className="form-container" noValidate={true} id="loginOrRegistrationForm" onSubmit={this.handleSubmit}>
+            <div className="form-container">
             <div class="navbar-container">
                         <NavBar/>
                     </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
@@ -108,6 +141,8 @@ export default class Register extends Component {
                     value={this.state.password}
                     onChange={this.handleChange}
                 /><br />
+                                        {" "}
+                        {passwordError}
 
                 <input
                     name="confirmPassword"
@@ -126,8 +161,10 @@ export default class Register extends Component {
                 <LinkInClass value="Register" className="green-button" onClick={this.handleSubmit} />
                 <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
                 </center>
+               
                 <Footer/>
-            </form>
+                </div>
+            
         )
     }
 }
