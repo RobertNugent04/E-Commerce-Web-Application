@@ -111,7 +111,7 @@ export default class AddCar extends Component {
                             <div id="profileContainer">
 
                                 {
-                                    localStorage.profilePhoto !== "undefined"
+                                    localStorage.profilePhoto !== "undefined" && localStorage.profilePhoto !== "null"
                                         ? <div className="profilePict"><img id="profilePhoto" src={`data:;base64,${localStorage.profilePhoto}`} alt="" /></div>
                                         : <div>
 
