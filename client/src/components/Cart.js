@@ -5,7 +5,12 @@ import NavBar from "./NavBar"
 import Footer from "./Footer"
 import { ACCESS_LEVEL_NORMAL_USER, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
 import CartTable from "./CartTable"
+import CheckoutTable from "./CheckoutTable"
 import BuyShoe from "./BuyShoe"
+
+// Get day of the week for Tuesday Discounts
+const today = new Date();
+const dayOfWeek = today.getDay()
 
 export default class Cart extends Component {
     constructor(props) {
@@ -78,13 +83,18 @@ export default class Cart extends Component {
                 console.log(this.state.images)
 
 
+                if (dayOfWeek === 2) { // Applies 10% Discount on Tuesdays
+                    soldOrForSale = <BuyShoe shoes={this.state.shoes}  price={this.state.price * 0.9}  ids={this.state.ids} quantity={this.state.quantity} names={this.state.names} images={this.state.images} sizes={this.state.sizes}/>
+                } else {
+                    soldOrForSale = <BuyShoe shoes={this.state.shoes}  price={this.state.price}  ids={this.state.ids} quantity={this.state.quantity} names={this.state.names} images={this.state.images} sizes={this.state.sizes}/>
+                }
 
-                soldOrForSale = <BuyShoe shoes={this.state.shoes}  price={this.state.price}  ids={this.state.ids} quantity={this.state.quantity} names={this.state.names} images={this.state.images} sizes={this.state.sizes}/>
-            // }
+             // }
             // else
             // {
             //     soldOrForSale = "SOLD"
             // }
+
         }
         return (
                 <div className="form-container">
@@ -93,12 +103,20 @@ export default class Cart extends Component {
                         <NavBar />
                     </div><br/><br/>
 
+                    <div className = "superContainer">
                     <div className="shoe-container">
                     <CartTable cars={this.state.shoes} /><br></br><br></br><br></br>
+                    </div>
+                    <div className = "checkout">
+                        <div className="checkoutPricing">
+                    <CheckoutTable cars={this.state.shoes} />
                     <center>
                     {soldOrForSale}
                     </center>
-                </div>
+                    </div>
+                    </div>
+                    </div>
+                
 
                 </div>
                 )

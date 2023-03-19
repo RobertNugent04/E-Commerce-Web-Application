@@ -174,9 +174,9 @@ export default class Product extends Component {
 
 
         <div className="productControls">
-        <p className="filter-heading">Brand: {shoe.brand}</p>
+        <p><b>Brand: </b>{shoe.brand}</p>
         <div>
-          <p className="filter-heading">Size:</p>
+          <p><b>Size:</b></p>
           {sizes.map(size => (
             <label class="radio-label">
             <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
@@ -185,9 +185,9 @@ export default class Product extends Component {
           </label>
           ))}
         </div>
-        <p className="filter-heading">Gender: {shoe.gender}</p>
-        <p className="filter-heading">Color: {shoe.color}</p>
-        <p className="filter-heading">Price: €{shoe.price}</p><br></br>
+        <p><b>Gender: </b>{shoe.gender}</p>
+        <p><b>Color: </b>{shoe.color}</p>
+        <p><b>Price: </b>€{shoe.price}</p><br></br>
         <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           <table>
@@ -228,7 +228,7 @@ export default class Product extends Component {
 
         <div className="productControlsMobile"><center>
         <div>
-          <p className="filter-heading">Size:</p>
+          <p><b>Size:</b></p>
           {sizes.map(size => (
             <label class="radio-label">
             <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
@@ -237,7 +237,7 @@ export default class Product extends Component {
           </label>
           ))}
         </div>
-        <p className="filter-heading">Price: €{shoe.price}</p><br></br>
+        <p><b>Price:</b> €{shoe.price}</p><br></br>
         <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           <table>
