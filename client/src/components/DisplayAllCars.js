@@ -89,7 +89,13 @@ export default class DisplayAllCars extends Component {
         }
 
         else{
-            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.brand.toUpperCase().includes(e.toUpperCase()) || finder.category.toUpperCase().includes(e.toUpperCase()) || finder.gender.toUpperCase().includes(e.toUpperCase()) || finder.color.toUpperCase().includes(e.toUpperCase())) });
+            if(this.state.filteredShoes.length > 0){
+                this.setState({ selectedShoes: this.state.filteredShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.brand.toUpperCase().includes(e.toUpperCase()) || finder.category.toUpperCase().includes(e.toUpperCase()) || finder.gender.toUpperCase().includes(e.toUpperCase()) || finder.color.toUpperCase().includes(e.toUpperCase())) });
+                }else if(this.state.sortedShoes.length > 0){
+                    this.setState({ selectedShoes: this.state.sortedShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.brand.toUpperCase().includes(e.toUpperCase()) || finder.category.toUpperCase().includes(e.toUpperCase()) || finder.gender.toUpperCase().includes(e.toUpperCase()) || finder.color.toUpperCase().includes(e.toUpperCase())) });
+                }else{
+                    this.setState({ selectedShoes: this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.brand.toUpperCase().includes(e.toUpperCase()) || finder.category.toUpperCase().includes(e.toUpperCase()) || finder.gender.toUpperCase().includes(e.toUpperCase()) || finder.color.toUpperCase().includes(e.toUpperCase())) });
+                }
 
         }
 

@@ -25,6 +25,7 @@ export default class User extends Component
             searchBy: "name",
             attributes: ["name", "brand", "category", "price"],
             selectedShoes: [],
+            sortedShoes: [],
             sortBy: "name",
             sortSwitch: true,
             switchKey: "Asc ▲"
@@ -68,13 +69,23 @@ export default class User extends Component
 
         if (!(e.target.value === "")) {
 
-
-            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase())|| finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
+            if(this.state.sortedShoes.length > 0){
+                this.setState({ selectedShoes: this.state.sortedShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.email.toUpperCase().includes(e.toUpperCase())) });
+            }
+            else{
+            this.setState({ selectedShoes: this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.email.toUpperCase().includes(e.toUpperCase())) });
+            }
         }
-        else
+        else{
+            if(this.state.sortedShoes.length > 0){
+            this.setState({ selectedShoes: this.state.sortedShoes })
+        }
+        else{
             this.setState({ selectedShoes: this.state.shoes })
+        }
 
     }
+}
     
         handleSortClick = e => {
         let sortDirection
@@ -89,6 +100,7 @@ export default class User extends Component
 
         this.setState({ selectedShoes: this.state.selectedShoes.sort((a, b) => a[this.state.sortBy] < b[this.state.sortBy] ? -sortDirection : sortDirection) })
         this.setState({ sortSwitch: !this.state.sortSwitch })
+        this.setState({sortedShoes: this.state.selectedShoes.sort((a, b) => a[this.state.sortBy] < b[this.state.sortBy] ? -sortDirection : sortDirection) })
     }
     
     

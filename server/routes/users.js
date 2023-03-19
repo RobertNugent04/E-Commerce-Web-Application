@@ -93,8 +93,8 @@ router.post(`/users/register/:name/:email/:password`, upload.single("profilePhot
                     res.json({ errorMessage: `name cant be empty` });
                 } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.params.email)) {
                     res.json({ errorMessage: `enter valid email` });
-                } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(req.params.password)) {
-                    res.json({ errorMessage: `Minimum eight characters, at least one letter and one number` });
+                } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/])[A-Za-z\d!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/]{8,}$/.test(req.params.password)) {
+                    res.json({ errorMessage: `Minimum eight characters, at least one letter, one number and a special character` });
                 } else {
                     bcrypt.hash(req.params.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) => {
                         usersModel.create({ name: req.params.name, email: req.params.email, password: hash, profilePhotoFilename: req.file.filename, cart_item: 0 }, (error, data) => {

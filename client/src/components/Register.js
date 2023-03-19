@@ -18,7 +18,7 @@ export default class Register extends Component {
             email: "",
             password: "",
             confirmPassword: "",
-            selectedFile:null, 
+            selectedFile: null,
             isRegistered: false
         }
     }
@@ -26,7 +26,7 @@ export default class Register extends Component {
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
-       
+
     }
 
     handleFileChange = (e) => {
@@ -38,10 +38,14 @@ export default class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
 
-        let formData = new FormData()  
+        this.setState({ wasSubmittedAtLeastOnce: true });
+
+        const formInputsState = this.validate();
+
+        let formData = new FormData()
         formData.append("profilePhoto", this.state.selectedFile)
 
-        axios.post(`${SERVER_HOST}/users/register/${this.state.name}/${this.state.email}/${this.state.password}`, formData, {headers: {"Content-type": "multipart/form-data"}})
+        axios.post(`${SERVER_HOST}/users/register/${this.state.name}/${this.state.email}/${this.state.password}`, formData, { headers: { "Content-type": "multipart/form-data" } })
             .then(res => {
                 if (res.data) {
                     if (res.data.errorMessage) {
@@ -59,7 +63,7 @@ export default class Register extends Component {
                         localStorage.cart_item = res.data.cart_item
 
 
-                        this.setState({ isRegistered: true })
+                        this.setState({ isRegistered: true, wasSubmittedAtLeastOnce: false })
                     }
                 }
                 else {
@@ -68,17 +72,79 @@ export default class Register extends Component {
             })
     }
 
+    validateName()
+    {    
+        //Not empty
+        return this.state.name !== "";
+    }
+
+    validateEmail(){
+
+        const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return pattern.test(String(this.state.email))
+
+    }
+
+    validatePassword()
+    {    
+        //Pattern to match value with at least one letter, one number and one special character and has minimum 8 characters
+        const pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/])[A-Za-z\d!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/]{8,}$/;
+        return pattern.test(String(this.state.password))
+    }
+
+    validateConfirmPassword(){
+
+        return this.state.confirmPassword === this.state.password;
+
+    }
+
+    validate() {
+        return {
+            name: this.validateName(),
+            email: this.validateEmail(),
+            password: this.validatePassword(),
+            confirmPassword : this.validateConfirmPassword()
+        };
+    }
 
     render() {
+
+        let nameError = ""
+        let emailError = ""
+        let passwordError = ""
+        let confirmPasswordError = ""
+
+        if (this.state.wasSubmittedAtLeastOnce) {
+
+            if (!this.validateName()) {
+                nameError = <p class="error">Name can't be empty</p>;
+            }
+            if (!this.validateEmail()) {
+                emailError = <p class="error">Invalid email</p>;
+            }
+            if (!this.validateConfirmPassword()) {
+                confirmPasswordError = <p class="error">Passwords don't match</p>;
+            }
+        if (!this.validatePassword()) {
+            passwordError = <p class="error">Password must have at least: <ul>
+                                            <li>one letter</li>
+                                            <li>one number</li>
+                                            <li>one special character</li>
+                                            <li>8 total characters</li></ul></p>;
+        }else {
+            passwordError = "";
+        }
+    }
+
         return (
-            <form className="form-container" noValidate={true} id="loginOrRegistrationForm" onSubmit={this.handleSubmit}>
-            <div class="navbar-container">
-                        <NavBar/>
-                    </div> <br/> <br/> <br/> <br/> <br/> <br/> <center>
+            <div className="form-container">
+                <div class="navbar-container">
+                    <NavBar />
+                </div> <br /> <br /> <br /> <br /> <br /> <br /> <center>
 
-                {this.state.isRegistered ? <Redirect to="/DisplayAllCars" /> : null}
+                    {this.state.isRegistered ? <Redirect to="/DisplayAllCars" /> : null}
 
-                <h2 id="title2">User Registration</h2>
+                    <h2 id="title2">User Registration</h2>
 
                 <input
                     name="name"
@@ -89,6 +155,8 @@ export default class Register extends Component {
                     onChange={this.handleChange}
                     ref={(input) => { this.inputToFocus = input }}
                 /><br />
+                                                                        {" "}
+                        {nameError}
 
                 <input
                     name="email"
@@ -98,6 +166,8 @@ export default class Register extends Component {
                     value={this.state.email}
                     onChange={this.handleChange}
                 /><br />
+                                                        {" "}
+                        {emailError}
 
                 <input
                     name="password"
@@ -108,6 +178,8 @@ export default class Register extends Component {
                     value={this.state.password}
                     onChange={this.handleChange}
                 /><br />
+                                        {" "}
+                        {passwordError}
 
                 <input
                     name="confirmPassword"
@@ -116,18 +188,23 @@ export default class Register extends Component {
                     autoComplete="confirmPassword"
                     value={this.state.confirmPassword}
                     onChange={this.handleChange}
-                /><br /><br />
+                />
+                                                        {" "}
+                        {confirmPasswordError}
+                <br /><br />
                 
                 <input
                     type="file"
                     onChange={this.handleFileChange}
                 /><br/><br/>
 
-                <LinkInClass value="Register" className="green-button" onClick={this.handleSubmit} />
-                <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
+                    <LinkInClass value="Register" className="green-button" onClick={this.handleSubmit} />
+                    <Link className="red-button" to={"/DisplayAllCars"}>Cancel</Link>
                 </center>
-                <Footer/>
-            </form>
+
+                <Footer />
+            </div>
+
         )
     }
 }

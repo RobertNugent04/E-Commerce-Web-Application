@@ -221,30 +221,30 @@ export default class Product extends Component {
         <div className="superContainer">
 
 
-          <div className="productControls">
-            <p className="filter-heading">Brand: {shoe.brand}</p>
-            <div>
-              <p className="filter-heading">Size:</p>
-              {sizes.map(size => (
-                <label class="radio-label">
-                  <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
-                  <span class="radio-button"></span>
-                  {size}
-                </label>
-              ))}
-            </div>
-            <p className="filter-heading">Gender: {shoe.gender}</p>
-            <p className="filter-heading">Color: {shoe.color}</p>
-            <p className="filter-heading">Price: €{shoe.price}</p><br></br>
-            <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
-            {this.state.showComments ?
-              <table>
-                {this.state.comments.map((comment) => <tr>{comment}</tr>)}
-              </table>
-              :
-              null
-            }
-            <br></br><br></br>
+        <div className="productControls">
+        <p><b>Brand: </b>{shoe.brand}</p>
+        <div>
+          <p><b>Size:</b></p>
+          {sizes.map(size => (
+            <label class="radio-label">
+            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+            <span class="radio-button"></span>
+            {size}
+          </label>
+          ))}
+        </div>
+        <p><b>Gender: </b>{shoe.gender}</p>
+        <p><b>Color: </b>{shoe.color}</p>
+        <p><b>Price: </b>€{shoe.price}</p><br></br>
+        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+        {this.state.showComments ?
+          <table>
+            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
+          </table>
+          :
+          null
+        }
+        <br></br><br></br>
             {console.log(localStorage.cart_item)}
 
             <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
@@ -290,26 +290,26 @@ export default class Product extends Component {
             </center></div>
           </div>
 
-          <div className="productControlsMobile"><center>
-            <div>
-              <p className="filter-heading">Size:</p>
-              {sizes.map(size => (
-                <label class="radio-label">
-                  <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
-                  <span class="radio-button"></span>
-                  {size}
-                </label>
-              ))}
-            </div>
-            <p className="filter-heading">Price: €{shoe.price}</p><br></br>
-            <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
-            {this.state.showComments ?
-              <table>
-                {this.state.comments.map((comment) => <tr>{comment}</tr>)}
-              </table>
-              :
-              null
-            }
+        <div className="productControlsMobile"><center>
+        <div>
+          <p><b>Size:</b></p>
+          {sizes.map(size => (
+            <label class="radio-label">
+            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+            <span class="radio-button"></span>
+            {size}
+          </label>
+          ))}
+        </div>
+        <p><b>Price:</b> €{shoe.price}</p><br></br>
+        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+        {this.state.showComments ?
+          <table>
+            {this.state.comments.map((comment)=><tr>{comment}</tr>)}
+          </table>
+          :
+          null
+        }
             {console.log(localStorage.cart_item)}
 
             <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
