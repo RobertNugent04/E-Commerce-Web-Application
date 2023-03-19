@@ -22,9 +22,12 @@ export default class AddCar extends Component
             name: ``,
             brand: ``,
             gender: ``,
+            color: ``,
             category: ``,
             price: ``,
             stock: ``,
+            size:"",
+            sizes:[""],
             selectedFiles:null,
             redirectToDisplayAllCars:localStorage.accessLevel < ACCESS_LEVEL_ADMIN
         }
@@ -92,9 +95,13 @@ export default class AddCar extends Component
         formData.append("name", this.state.name)
         formData.append("brand", this.state.brand)
         formData.append("gender", this.state.gender)
+        formData.append("color", this.state.color)
         formData.append("category", this.state.category) 
         formData.append("price", this.state.price) 
         formData.append("items_left", this.state.stock)
+        this.state.sizes.forEach(size => {
+            formData.append("sizes", size)
+        })
         
         if(this.state.selectedFiles)
         {
@@ -161,6 +168,29 @@ export default class AddCar extends Component
         return pattern.test(String(this.state.stock))
     }
 
+    validateColor()
+    {    
+        //Not empty
+        return this.state.color !== "";
+    }
+
+    validateCategory()
+    {    
+        //Not empty
+        return this.state.category !== "";
+    }
+
+    validateGender()
+    {    
+        //Not empty
+        return this.state.gender !== "";
+    }
+
+    validateSize()
+    {    
+        //Not empty
+        return this.state.size !== "";
+    }
 
     validate() 
     {
@@ -168,8 +198,30 @@ export default class AddCar extends Component
             name: this.validateName(),
             brand: this.validateBrand(),
             stock: this.validateStock(),
-            price: this.validatePrice()
+            price: this.validatePrice(),
+            color: this.validateColor(),
+            category: this.validateCategory(),
+            gender: this.validateGender(),
+            size: this.validateSize()
         };
+    }
+
+    handleAddSize = () => {
+        // Add an empty string to the sizes array
+        this.setState(prevState => ({ sizes: [...prevState.sizes, ""] }))
+    }
+
+    handleChangeSize = (e, index) => {
+        // Update the size at the specified index in the sizes array
+        this.setState({size: e.target})
+        const { value } = e.target
+        this.setState(prevState => ({
+            sizes: [
+                ...prevState.sizes.slice(0, index),
+                value,
+                ...prevState.sizes.slice(index + 1)
+            ]
+        }))
     }
 
     render()
@@ -179,21 +231,37 @@ export default class AddCar extends Component
         let brandError = ""
         let priceError = ""
         let stockError = ""
+        let colorError = ""
+        let categoryError = ""
+        let genderError = ""
+        let sizeError = ""
 
         if(this.state.wasSubmittedAtLeastOnce)
         {
 
         if (!this.validateName()) {
-            nameError = <p>Name can't be empty</p>;
+            nameError = <p class="error">Name can't be empty</p>;
         }
         if (!this.validateBrand()) {
-            brandError = <p>Brand can't be empty</p>;
+            brandError = <p class="error">Brand can't be empty</p>;
+        }
+        if (!this.validateColor()) {
+            colorError = <p class="error">Color can't be empty</p>;
         }
         if (!this.validatePrice()) {
-            priceError = <p>Price must be within valid range(10 - 1000)</p>;
+            priceError = <p class="error">Price must be within valid range(10 - 1000)</p>;
         }
         if (!this.validateStock()) {
-            stockError = <p>Must be a positive whole number less than 7 digits</p>;
+            stockError = <p class="error">Must be a positive whole number less than 7 digits</p>;
+        }
+        if (!this.validateCategory()) {
+            categoryError = <p class="error">Category can't be empty</p>;
+        }
+        if (!this.validateGender()) {
+            genderError = <p class="error">Gender can't be empty</p>;
+        }
+        if (!this.validateSize()) {
+            sizeError = <p class="error">Size can't be empty</p>;
         }
     }
 
@@ -222,10 +290,20 @@ export default class AddCar extends Component
 
                     <div controlId="gender">
                         <input type="text" name="gender" placeholder = "Gender" value={this.state.gender} onChange={this.handleChange} />
+                        {" "}
+                        {genderError}
                     </div>
                     
+                    <div controlId="color">
+                        <input type="text" name="color" placeholder = "Color" value={this.state.color} onChange={this.handleChange} />
+                        {" "}
+                        {colorError}
+                    </div>
+
                     <div controlId="category">
                         <input type="text" name="category" placeholder = "Category" value={this.state.category} onChange={this.handleChange} />
+                        {" "}
+                        {categoryError}
                     </div>
         
                     <div controlId="price">
@@ -239,6 +317,22 @@ export default class AddCar extends Component
                         {" "}
                         {stockError}
                     </div>
+
+                    {this.state.sizes.map((size, index) => (
+            <div key={index} controlId={`size-${index}`}>
+                <input
+                    type="text"
+                    name={`size-${index}`}
+                    placeholder={`size ${index + 1}`}
+                    value={size}
+                    onChange={e => this.handleChangeSize(e, index)}
+                />
+            </div>
+        ))}
+                        {" "}
+                        {sizeError}
+
+<input type="button" value="Add size" onClick={this.handleAddSize}/>
 
                     <div controlId="photos">
                     <input          

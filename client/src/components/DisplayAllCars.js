@@ -29,8 +29,11 @@ export default class DisplayAllCars extends Component {
             saved: false,
             filters: [],
             selectedBrands: [],
-            selectedColors: [],
-            selectedGenders: []
+            selectedColors:[],
+            selectedGenders: [],
+            selectedCategories: [],
+            filteredShoes: [],
+            sortedShoes: []
         }
     }
 
@@ -74,25 +77,20 @@ export default class DisplayAllCars extends Component {
 
     handleSearchChange = e => {
 
-        let x = this.state.searchBy
+        if (e === "") {
 
-        if (this.state.saved === false) {
-
-            this.setState({ backup: this.state.selectedShoes })
-            this.setState({ saved: true })
-
+            if(this.state.filteredShoes.length > 0){
+            this.setState({ selectedShoes: this.state.filteredShoes})
+            }else if(this.state.sortedShoes.length > 0){
+                this.setState({ selectedShoes: this.state.sortedShoes})
+            }else{
+                this.setState({ selectedShoes: this.state.shoes })
+            }
         }
-        else {
 
-            if (e.target.value === "") {
+        else{
+            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.brand.toUpperCase().includes(e.toUpperCase()) || finder.category.toUpperCase().includes(e.toUpperCase()) || finder.gender.toUpperCase().includes(e.toUpperCase()) || finder.color.toUpperCase().includes(e.toUpperCase())) });
 
-                this.setState({ selectedShoes: this.state.backup })
-                this.setState({ saved: false })
-
-            }
-            else {
-                this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
-            }
         }
 
     }
@@ -110,6 +108,7 @@ export default class DisplayAllCars extends Component {
 
         this.setState({ selectedShoes: this.state.selectedShoes.sort((a, b) => a[this.state.sortBy] < b[this.state.sortBy] ? -sortDirection : sortDirection) })
         this.setState({ sortSwitch: !this.state.sortSwitch })
+        this.setState({ sortedShoes: this.state.selectedShoes.sort((a, b) => a[this.state.sortBy] < b[this.state.sortBy] ? -sortDirection : sortDirection) })
     }
 
 
@@ -120,7 +119,7 @@ export default class DisplayAllCars extends Component {
     handleFilterChange = (e) => {
         const selectedValue = e.target.value;
         const isChecked = e.target.checked;
-        const { selectedBrands, selectedColors, selectedGenders } = this.state;
+        const { selectedBrands, selectedColors, selectedGenders, selectedCategories } = this.state;
 
         if (e.target.name === "brands") {
             if (isChecked) {
@@ -146,11 +145,19 @@ export default class DisplayAllCars extends Component {
                 const unfilteredGenders = selectedGenders.filter((gender) => gender !== selectedValue);
                 this.setState({ selectedGenders: unfilteredGenders }, this.applyFilters);
             }
+        } else if (e.target.name === "categories") {
+            if (isChecked) {
+                const updatedCategories = [...selectedCategories, selectedValue];
+                this.setState({ selectedCategories: updatedCategories }, this.applyFilters);
+            } else {
+                const unfilteredCategories = selectedCategories.filter((category) => category !== selectedValue);
+                this.setState({ selectedCategories: unfilteredCategories }, this.applyFilters);
+            }
         }
     }
 
     applyFilters = () => {
-        const { selectedBrands, selectedColors, selectedGenders } = this.state;
+        const { selectedBrands, selectedColors, selectedGenders, selectedCategories } = this.state;
         let filteredShoes = [...this.state.shoes];
 
         if (selectedBrands.length > 0) {
@@ -165,9 +172,14 @@ export default class DisplayAllCars extends Component {
             filteredShoes = filteredShoes.filter(shoe => selectedGenders.includes(shoe.gender));
         }
 
-        this.setState({ selectedShoes: filteredShoes });
-    }
+        if (selectedCategories.length > 0) {
+            filteredShoes = filteredShoes.filter(shoe => selectedCategories.includes(shoe.category));
+        }
 
+        this.setState({ selectedShoes: filteredShoes });
+        this.setState({ filteredShoes: filteredShoes });
+      }
+      
     render() {
         return (
             <div className="form-container">

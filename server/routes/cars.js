@@ -179,8 +179,10 @@ router.post(`/cars`, upload.array("shoePhotos", parseInt(process.env.MAX_NUMBER_
                     carDetails.name = req.body.name
                     carDetails.brand = req.body.brand
                     carDetails.gender = req.body.gender
+                    carDetails.color = req.body.color
                     carDetails.price = req.body.price
                     carDetails.category = req.body.category
+                    carDetails.sizes = [req.body.sizes]
                     carDetails.items_left = req.body.items_left
 
                     // add the car's photos to the carDetails JSON object

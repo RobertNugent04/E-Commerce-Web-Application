@@ -10,6 +10,13 @@ export default class NavBar extends Component
 {
     render()
     {   
+
+        if(localStorage.cart_item === "undefined"){
+
+            localStorage.cart_item = 0;
+
+        }
+
         return(
         <div class="navbar">
             <p id="title" className = "hide">Rob's Shoe Exchange</p>

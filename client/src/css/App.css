@@ -815,6 +815,9 @@ button {
     float: inline-end;
   }
 
+  .error{
+    color:red;
+  }
   
 
 

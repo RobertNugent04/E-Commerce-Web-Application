@@ -26,8 +26,7 @@ class ContactUs extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const {name, email, subject, message } = this.state;
-    axios
-      .post("http://localhost:4000/send-email", {
+    axios.post("http://localhost:4000/send-email", {
         name: name,
         email: email,
         subject: subject,
