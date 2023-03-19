@@ -208,7 +208,7 @@ export default class EditCar extends Component {
                     <NavBar />
                 </div> <br /> <br /> <br /> <br /> <br /> <br /> <center>
 
-                    <h2 id="title2">Edit Shoe</h2>
+                    <h2 id="title2">Edit User</h2>
 
                     {this.state.redirectToDisplayAllCars ? <Redirect to="/Users" /> : null}
 
