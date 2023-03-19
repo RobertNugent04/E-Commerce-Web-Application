@@ -102,15 +102,22 @@ export default class Product extends Component {
     //const imageURL = "insertImage";
     const price = this.state.shoe.price;
     const size = this.state.size;
-    const imageURL = this.state.shoe.imageURL
+    // const imageURL = this.state.shoe.imageURL
     const email = localStorage.email
-    console.log(this.state.shoe)
+    let photos =null;
+    if(this.state.embeddedImage ===true){
+   photos =JSON.stringify(this.state.shoe.photos)}
+   else{ 
+    photos =JSON.stringify([{"test":"one"}])
+    console.log(shoeID)}
+    
     // console.log(imageURL)
 
     if(this.state.size !== null && this.state.shoe.items_left > 0){
       localStorage.cart_item++;
 
-    axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}`, {
+      axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}`, {
+
       size: this.state.size // Pass the selected size to the server
     })
       .then(res => {
@@ -223,7 +230,7 @@ export default class Product extends Component {
       return size;
     }) : [];
 
-    console.log(this.state.shoe)
+    console.log(this.state.shoe.photos)
     // console.log(this.state.comments)
     console.log(this.state.embeddedImage)
     console.log(this.state.imageFiles)

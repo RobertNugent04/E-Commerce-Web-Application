@@ -9,33 +9,7 @@ import {ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN,SERVER_HOST} from "../config/glob
 export default class CarTableRow extends Component 
 {    
 
-    componentDidMount() 
-    {
-        this.props.car.photos.map(photo => 
-        {
-            return axios.get(`${SERVER_HOST}/cars/photo/${photo.filename}`)
-            .then(res => 
-            {
-                if(res.data)
-                {  
-                    console.log(res.data)          
-                    if (res.data.errorMessage)
-                    {
-                        console.log(res.data.errorMessage)    
-                    }
-                    else
-                    {           
-                        document.getElementById(photo._id).src = `data:;base64,${res.data.image}`    
-                        console.log(`data:;base64,${res.data.image}` )                                                     
-                    }   
-                }
-                else
-                {
-                    console.log("Record not found")
-                }
-            })
-        })
-    }
+
     render() 
     {
         return (
