@@ -38,7 +38,7 @@ export default class DisplayAllCars extends Component {
                             <Link className="blue-button" to={"/DisplayAllCars"}>View Store</Link></div>
 
                         :
-                        null
+                        <div><Link className="blue-button" to={"/DisplayAllCars"}>View Store</Link></div>
 
                     }
 
