@@ -75,27 +75,18 @@ export default class DisplayAllCars extends Component {
 
 
     handleSearchChange = e => {
+        console.log(this.state.shoes)
+        if (!(e === "")) {
 
-        let x = this.state.searchBy
-
-        if(this.state.saved === false){
-
-            this.setState({backup: this.state.selectedShoes})
-            this.setState({saved: true})
-
+            this.setState({ selectedShoes: this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase())) });
+            
         }
         else{
 
-        if (e.target.value === "") {
+            this.setState({ selectedShoes: this.state.shoes })
 
-            this.setState({selectedShoes: this.state.backup})
-            this.setState({saved: false})
-
-        }
-        else{
-            this.setState({ selectedShoes: this.state.selectedShoes.filter(finder => finder.name.toUpperCase().includes(e.target.value.toUpperCase()) || finder.brand.toUpperCase().includes(e.target.value.toUpperCase()) || finder.category.toUpperCase().includes(e.target.value.toUpperCase()) || finder.gender.toUpperCase().includes(e.target.value.toUpperCase())) });
-        }
-    }}
+    }
+}
 
 
 

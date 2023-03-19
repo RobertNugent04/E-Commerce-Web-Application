@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom"
 import axios from "axios"
 import Filter from "./Filter"
 import CarTable from "./CarTable"
@@ -9,6 +9,7 @@ import Search from "./Search"
 import Sort from "./Sort"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
+import AddedToCart from "./AddedToCart"
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item } from "../config/global_constants"
 
 export default class Product extends Component {
@@ -21,7 +22,9 @@ export default class Product extends Component {
       showComments: false,
       comments: [],
       embeddedImage: false,
-      imageFiles: []
+      imageFiles: [],
+      redirectToAdded: false,
+      wasSubmittedOnce: false
     };
     this.showSlides = this.showSlides.bind(this);
   }
@@ -92,7 +95,8 @@ export default class Product extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
 
-    localStorage.cart_item++;
+    this.setState({wasSubmittedOnce: true})
+
     const shoeID = this.props.location.search.slice(8)
     const name = this.state.shoe.name;
     //const imageURL = "insertImage";
@@ -108,7 +112,12 @@ export default class Product extends Component {
     console.log(shoeID)}
     
     // console.log(imageURL)
-    axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}`, {
+
+    if(this.state.size !== null && this.state.shoe.items_left > 0){
+      localStorage.cart_item++;
+
+      axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}`, {
+
       size: this.state.size // Pass the selected size to the server
     })
       .then(res => {
@@ -124,12 +133,15 @@ export default class Product extends Component {
             localStorage.price = res.data.price;
             localStorage.image = res.data.imageURL;
             localStorage.size = this.state.size;
+
+            this.setState({redirectToAdded: true})
           }
         } else {
           console.log("Add to cart failed")
         }
       })
-    window.location.reload(false);
+    }
+ //   window.location.reload(false);
   }
 
   handleSizeChange = (e) => {
@@ -205,15 +217,34 @@ export default class Product extends Component {
 
 
   render() {
+
+    let sizeError = ""
+    let stockError = ""
+
+    if (this.state.redirectToAdded === true) {
+      return <Redirect to="./AddedToCart" />
+    }
+
     const shoe = this.state.shoe
     const sizes = shoe.sizes ? shoe.sizes.map(size => {
-      return size; // return the original size value (this is not necessary but can be useful in some cases)
+      return size;
     }) : [];
 
     console.log(this.state.shoe.photos)
     console.log("comments" + this.state.comments)
     console.log(this.state.embeddedImage)
     console.log(this.state.imageFiles)
+
+    if(this.state.size === null && this.state.wasSubmittedOnce){
+
+      sizeError = <p class="error">Please pick a size</p>;
+
+    }
+
+  console.log("Items: " + this.state.shoe.items_left)
+    if(this.state.shoe.items_left < 1){
+      stockError = <center><p class="error">This item is currently out of stock</p></center>;
+    }
 
     return (
 
@@ -226,7 +257,7 @@ export default class Product extends Component {
 
         <div className="superContainer">
 
-
+        {stockError}
         <div className="productControls">
         <p><b>Brand: </b>{shoe.brand}</p>
         <div>
@@ -239,6 +270,7 @@ export default class Product extends Component {
           </label>
           ))}
         </div>
+        {sizeError}
         <p><b>Gender: </b>{shoe.gender}</p>
         <p><b>Color: </b>{shoe.color}</p>
         <p><b>Price: </b>€{shoe.price}</p><br></br>
@@ -328,9 +360,6 @@ export default class Product extends Component {
 
             <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
           </center></div>
-
-
-
 
         </div><br></br><br></br>
         <Footer />

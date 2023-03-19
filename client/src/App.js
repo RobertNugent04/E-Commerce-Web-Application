@@ -29,6 +29,8 @@ import Cart from "./components/Cart"
 import Product from "./components/Product"
 import CartDelete from "./components/CartDelete"
 import Users from "./components/Users"
+import ThankYou from "./components/ThankYou"
+import AddedToCart from "./components/AddedToCart"
 import AddComment from "./components/AddComment"
 
 
@@ -62,6 +64,8 @@ export default class App extends Component
                     <Route exact path="/ResetShoes" component={ResetShoes} />               
                     <Route exact path="/" component={Home} />
                     <Route exact path="/Login" component={Login} />
+                    <Route exact path="/ThankYou" component={ThankYou} />
+                    <Route exact path="/AddedToCart" component={AddedToCart} />
                     <LoggedInRoute exact path="/BuyShoe/:id" component={BuyShoe} />
                     <LoggedInRoute exact path="/PayPalMessage/:msessageType/:payPalPaymentID" component={PayPalMessage}/>   
                     <LoggedInRoute exact path="/Stock" component={Stock} />

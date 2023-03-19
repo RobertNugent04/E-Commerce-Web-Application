@@ -15,20 +15,23 @@ app.use((req, res, next) => {
 
 app.use(express.json()); // Add this line to parse the request body as JSON
 
-//Emails are sent to: email: shoestore1233@gmail.com
-//                    password: ShoeStore1233
+//Code adapted from: https://nodemailer.com/about/
+//                   https://www.youtube.com/watch?v=lBRnLXwjLw0
+
+//Emails are sent to: email: contactshoes33@gmail.com
+//                    password: Contact33
 function sendEmail(name, email, subject, message) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'shoestore1233@gmail.com',
-      pass: 'sotlngoeoyzcpqqh'
+      user: 'contactshoes33@gmail.com',
+      pass: 'hdjuvhytovpbashp'
     }
   });
 
   const mailOptions = {
-    from: 'shoestore1233@gmail.com',
-    to: 'shoestore1233@gmail.com',
+    from: 'contactshoes33@gmail.com',
+    to: 'contactshoes33@gmail.com',
     subject: 'Customer Message',
     text: "Name: " + name + "\nEmail: " + email + "\nSubject: " + subject + "\nMessage: " + message
   };
@@ -38,17 +41,12 @@ function sendEmail(name, email, subject, message) {
 
 // Define your routes here
 app.post('/send-email', (req, res) => {
-  const { name, email, subject, message } = req.body;
 
-  sendEmail(name, email, subject, message)
+  sendEmail(req.body.name, req.body.email, req.body.subject, req.body.message)
     .then(info => {
       console.log('Email sent:', info.response);
       res.status(200).send('Email sent successfully');
     })
-    .catch(error => {
-      console.error(error);
-      res.status(500).send('Error sending email');
-    });
 });
 
 
