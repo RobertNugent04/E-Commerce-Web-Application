@@ -20,7 +20,7 @@ handleSearchClick = () => {
     
         return(
             <div id = "searchBox">
-            <input type = "text" placeholder = "Search 🔎" value={this.state.search} onChange={this.handleInputChange}/><input class="green-button" type="button" name="search" value="Search" onClick={this.handleSearchClick}/>
+            <input type = "text" placeholder = "Search🔎" value={this.state.search} onChange={this.handleInputChange}/><input class="green-button" type="button" name="search" value="Search" onClick={this.handleSearchClick}/>
             </div>
         )
     }
