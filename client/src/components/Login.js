@@ -22,8 +22,7 @@ export default class Login extends Component
             cart_item:0,
             wasSubmittedAtLeastOnce: false,
             emailMatch: [],
-            passwordMatches: false,
-            loginError: ""
+            passwordMatches: false
         }
     }
     
@@ -113,12 +112,12 @@ export default class Login extends Component
 
     render()
     {        
-        let loginDetails  
+        let loginError = ""  
 
         if(this.state.wasSubmittedAtLeastOnce)
         {
             if(this.state.emailMatch === undefined){
-            <p class="error">Login Details are incorrect!</p>;
+            loginError = <p class="error">Login Details are incorrect!</p>;
             }
         }
         return (
@@ -131,7 +130,7 @@ export default class Login extends Component
                 
                 {this.state.isLoggedIn ? <Redirect to="/DisplayAllCars"/> : null} 
                 
-                {this.state.loginError}
+                {loginError}
                 {""}
 
                 <input 
