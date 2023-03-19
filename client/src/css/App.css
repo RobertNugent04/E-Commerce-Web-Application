@@ -722,13 +722,17 @@ button {
 
 .error{
   color:red;
-  margin-left: 43%;
 }
 
 .error ul {
   list-style: disc;
-  margin: 0;
   padding: 0;
+  width: 100%;
+  list-style-position: inside;
+  text-align: justify;
+  max-width: 200px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .error li {
@@ -754,10 +758,6 @@ button {
     .checkout {
       margin-right: 0%;
       margin-top: 5%;
-    }
-
-    .error{
-      margin-left: 28%;
     }
 
     #menu-controls > a, #menu-controls > div {
