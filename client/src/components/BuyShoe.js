@@ -46,6 +46,8 @@ export default class BuyShoe extends Component {
 
     onApprove = paymentData => {
 
+        localStorage.cart_item = 0;
+
         // let formData = new FormData();
 
         // this.props.ids.forEach((item) => {
