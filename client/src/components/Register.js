@@ -72,32 +72,67 @@ export default class Register extends Component {
             })
     }
 
+    validateName()
+    {    
+        //Not empty
+        return this.state.name !== "";
+    }
+
+    validateEmail(){
+
+        const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return pattern.test(String(this.state.email))
+
+    }
+
     validatePassword()
     {    
+        //Pattern to match value with at least one letter, one number and one special character and has minimum 8 characters
         const pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/])[A-Za-z\d!@#$£%^&*()_+{}|:"<>?`~\-\[\]\\;',.\/]{8,}$/;
         return pattern.test(String(this.state.password))
+    }
+
+    validateConfirmPassword(){
+
+        return this.state.confirmPassword === this.state.password;
+
     }
 
     validate() 
     {
         return {
+            name: this.validateName(),
+            email: this.validateEmail(),
             password: this.validatePassword(),
+            confirmPassword : this.validateConfirmPassword()
         };
     }
 
     render() {
 
+        let nameError = ""
+        let emailError = ""
         let passwordError = ""
+        let confirmPasswordError = ""
 
         if(this.state.wasSubmittedAtLeastOnce)
         {
 
+            if (!this.validateName()) {
+                nameError = <p class="error">Name can't be empty</p>;
+            }
+            if (!this.validateEmail()) {
+                emailError = <p class="error">Invalid email</p>;
+            }
+            if (!this.validateConfirmPassword()) {
+                confirmPasswordError = <p class="error">Passwords don't match</p>;
+            }
         if (!this.validatePassword()) {
             passwordError = <p class="error">Password must have at least: <ul>
                                             <li>one letter</li>
                                             <li>one number</li>
                                             <li>one special character</li>
-                                            <li>8 characters</li></ul></p>;
+                                            <li>8 total characters</li></ul></p>;
         }else {
             passwordError = "";
         }
@@ -122,6 +157,8 @@ export default class Register extends Component {
                     onChange={this.handleChange}
                     ref={(input) => { this.inputToFocus = input }}
                 /><br />
+                                                                        {" "}
+                        {nameError}
 
                 <input
                     name="email"
@@ -131,6 +168,8 @@ export default class Register extends Component {
                     value={this.state.email}
                     onChange={this.handleChange}
                 /><br />
+                                                        {" "}
+                        {emailError}
 
                 <input
                     name="password"
@@ -151,7 +190,10 @@ export default class Register extends Component {
                     autoComplete="confirmPassword"
                     value={this.state.confirmPassword}
                     onChange={this.handleChange}
-                /><br /><br />
+                />
+                                                        {" "}
+                        {confirmPasswordError}
+                <br /><br />
                 
                 <input
                     type="file"
