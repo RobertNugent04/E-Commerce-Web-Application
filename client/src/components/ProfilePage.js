@@ -6,7 +6,7 @@ import Footer from "./Footer"
 import axios from "axios"
 
 import LinkInClass from "../components/LinkInClass"
-import { ACCESS_LEVEL_GUEST } from "../config/global_constants"
+import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_NORMAL_USER } from "../config/global_constants"
 
 
 import { ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
@@ -131,7 +131,7 @@ export default class AddCar extends Component {
                                     <p>{localStorage.getItem("email")}</p>
                                 </div>
 
-                                {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/PurchaseHistory/" + localStorage.getItem("email")}>Purchase History</Link> : null}
+                                {localStorage.accessLevel == ACCESS_LEVEL_NORMAL_USER ? <Link className="green-button" to={"/PurchaseHistory/" + localStorage.getItem("email")}>Purchase History</Link> : null}
 
                                 {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ? <Link className="red-button" to={"/Users"}>Edit Users</Link> : null}
 

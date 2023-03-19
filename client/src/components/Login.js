@@ -15,13 +15,43 @@ export default class Login extends Component
         super(props)
         
         this.state = {
+            users: [],
             email:"",
             password:"",
             isLoggedIn:false,
-            cart_item:0
+            cart_item:0,
+            wasSubmittedAtLeastOnce: false,
+            emailMatch: [],
+            passwordMatches: false,
+            loginError: ""
         }
     }
     
+    componentDidMount() 
+    {
+
+        axios.get(`${SERVER_HOST}/users`)
+        .then(res => 
+        {
+            if(res.data)
+            {
+                if (res.data.errorMessage)
+                {
+                    console.log(res.data.errorMessage)    
+                }
+                else
+                {           
+                    console.log(res.data)
+                    console.log("Records read")   
+                    this.setState({users: res.data}) 
+                }   
+            }
+            else
+            {
+                console.log("Record not found")
+            }
+        })
+    }
     
     handleChange = (e) => 
     {
@@ -31,6 +61,22 @@ export default class Login extends Component
     
     handleSubmit = (e) => 
     {
+
+        const emailExists = this.state.users.find(user => user.email === this.state.email);
+        this.setState({emailMatch: emailExists})
+
+        console.log(emailExists)
+        if(emailExists !== undefined){
+        if (emailExists.password === this.state.password) {
+            this.setState({passwordMatches: true})
+          }
+          else{
+            this.setState({passwordMatches: false})
+          }
+        }
+
+        this.setState({ wasSubmittedAtLeastOnce: true });
+
         axios.post(`${SERVER_HOST}/users/login/${this.state.email}/${this.state.password}`)
         .then(res => 
         {     
@@ -66,7 +112,15 @@ export default class Login extends Component
 
 
     render()
-    {            
+    {        
+        let loginDetails  
+
+        if(this.state.wasSubmittedAtLeastOnce)
+        {
+            if(this.state.emailMatch === undefined){
+            <p class="error">Login Details are incorrect!</p>;
+            }
+        }
         return (
             <form className="form-container" noValidate = {true} id = "loginOrRegistrationForm">
             <div class="navbar-container">
@@ -77,6 +131,9 @@ export default class Login extends Component
                 
                 {this.state.isLoggedIn ? <Redirect to="/DisplayAllCars"/> : null} 
                 
+                {this.state.loginError}
+                {""}
+
                 <input 
                     type = "email" 
                     name = "email" 
