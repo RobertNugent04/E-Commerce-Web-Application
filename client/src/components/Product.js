@@ -11,6 +11,8 @@ import NavBar from "./NavBar"
 import Footer from "./Footer"
 import AddedToCart from "./AddedToCart"
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item } from "../config/global_constants"
+import BuyShoe from "./BuyShoe"
+
 
 export default class Product extends Component {
   constructor(props) {
@@ -113,7 +115,7 @@ export default class Product extends Component {
     
     // console.log(imageURL)
 
-    if(this.state.size !== null && this.state.shoe.items_left > 0){
+    if(this.state.size !== null && this.state.shoe.items_left - 1 >= 0){
       localStorage.cart_item++;
 
       axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}`, {
@@ -140,6 +142,8 @@ export default class Product extends Component {
           console.log("Add to cart failed")
         }
       })
+    }else{
+      console.log("not enough stock")
     }
  //   window.location.reload(false);
   }
@@ -356,6 +360,7 @@ export default class Product extends Component {
           :
           null
         }
+        {localStorage.accessLevel == ACCESS_LEVEL_ADMIN ?  <BuyShoe  price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: null}
             {console.log(localStorage.cart_item)}
 
             <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />

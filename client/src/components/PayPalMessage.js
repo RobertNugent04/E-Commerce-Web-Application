@@ -25,12 +25,12 @@ export default class PayPalMessage extends Component
                            message:"Your PayPal transaction was successful.", 
                            buttonColour:"green-button"})
         }
-        else if(this.props.match.params.messageType === PayPalMessage.messageType.CANCEL)
+        else if(this.props.match.params.msessageType === PayPalMessage.messageType.CANCEL)
         {
             this.setState({heading:"PayPal Transaction Cancelled",
                            message:"You cancelled your PayPal transaction. Therefore, the transaction was not completed."})            
         }
-        else if(this.props.match.params.messageType === PayPalMessage.messageType.ERROR)
+        else if(this.props.match.params.msessageType === PayPalMessage.messageType.ERROR)
         {
             this.setState({heading:"PayPal Transaction Error",
                            message:"An error occured when trying to perform your PayPal transaction. The transaction was not completed. Please try to perform your transaction again."})     
