@@ -96,7 +96,7 @@ export default class Product extends Component {
     this.showSlides(n);
   }
   commentToggle = (e) => {
-    axios.get(`${SERVER_HOST}/comment/${this.props.location.search.slice(8)}`)
+    axios.get(`${SERVER_HOST}/comment/${this.state.shoe.name}`)
       .then(res => {
         if (res.data) {
           if (res.data.errorMessage) {

@@ -14,7 +14,9 @@ import Stock from "./components/Stock"
 import Logout from "./components/Logout"
 import AddCar from "./components/AddCar"
 import EditCar from "./components/EditCar"
+import EditUser from "./components/EditUser"
 import DeleteCar from "./components/DeleteCar"
+import UserDelete from "./components/UserDelete"
 import Home from "./components/Home"
 import DisplayAllCars from "./components/DisplayAllCars"
 import LoggedInRoute from "./components/LoggedInRoute"
@@ -26,6 +28,8 @@ import PurchaseHistory from "./components/PurchaseHistory"
 import Cart from "./components/Cart"
 import Product from "./components/Product"
 import CartDelete from "./components/CartDelete"
+import Users from "./components/Users"
+
 
 
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
@@ -60,11 +64,14 @@ export default class App extends Component
                     <LoggedInRoute exact path="/BuyShoe/:id" component={BuyShoe} />
                     <LoggedInRoute exact path="/PayPalMessage/:msessageType/:payPalPaymentID" component={PayPalMessage}/>   
                     <LoggedInRoute exact path="/Stock" component={Stock} />
+                    <LoggedInRoute exact path="/Users" component={Users} />
                     <LoggedInRoute exact path="/ProfilePage" component={ProfilePage} />
                     <LoggedInRoute exact path="/Logout" component={Logout} />
                     <LoggedInRoute exact path="/AddCar" component={AddCar} />
                     <LoggedInRoute exact path="/EditCar/:id" component={EditCar} />
+                    <LoggedInRoute exact path="/EditUser/:id" component={EditUser} />
                     <LoggedInRoute exact path="/DeleteCar/:id" component={DeleteCar} />
+                    <LoggedInRoute exact path="/UserDelete/:id" component={UserDelete} />
                     <LoggedInRoute exact path="/PurchaseHistory/:email" component={PurchaseHistory} />
                     <LoggedInRoute exact path="/CartDelete/:id/:amount" component={CartDelete} />
 

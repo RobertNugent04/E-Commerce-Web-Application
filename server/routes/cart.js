@@ -113,7 +113,9 @@ router.delete(`/cart/:id/:email/:amount`, (req, res) => {
 })
 
 router.delete(`/cartdelete/:email`, (req, res) => {
-  carsModel.deleteMany({ email: req.params.email }, (error, data) => {
+  console.log("cart reset")
+  cartModel.deleteMany({ email: req.params.email }, (error, data) => {
+    res.json(data)
   })
 
 })

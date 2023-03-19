@@ -98,58 +98,58 @@ export default class AddCar extends Component {
 
     render() {
         return (
-                <div class="navbar-container">
-        <NavBar/> <br/><br/><br/><br/>
-                   
-            <div id="profilePage">
-                {
+            <div class="navbar-container">
+                <NavBar /> <br /><br /><br /><br />
 
-                    localStorage.accessLevel > ACCESS_LEVEL_GUEST
-                        ?
+                <div id="profilePage">
+                    {
 
-
-                        <div id="profileContainer">
-
-                            {
-                                localStorage.profilePhoto !== "undefined"
-                                    ? <div className="profilePict"><img id="profilePhoto" src={`data:;base64,${localStorage.profilePhoto}`} alt="" /></div>
-                                    : <div>
-
-                                        <img id="profilePhoto" src={"https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"} alt="" />
-                                    </div>
+                        localStorage.accessLevel > ACCESS_LEVEL_GUEST
+                            ?
 
 
-                            }
+                            <div id="profileContainer">
 
-                            <div id="profileName">
-                                <label>Name :</label>
-                                <p>{localStorage.getItem("name")}</p>
+                                {
+                                    localStorage.profilePhoto !== "undefined"
+                                        ? <div className="profilePict"><img id="profilePhoto" src={`data:;base64,${localStorage.profilePhoto}`} alt="" /></div>
+                                        : <div>
+
+                                            <img id="profilePhoto" src={"https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"} alt="" />
+                                        </div>
+
+
+                                }
+
+                                <div id="profileName">
+                                    <label>Name :</label>
+                                    <p>{localStorage.getItem("name")}</p>
+                                </div>
+
+                                <div id="profileEmail">
+                                    <label>Email :</label>
+                                    <p>{localStorage.getItem("email")}</p>
+                                </div>
+
+                                {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/PurchaseHistory/" + localStorage.getItem("email")}>Purchase History</Link> : null}
+
+                                {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ? <Link className="red-button" to={"/Users"}>Edit Users</Link> : null}
+
+
                             </div>
 
-                            <div id="profileEmail">
-                                <label>Email :</label>
-                                <p>{localStorage.getItem("email")}</p>
+
+                            :
+                            <div>
+
+                                <img id="profilePhoto" src={"./images/profile_picture.png"} alt="" />
                             </div>
 
-                            {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <Link className="green-button" to={"/PurchaseHistory/" + localStorage.getItem("email")}>Edit</Link> : null}
-                    
-                    {/* {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ? <Link className="red-button" to={"/DeleteCar/" + this.props.car._id}>Delete</Link> : null} */}
+                    }
 
+                </div>
 
-                        </div>
-
-
-                        :
-                        <div>
-
-                            <img id="profilePhoto" src={"./images/profile_picture.png"} alt="" />
-                        </div>
-
-                }
-
-            </div>
-            
-                <Footer/>
+                <Footer />
             </div>
         )
     }
