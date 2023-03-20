@@ -1,6 +1,9 @@
 import React, {Component} from "react"
 import {Redirect, Link} from "react-router-dom"
 
+import NavBar from "./NavBar"
+import Footer from "./Footer"
+
 export default class PayPalMessage extends Component
 {      
     static messageType = {SUCCESS:"success", 
@@ -45,7 +48,14 @@ export default class PayPalMessage extends Component
     render()
     {                 
         return (
-            <div className="payPalMessage"><center>
+            <div className="payPalMessage">
+                <div class="navbar-container">
+                    <NavBar />
+                </div> <br /> <br /> <br /> <br /> <br /> <br /> <center>
+
+                    <h2 id="title2">Payment Successful!</h2>
+                
+                
                 
                 {this.state.redirectToDisplayAllCars ? <Redirect to="/DisplayAllCars"/> : null} 
                 
@@ -56,7 +66,9 @@ export default class PayPalMessage extends Component
                 {this.props.match.params.messageType === PayPalMessage.messageType.SUCCESS ? <p>Your PayPal payment confirmation is <span id="payPalPaymentID">{this.props.match.params.payPalPaymentID}</span></p> : null}
                 
                 <p id="payPalPaymentIDButton"><Link className={this.state.buttonColour} to={"/DisplayAllCars"}>Continue</Link></p>                                     
-                </center></div>
+                </center>
+                <Footer />
+                </div>
         )
     }
 }
