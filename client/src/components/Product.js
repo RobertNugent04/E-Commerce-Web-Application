@@ -105,7 +105,7 @@ export default class Product extends Component {
     // const imageURL = this.state.shoe.imageURL
     const email = localStorage.email
     let photos = null;
-    const quantity = document.getElementById('number').value;
+    const quantity = document.getElementById('number').value - 1;
     // let total = localStorage.cart_item + quantity
     // localStorage.cart_item = total
     console.log("Quantity: " + quantity)
@@ -345,8 +345,8 @@ export default class Product extends Component {
               null
             }
             <div className="gap"></div>
-            {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoeGuest price={this.state.shoe.price} id={this.state.shoe._id} shoeName={this.state.shoe.name} size={this.state.size} /> : <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
-
+            {this.state.shoe.items_left > 0 && localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoeGuest price={this.state.shoe.price} id={this.state.shoe._id} shoeName={this.state.shoe.name} size={this.state.size} /> : null }
+            {this.state.shoe.items_left > 0 && localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
 
             {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
@@ -442,10 +442,9 @@ export default class Product extends Component {
             }
             {console.log(this.state.shoe.price)}
 
-            {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoeGuest price={this.state.shoe.price} id={this.state.shoe._id} shoeName={this.state.shoe.name} size={this.state.size} /> : null}
-            {console.log(localStorage.cart_item)}
 
-            {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
+            
+            {console.log("Items: " + this.state.shoe.items_left)}
           </center></div>
 
         </div><br></br><br></br>
