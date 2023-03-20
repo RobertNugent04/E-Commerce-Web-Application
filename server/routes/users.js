@@ -201,7 +201,8 @@ router.put(`/users/:id`, (req, res) => {
             if (decodedToken.accessLevel >= process.env.ACCESS_LEVEL_ADMIN) {
             if (req.body.name == "") {
                 res.json({ errorMessage: `name cant be empty` });
-            } else if (req.body.email == "") {
+            } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body.email)) {
+                ///^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
                 res.json({ errorMessage: `emailcant be empty` });
             }
             else if (!(req.body.cart_item >= 0)) {

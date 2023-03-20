@@ -23,7 +23,7 @@ export default class User extends Component
         this.state = {
             shoes:[],
             searchBy: "name",
-            attributes: ["name", "brand", "category", "price"],
+            attributes: ["name"],
             selectedShoes: [],
             sortedShoes: [],
             sortBy: "name",

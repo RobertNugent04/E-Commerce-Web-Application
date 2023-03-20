@@ -158,7 +158,25 @@ export default class EditCar extends Component
     validateStock()
     {    
         const pattern = /^[0-9]{1,6}$/
-        return pattern.test(String(this.state.items_left))
+        return pattern.test(String(this.state.stock))
+    }
+
+    validateCategory()
+    {    
+        //Not empty
+        return this.state.category !== "";
+    }
+
+    validateGender()
+    {    
+        //Not empty
+        return this.state.gender !== "";
+    }
+
+    validateSize()
+    {    
+        //Not empty
+        return this.state.size !== "";
     }
 
 
@@ -168,7 +186,10 @@ export default class EditCar extends Component
             name: this.validateName(),
             brand: this.validateBrand(),
             stock: this.validateStock(),
-            price: this.validatePrice()
+            price: this.validatePrice(),
+            category: this.validateCategory(),
+            gender: this.validateGender(),
+            size: this.validateSize()
         };
     }
 
@@ -179,21 +200,33 @@ export default class EditCar extends Component
         let brandError = ""
         let priceError = ""
         let stockError = ""
+        let categoryError = ""
+        let genderError = ""
+        let sizeError = ""
 
         if(this.state.wasSubmittedAtLeastOnce)
         {
 
         if (!this.validateName()) {
-            nameError = <p>Name can't be empty</p>;
+            nameError = <p class="error">Name can't be empty</p>;
         }
         if (!this.validateBrand()) {
-            brandError = <p>Brand can't be empty</p>;
+            brandError = <p class="error">Brand can't be empty</p>;
         }
         if (!this.validatePrice()) {
-            priceError = <p>Price must be within valid range(10 - 1000)</p>;
+            priceError = <p class="error">Price must be within valid range(10 - 1000)</p>;
         }
         if (!this.validateStock()) {
-            stockError = <p>Must be a positive whole number less than 7 digits</p>;
+            stockError = <p class="error">Must be a positive whole number less than 7 digits</p>;
+        }
+        if (!this.validateCategory()) {
+            categoryError = <p class="error">Category can't be empty</p>;
+        }
+        if (!this.validateGender()) {
+            genderError = <p class="error">Gender can't be empty</p>;
+        }
+        if (!this.validateSize()) {
+            sizeError = <p class="error">Size can't be empty</p>;
         }
     }
 
@@ -223,10 +256,14 @@ export default class EditCar extends Component
 
                     <div controlId="gender">
                         <input type="text" name="gender" placeholder = "Gender" value={this.state.gender} onChange={this.handleChange} />
+                        {" "}
+                        {genderError}
                     </div>
                     
                     <div controlId="category">
                         <input type="text" name="category" placeholder = "Category" value={this.state.category} onChange={this.handleChange} />
+                        {" "}
+                        {categoryError}
                     </div>
         
                     <div controlId="price">

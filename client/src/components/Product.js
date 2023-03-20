@@ -10,7 +10,7 @@ import Sort from "./Sort"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
 import AddedToCart from "./AddedToCart"
-import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item } from "../config/global_constants"
+import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item, ACCESS_LEVEL_NORMAL_USER } from "../config/global_constants"
 import BuyShoeGuest from "./BuyShoeGuest"
 import BuyShoe from "./BuyShoe"
 
@@ -120,7 +120,7 @@ export default class Product extends Component {
     // console.log(imageURL)
 
     if (this.state.size !== null && this.state.shoe.items_left - 1 >= 0) {
-      localStorage.cart_item = +localStorage.cart_item + +quantity;
+      localStorage.cart_item = +localStorage.cart_item + +quantity + 1;
 
       axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}/${quantity}`, {
 
@@ -346,7 +346,7 @@ export default class Product extends Component {
             }
             <div className="gap"></div>
             {this.state.shoe.items_left > 0 && localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoeGuest price={this.state.shoe.price} id={this.state.shoe._id} shoeName={this.state.shoe.name} size={this.state.size} /> : null }
-            {this.state.shoe.items_left > 0 && localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
+            {this.state.shoe.items_left > 0 && localStorage.accessLevel == ACCESS_LEVEL_NORMAL_USER ? <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
 
             {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?

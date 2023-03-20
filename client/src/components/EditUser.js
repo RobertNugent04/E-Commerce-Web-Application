@@ -121,15 +121,16 @@ export default class EditCar extends Component {
         return this.state.name !== "";
     }
 
-
-    validateEmail() {
-        //Not empty
-        return this.state.email !== "";
-    }
-
     validateCartItem() {
         const items = parseInt(this.state.cart_item)
         return ( items>= 0)
+    }
+
+        validateEmail(){
+
+        const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return pattern.test(String(this.state.email))
+
     }
 
     // validateStock() {
@@ -141,7 +142,7 @@ export default class EditCar extends Component {
     validate() {
         return {
             name: this.validateName(),
-            brand: this.validateEmail()
+            email: this.validateEmail()
             // stock: this.validateStock(),
             // price: this.validatePrice()
         };
@@ -184,14 +185,15 @@ export default class EditCar extends Component {
         let brandError = ""
         let priceError = ""
         let stockError = ""
+        let emailError = ""
 
         if (this.state.wasSubmittedAtLeastOnce) {
 
             if (!this.validateName()) {
-                nameError = <p>Name can't be empty</p>;
+                nameError = <p class="error">Name can't be empty</p>;
             }
             if (!this.validateEmail()) {
-                brandError = <p>Brand can't be empty</p>;
+                emailError = <p class="error">Invalid email!</p>;
             }
             if (!this.validateCartItem()) {
                 priceError = <p>Cart item can not be below 0</p>;
@@ -220,9 +222,9 @@ export default class EditCar extends Component {
                         </div>
 
                         <div controlId="brand">
-                            <input type="text" name="brand" placeholder="Brand" value={this.state.email} onChange={this.handleChange} />
+                            <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} />
                             {" "}
-                            {brandError}
+                            {emailError}
                         </div>
 
                         {/* <div controlId="gender">
