@@ -94,7 +94,6 @@ export default class Product extends Component {
 
 
   handleSubmit = (e) => {
-    e.preventDefault()
 
     this.setState({ wasSubmittedOnce: true })
 
@@ -106,7 +105,7 @@ export default class Product extends Component {
     // const imageURL = this.state.shoe.imageURL
     const email = localStorage.email
     let photos = null;
-    const quantity = this.state.quantityNum - 1;
+    const quantity = document.getElementById('number').value;
     // let total = localStorage.cart_item + quantity
     // localStorage.cart_item = total
     console.log("Quantity: " + quantity)
@@ -121,7 +120,7 @@ export default class Product extends Component {
     // console.log(imageURL)
 
     if (this.state.size !== null && this.state.shoe.items_left - 1 >= 0) {
-      localStorage.cart_item = +localStorage.cart_item + +quantity + 1;
+      localStorage.cart_item = +localStorage.cart_item + +quantity;
 
       axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}/${quantity}`, {
 
@@ -234,31 +233,21 @@ export default class Product extends Component {
   increaseValue = () => {
     var value = parseInt(document.getElementById('number').value, 10);
     value = isNaN(value) ? 0 : value;
+    if (value === this.state.shoe.items_left) {
+      value = this.state.shoe.items_left - 1
+    }
     value++;
-    if (value <= this.state.shoe.items_left) {
-      this.setState({ quantityNum: value })
-    }
-    else {
-      this.setState({ quantityNum: value - 1 })
-    }
     document.getElementById('number').value = value;
-    // this.setState({ quantityNum: document.getElementById('number').value })
-    this.forceUpdate();
   }
 
   decreaseValue = () => {
     var value = parseInt(document.getElementById('number').value, 10);
     value = isNaN(value) ? 0 : value;
-    value = value < 1 ? 1 : value;
+    if(value < 2){
+      value = 2
+    }
     value--;
-    if (value > 0) {
-      this.setState({ quantityNum: value })
-    }
-    else {
-      this.setState({ quantityNum: 1 })
-    }
     document.getElementById('number').value = value;
-    // this.setState({ quantityNum: document.getElementById('number').value })
   }
 
   render() {
@@ -329,7 +318,7 @@ export default class Product extends Component {
                 <form>
                   <div class="quantity-control">
                     <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
-                    <input type="number" id="number" value={this.state.quantityNum} />
+                    <input type="number" id="number" value="1" />
                     <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
                   </div>
                 </form></div>

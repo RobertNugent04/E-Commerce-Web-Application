@@ -111,7 +111,7 @@ export default class DisplayAllCars extends Component {
                         null
                 }
 
-                <div className="shoe-container">
+                <div>
                     <ShoeTableHistory cars={this.state.selectedShoes} />
 
 
