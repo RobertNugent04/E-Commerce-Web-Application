@@ -360,10 +360,10 @@ export default class Product extends Component {
           :
           null
         }
-        {localStorage.accessLevel == ACCESS_LEVEL_ADMIN ?  <BuyShoe  price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: null}
+        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoe  price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: null}
             {console.log(localStorage.cart_item)}
 
-            <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
+          {localStorage.accessLevel> ACCESS_LEVEL_GUEST ?  <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
           </center></div>
 
         </div><br></br><br></br>
