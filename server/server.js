@@ -66,6 +66,15 @@ app.use(require(`express-session`)({
     saveUninitialized: true
 }))
 
+const path = require("path")
+const appPath = path.join(__dirname,"..","client","build")
+app.use(express.static(appPath))
+
+app.get('/', (req, res) => 
+{
+    res.sendFile(path.resolve(appPath, "index.html"))
+})
+
 
 
 
