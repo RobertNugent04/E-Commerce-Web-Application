@@ -720,6 +720,10 @@ button {
     display: none;
 }
 
+.gap {
+margin-top: 5%;
+}
+
 .error{
   color:red;
   text-align: center;
