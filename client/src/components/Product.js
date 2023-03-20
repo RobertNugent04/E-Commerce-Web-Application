@@ -308,14 +308,20 @@ export default class Product extends Component {
         {sizeError}
         <p><b>Gender: </b>{shoe.gender}</p>
         <p><b>Color: </b>{shoe.color}</p>
-        <p><b>Price: </b>€{shoe.price}</p><br></br>
+        <p><b>Price: </b>€{shoe.price}</p>
 
-        <p><b>Quantiy: </b></p> 
-        <form>
-        <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
-  <input type="number" id="number" value={this.state.quantityNum} />
-  <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
-  </form>
+        
+
+  {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                                    <div><p><b>Quantiy: </b></p> 
+                                    <form>
+                                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
+                              <input type="number" id="number" value={this.state.quantityNum} />
+                              <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
+                              </form></div>
+                            :
+                                    null
+                    }
         
         <br></br>
 
@@ -401,7 +407,18 @@ export default class Product extends Component {
           </label>
           ))}
         </div>
-        <p><b>Price:</b> €{shoe.price}</p><br></br>
+        <p><b>Price:</b> €{shoe.price}</p>
+        {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                                    <div><p><b>Quantiy: </b></p> 
+                                    <form>
+                                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
+                              <input type="number" id="number" value={this.state.quantityNum} />
+                              <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
+                              </form></div>
+                            :
+                                    null
+                    }
+                    <br></br>
         <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           (<table>
