@@ -74,23 +74,25 @@ export default class DisplayAllCars extends Component {
     }
 
 
-    handleSearchChange = e => {
-        console.log(this.state.shoes)
-        if (!(e === "")) {
+//     handleSearchChange = e => {
+//         console.log(this.state.shoes)
+//         console.log(this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase())))
+//         if (!(e === "")) {
 
-            this.setState({ selectedShoes: this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase())) });
+//             this.setState({ selectedShoes: this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase())) });
             
-        }
-        else{
+//         }
+//         else{
 
-            this.setState({ selectedShoes: this.state.shoes })
+//             this.setState({ selectedShoes: this.state.shoes })
 
-    }
-}
+//     }
+// }
 
 
 
     render() {
+        
         return (
             <div className="form-container">
                 <div class="navbar-container">
@@ -99,7 +101,7 @@ export default class DisplayAllCars extends Component {
 
                 {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
                       <div>
-                      <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} />
+                      {/* <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange} /> */}
                       {/* <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
                       <Filter shoes={this.state.shoes} handleFilterChange={this.handleFilterChange} /> */}
                       {/* <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>

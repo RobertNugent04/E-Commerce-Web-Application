@@ -63,29 +63,29 @@ export default class User extends Component
         this.setState({ searchBy: e.target.value })
     }
     
-        handleSearchChange = e => {
+//         handleSearchChange = e => {
 
-        let x = this.state.searchBy
+//         let x = this.state.searchBy
 
-        if (!(e.target.value === "")) {
+//         if (!(e === "")) {
 
-            if(this.state.sortedShoes.length > 0){
-                this.setState({ selectedShoes: this.state.sortedShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.email.toUpperCase().includes(e.toUpperCase())) });
-            }
-            else{
-            this.setState({ selectedShoes: this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.email.toUpperCase().includes(e.toUpperCase())) });
-            }
-        }
-        else{
-            if(this.state.sortedShoes.length > 0){
-            this.setState({ selectedShoes: this.state.sortedShoes })
-        }
-        else{
-            this.setState({ selectedShoes: this.state.shoes })
-        }
+//             if(this.state.sortedShoes.length > 0){
+//                 this.setState({ selectedShoes: this.state.sortedShoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.email.toUpperCase().includes(e.toUpperCase())) });
+//             }
+//             else{
+//             this.setState({ selectedShoes: this.state.shoes.filter(finder => finder.name.toUpperCase().includes(e.toUpperCase()) || finder.email.toUpperCase().includes(e.toUpperCase())) });
+//             }
+//         }
+//         else{
+//             if(this.state.sortedShoes.length > 0){
+//             this.setState({ selectedShoes: this.state.sortedShoes })
+//         }
+//         else{
+//             this.setState({ selectedShoes: this.state.shoes })
+//         }
 
-    }
-}
+//     }
+// }
     
         handleSortClick = e => {
         let sortDirection
@@ -129,7 +129,7 @@ export default class User extends Component
                     {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
                                     <div className="admin-controls"><center>
                                         <div className="search-sort">
-                                    <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange}/>
+                                    {/* <Search handleSearchChange={this.handleSearchChange} handleChange={this.handleChange}/> */}
                                         <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
                                         </div><br></br>
                                         {/* <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link> */}

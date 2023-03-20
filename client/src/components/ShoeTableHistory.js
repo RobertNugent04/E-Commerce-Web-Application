@@ -1,9 +1,20 @@
 import React, { Component } from "react";
+import { Redirect, Link } from "react-router-dom"
 import axios from "axios";
+
+import Return from "./Return"
 
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
 
 export default class ShoeTableHistory extends Component {
+  constructor(props) 
+  {
+      super(props)
+      
+      this.state = {
+redirectToReturned: false
+      }
+  }
 
   handleSelect = (car, index) => {
     car.shoesID.splice(index, 1);
@@ -11,8 +22,7 @@ export default class ShoeTableHistory extends Component {
     car.amount.splice(index, 1);
     car.size.splice(index, 1);
     this.updateSales(car); 
-    this.forceUpdate();
-
+    this.setState({redirectToReturned: true})
   };
 
   updateSales = (car) => {
@@ -26,6 +36,11 @@ export default class ShoeTableHistory extends Component {
   };
 
   render() {
+
+    if (this.state.redirectToReturned === true) {
+      return <Redirect to="/Return" />
+    }
+
     return (
       <div>
         <table>

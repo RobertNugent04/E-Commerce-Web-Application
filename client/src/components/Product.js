@@ -107,8 +107,8 @@ export default class Product extends Component {
     const email = localStorage.email
     let photos = null;
     const quantity = this.state.quantityNum - 1;
-    let total = localStorage.cart_item + quantity
-    localStorage.cart_item = total
+    // let total = localStorage.cart_item + quantity
+    // localStorage.cart_item = total
     console.log("Quantity: " + quantity)
     if (this.state.embeddedImage === true) {
       photos = JSON.stringify(this.state.shoe.photos)

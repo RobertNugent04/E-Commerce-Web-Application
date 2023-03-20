@@ -34,7 +34,7 @@ import Users from "./components/Users"
 import ThankYou from "./components/ThankYou"
 import AddedToCart from "./components/AddedToCart"
 import AddComment from "./components/AddComment"
-
+import Return from "./components/Return"
 
 
 import {ACCESS_LEVEL_GUEST} from "./config/global_constants"
@@ -68,6 +68,7 @@ export default class App extends Component
                     <Route exact path="/Login" component={Login} />
                     <Route exact path="/ThankYou" component={ThankYou} />
                     <Route exact path="/AddedToCart" component={AddedToCart} />
+                    <Route exact path="/Return" component={Return} />
                     <Route exact path="/BuyShoe/:id" component={BuyShoeGuest} />
                     <LoggedInRoute exact path="/BuyShoe/:id" component={BuyShoe} />
                     <LoggedInRoute exact path="/PayPalMessage/:msessageType/:payPalPaymentID" component={PayPalMessage}/> 
