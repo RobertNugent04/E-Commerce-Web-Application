@@ -142,9 +142,9 @@ export default class User extends Component
                     }
                 
                     {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                                        <div className="table-container">
+                                        <div className="table-container"><center>
                                             <UserTable cars={this.state.selectedShoes} />
-                                        </div>
+                                            </center></div>
 
                             :
                             null
