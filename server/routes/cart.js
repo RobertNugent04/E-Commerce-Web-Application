@@ -37,7 +37,7 @@ router.get(`/cart/:id`, (req, res) => {
   })
 })
 
-router.post(`/cart/:shoeID/:name/:price/:size/:email/:photos`, (req, res) => {
+router.post(`/cart/:shoeID/:name/:price/:size/:email/:photos/:quantity`, (req, res) => {
   if (!req.file) {
     console.log("BODY" + req.params)
     let image = null;
@@ -46,7 +46,7 @@ router.post(`/cart/:shoeID/:name/:price/:size/:email/:photos`, (req, res) => {
       // photos = data.photos
       // console.log(photos)
       // console.log("INSIDE" + image)
-      cartModel.findOneAndUpdate({ shoeID: req.params.shoeID, email: req.params.email, price: req.params.price, name: req.params.name, imageURL: image, size: req.body.size, photos:req.params.photos }, { $inc: { 'amount': 1 } }, { upsert: true }, (error, data) => {
+      cartModel.findOneAndUpdate({ shoeID: req.params.shoeID, email: req.params.email, price: req.params.price, name: req.params.name, imageURL: image, size: req.body.size, photos:req.params.photos, amount: req.params.quantity }, { $inc: { 'amount': 1 } }, { upsert: true }, (error, data) => {
       })
     })
     usersModel.findOneAndUpdate({ email: req.params.email }, { $inc: { 'cart_item': 1 } }, (error, data) => {

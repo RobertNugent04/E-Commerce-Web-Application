@@ -26,7 +26,8 @@ export default class Product extends Component {
       embeddedImage: false,
       imageFiles: [],
       redirectToAdded: false,
-      wasSubmittedOnce: false
+      wasSubmittedOnce: false,
+      quantityNum: 0
     };
     this.showSlides = this.showSlides.bind(this);
   }
@@ -56,8 +57,6 @@ export default class Product extends Component {
           console.log("Record not found")
         }
       })
-
-
   }
 
   getFromFile() {
@@ -107,6 +106,8 @@ export default class Product extends Component {
     // const imageURL = this.state.shoe.imageURL
     const email = localStorage.email
     let photos =null;
+    const quantity = this.state.quantityNum - 1;
+    console.log("Quantity: " + quantity)
     if(this.state.embeddedImage ===true){
    photos =JSON.stringify(this.state.shoe.photos)}
    else{ 
@@ -118,7 +119,7 @@ export default class Product extends Component {
     if(this.state.size !== null && this.state.shoe.items_left - 1 >= 0){
       localStorage.cart_item++;
 
-      axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}`, {
+      axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}/${quantity}`, {
 
       size: this.state.size // Pass the selected size to the server
     })
@@ -129,12 +130,16 @@ export default class Product extends Component {
           } else {
             console.log("Shoe Added to Cart Successfully")
 
+            let quantity = this.state.quantityNum - 1;
+
             localStorage.shoeID = res.data.shoeID
             localStorage.name = res.data.name
             // localStorage.imageURL = res.data.imageURL
             localStorage.price = res.data.price;
             localStorage.image = res.data.imageURL;
             localStorage.size = this.state.size;
+            localStorage.quantity = quantity;
+            console.log("Quantity: " + localStorage.quantity)
 
             this.setState({redirectToAdded: true})
           }
@@ -154,6 +159,7 @@ export default class Product extends Component {
     });
   }
 
+  //Code adapted from https://www.w3schools.com/howto/howto_js_slideshow.asp
   plusSlides(n) {
     this.showSlides(this.state.slideIndex + n);
   }
@@ -219,11 +225,35 @@ export default class Product extends Component {
     }
   }
 
+  //Increase and decrease methods taken from https://codepen.io/mtbroomell/pen/yNwwdv
+  increaseValue = () => {
+    var value = parseInt(document.getElementById('number').value, 10);
+    value = isNaN(value) ? 0 : value;
+    value++;
+    this.setState({ quantityNum: value })
+    document.getElementById('number').value = value;
+   // this.setState({ quantityNum: document.getElementById('number').value })
+   this.forceUpdate();
+  }
+  
+  decreaseValue = () => {
+    var value = parseInt(document.getElementById('number').value, 10);
+    value = isNaN(value) ? 0 : value;
+    value = value < 1 ? 1 : value;
+    value--;
+    this.setState({ quantityNum: value })
+    document.getElementById('number').value = value;
+   // this.setState({ quantityNum: document.getElementById('number').value })
+  }
 
   render() {
 
     let sizeError = ""
     let stockError = ""
+
+   
+      console.log("Greater then 2")
+    
 
     if (this.state.redirectToAdded === true) {
       return <Redirect to="./AddedToCart" />
@@ -278,6 +308,36 @@ export default class Product extends Component {
         <p><b>Gender: </b>{shoe.gender}</p>
         <p><b>Color: </b>{shoe.color}</p>
         <p><b>Price: </b>€{shoe.price}</p><br></br>
+
+        <p><b>Quantiy: </b></p> 
+        <form>
+        <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
+  <input type="number" id="number" value={this.state.quantityNum} />
+  <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
+  </form>
+        
+        <br></br>
+
+        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+        {this.state.showComments ?
+          (<table>
+            <div style={{display:"inline-block"}}>
+            {this.state.comments.userName.map((comment)=><tr><td>{comment}:</td> </tr>)} 
+            </div>
+            <div style={{display:"inline-block"}}>
+            {this.state.comments.comments.map((comment)=><tr><td>{comment}</td> </tr>)} 
+            </div>
+            <tr>
+            <Link className="green-button" to={"/AddComment/" + shoe.name}>add comment</Link> 
+            </tr>
+          </table>)
+          :
+          null
+        }
+        <div className="gap"></div>
+        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoe price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
+
+
         {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           <table>
@@ -287,9 +347,6 @@ export default class Product extends Component {
           null
         } */}
         <br></br><br></br>
-            {console.log(localStorage.cart_item)}
-
-            <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
           </div>
 
 
