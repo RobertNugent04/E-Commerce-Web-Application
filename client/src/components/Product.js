@@ -27,9 +27,8 @@ export default class Product extends Component {
       imageFiles: [],
       redirectToAdded: false,
       wasSubmittedOnce: false,
-      quantityNum: 0
+      quantityNum: 1
     };
-    this.showSlides = this.showSlides.bind(this);
   }
 
   componentDidMount() {
@@ -198,7 +197,7 @@ export default class Product extends Component {
 
   }
 
-  showSlides(slideIndex) {
+  showSlides = (slideIndex) => {
     const slides = document.getElementsByClassName("mySlides");
     const dots = document.getElementsByClassName("dot");
 
@@ -230,7 +229,12 @@ export default class Product extends Component {
     var value = parseInt(document.getElementById('number').value, 10);
     value = isNaN(value) ? 0 : value;
     value++;
-    this.setState({ quantityNum: value })
+     if(value <= this.state.shoe.items_left){
+     this.setState({ quantityNum: value })
+    }
+    else{
+      this.setState({ quantityNum: value - 1})
+    }
     document.getElementById('number').value = value;
    // this.setState({ quantityNum: document.getElementById('number').value })
    this.forceUpdate();
@@ -241,7 +245,12 @@ export default class Product extends Component {
     value = isNaN(value) ? 0 : value;
     value = value < 1 ? 1 : value;
     value--;
-    this.setState({ quantityNum: value })
+     if(value > 0){
+     this.setState({ quantityNum: value })
+     }
+    else{
+      this.setState({ quantityNum: 1 })
+    }
     document.getElementById('number').value = value;
    // this.setState({ quantityNum: document.getElementById('number').value })
   }
@@ -250,6 +259,7 @@ export default class Product extends Component {
 
     let sizeError = ""
     let stockError = ""
+    let itemsLeftError = ""
 
    
       console.log("Greater then 2")
