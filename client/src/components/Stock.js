@@ -120,7 +120,7 @@ export default class Stock extends Component
                                         <Sort sortSwitch={this.state.sortSwitch} switchKey={this.state.switchKey} handleSortChange={this.handleSortChange} handleSortClick={this.handleSortClick} sortColumn={this.state.attributes} />
                                         </div><br></br>
                                         <Link className="blue-button" to={"/AddCar"}>Add New Shoe</Link>
-                                        <Link className="red-button" to={"/ResetDatabase"}>Reset Users</Link>
+                                        <Link className="red-button hide" to={"/ResetDatabase"}>Reset Users</Link>
                                         <Link className="red-button" to={"/ResetShoes"}>Reset Shoes</Link>
                                         </center></div>
 

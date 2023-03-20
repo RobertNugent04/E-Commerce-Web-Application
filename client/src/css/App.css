@@ -819,6 +819,12 @@ margin-top: 5%;
     }
   }
 
+  @media (max-width: 400px) {
+    .navbar {
+      justify-content: flex-start;
+    } 
+  }
+
   .search-sort {
     display: inline-flex;
     padding-bottom: 1%;
