@@ -39,7 +39,7 @@ router.get(`/cart/:id`, (req, res) => {
 
 router.post(`/cart/:shoeID/:name/:price/:size/:email/:photos/:quantity`, (req, res) => {
   if (!req.file) {
-    console.log("BODY" + req.params)
+    console.log("qunaitiy and Name : " + req.params.quantity + " " + req.params.name)
     let image = null;
     carsModel.findById(req.params.shoeID, (error, data) => {
       image = data.imageURL
@@ -49,7 +49,7 @@ router.post(`/cart/:shoeID/:name/:price/:size/:email/:photos/:quantity`, (req, r
       cartModel.findOneAndUpdate({ shoeID: req.params.shoeID, email: req.params.email, price: req.params.price, name: req.params.name, imageURL: image, size: req.body.size, photos:req.params.photos, amount: req.params.quantity }, { $inc: { 'amount': 1 } }, { upsert: true }, (error, data) => {
       })
     })
-    usersModel.findOneAndUpdate({ email: req.params.email }, { $inc: { 'cart_item': req.params.quantity } }, (error, data) => {
+    usersModel.findOneAndUpdate({ email: req.params.email }, { $inc: { 'cart_item': +req.params.quantity +1 } }, (error, data) => {
       console.log("cart item added")
     })
 

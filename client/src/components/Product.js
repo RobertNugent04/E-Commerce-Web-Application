@@ -121,7 +121,7 @@ export default class Product extends Component {
     // console.log(imageURL)
 
     if (this.state.size !== null && this.state.shoe.items_left - 1 >= 0) {
-      localStorage.cart_item++;
+      localStorage.cart_item = +localStorage.cart_item + +quantity + 1;
 
       axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}/${quantity}`, {
 
