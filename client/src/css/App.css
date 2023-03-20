@@ -756,6 +756,10 @@ margin-top: 5%;
         margin-right: 0px;
     }
 
+    .quantity-control {
+      justify-content: center;
+    }
+
     .checkoutPricing {
       position: inherit;
     }
@@ -863,65 +867,40 @@ margin-top: 5%;
     float: inline-end;
   }
 
-  /*Following increase/decrease value code taken from https://codepen.io/mtbroomell/pen/yNwwdv*/
-  .quantity{
-      width: 300px;
-      margin: 0 auto;
-      text-align: center;
-      padding-top: 50px;
+  /*Quantity Button*/
+  .quantity-control {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    width: 200px;
   }
-
+  
   .value-button {
-    display: inline-block;
-    border: 1px solid #ddd;
-    margin: 0px;
-    width: 40px;
-    height: 20px;
-    text-align: center;
-    vertical-align: middle;
-    padding: 11px 0;
-    background: #eee;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  .value-button:hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 50%;
     cursor: pointer;
+    font-size: 20px;
+    height: 25px;
+    margin: 0 10px;
+    width: 25px;
   }
   
-  form #decrease {
-    margin-right: -4px;
-    border-radius: 8px 0 0 8px;
-  }
-  
-  form #increase {
-    margin-left: -4px;
-    border-radius: 0 8px 8px 0;
-  }
-  
-  form #input-wrap {
-    margin: 0px;
-    padding: 0px;
-  }
-  
-  input#number {
-    text-align: center;
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
     border: none;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    margin: 0px;
-    width: 40px;
-    height: 40px;
+    text-align: center;
+    width: 50px;
   }
   
-  input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
   
   
