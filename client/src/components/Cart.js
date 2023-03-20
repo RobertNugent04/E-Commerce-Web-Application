@@ -41,6 +41,7 @@ export default class Cart extends Component {
                         console.log("Records read")
                         
                         this.setState({shoes: res.data })
+                        console.log(res.data)
 
                         let totalPrice=0;
                         let ids = [];
@@ -52,7 +53,6 @@ export default class Cart extends Component {
                         // let names=[]
                         this.state.shoes.map((shoe) => totalPrice+= (shoe.amount * shoe.price))
                         this.state.shoes.map((shoe) => ids.push(shoe.shoeID))
-                        this.state.shoes.map((shoe) => quantity.push(shoe.amount))
                         this.state.shoes.map((shoe) => names.push(shoe.name))
                         this.state.shoes.map((shoe) => images.push(shoe.imageURL))
                         this.state.shoes.map((shoe) => sizes.push(shoe.size))
