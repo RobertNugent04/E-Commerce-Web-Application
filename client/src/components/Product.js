@@ -141,12 +141,13 @@ export default class Product extends Component {
             localStorage.quantity = quantity;
             console.log("Quantity: " + localStorage.quantity)
 
-            this.setState({redirectToAdded: true})
+            
           }
         } else {
           console.log("Add to cart failed")
         }
       })
+      this.setState({redirectToAdded: true})
     }else{
       console.log("not enough stock")
     }
@@ -261,11 +262,8 @@ export default class Product extends Component {
     let sizeError = ""
     let stockError = ""
     let itemsLeftError = ""
-
-   
-      console.log("Greater then 2")
     
-
+    console.log("REDIRECT? " + this.state.redirectToAdded)
     if (this.state.redirectToAdded === true) {
       return <Redirect to="./AddedToCart" />
     }
