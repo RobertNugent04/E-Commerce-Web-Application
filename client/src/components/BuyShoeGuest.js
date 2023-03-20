@@ -70,6 +70,7 @@ export default class BuyShoe extends Component {
                 })
                 console.log("good")
                 localStorage.cart_item = 0;
+                window.alert('Your PayPal transaction was successful')
                
             })
             .catch(errorData => {
@@ -78,7 +79,11 @@ export default class BuyShoe extends Component {
                     payPalMessageType: PayPalMessage.messageType.ERROR,
                     redirectToPayPalMessage: true
                 })
+                window.alert("An error occured when trying to perform your PayPal transaction. The transaction was not completed. Please try to perform your transaction again.")
+
             })
+
+        
     }
 
 
@@ -89,6 +94,7 @@ export default class BuyShoe extends Component {
             payPalMessageType: PayPalMessage.messageType.ERROR,
             redirectToPayPalMessage: true
         })
+        window.alert("An error occured when trying to perform your PayPal transaction. The transaction was not completed. Please try to perform your transaction again.")
     }
 
 
@@ -99,6 +105,8 @@ export default class BuyShoe extends Component {
             payPalMessageType: PayPalMessage.messageType.CANCEL,
             redirectToPayPalMessage: true
         })
+        window.alert("PayPal Transaction Canceled")
+
     }
 
     render() {

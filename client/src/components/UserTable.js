@@ -21,7 +21,7 @@ export default class UserTable extends Component
                 </thead>
                   
                 <tbody>
-                    {this.props.cars.slice(1).map((car) => <UserTableRow key={car._id} car={car}/>)}
+                    {this.props.cars.map((car) => <UserTableRow key={car._id} car={car}/>)}
                 </tbody>
             </table>      
         )

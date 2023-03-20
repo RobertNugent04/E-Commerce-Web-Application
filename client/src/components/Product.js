@@ -291,9 +291,9 @@ export default class Product extends Component {
         </div><br /><br /><br /><br /><br />
         <center><h1 id="title2">{shoe.name}</h1></center>
 
-        <div className="superContainer">
+        {stockError}
 
-          {stockError}
+        <div className="superContainer">
           <div className="productControls">
             <p><b>Brand: </b>{shoe.brand}</p>
             <div>
