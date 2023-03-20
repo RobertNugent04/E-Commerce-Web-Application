@@ -129,9 +129,9 @@ export default class Stock extends Component
                     }
                 
                     {localStorage.accessLevel >= ACCESS_LEVEL_ADMIN ?
-                                        <div className="table-container">
+                                        <div className="table-container"><center>
                                             <CarTable cars={this.state.selectedShoes} />
-                                        </div>
+                                            </center></div>
 
                             :
                             null

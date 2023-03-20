@@ -3,6 +3,7 @@ const router = require(`express`).Router()
 const salesModel = require(`../models/sales`)
 const carsModel = require(`../models/cars`)
 const cartModel = require('../models/cart');
+const userModel = require('../models/users');
 
 
 
@@ -10,7 +11,7 @@ const cartModel = require('../models/cart');
 const createNewSaleDocument = (req, res, next) => {
     console.log("BODY: " + req.body)
     console.log("PARAMS: " + JSON.parse(req.params.ids)[1])
-    console.log("PARAMS: " + req.params.ids)
+    console.log("PARAMS SIZe: " + JSON.parse(req.params.size))
 
     // cartModel.deleteMany( { 'email' : saleDetails.email } );
 
@@ -78,6 +79,15 @@ console.log(req.params.email)
             console.log("cart cleared")
         }
     })
+
+    userModel.updateOne({email:req.params.email},{ $set: { 'cart_item': 0 } },(err, data) => {
+      if (err) {
+          console.log("user cart number not updated")
+          return next(err)
+      } else {
+          console.log("cart number updated")
+      }
+  })
 
 
 

@@ -307,8 +307,8 @@ export default class Product extends Component {
         {sizeError}
         <p><b>Gender: </b>{shoe.gender}</p>
         <p><b>Color: </b>{shoe.color}</p>
-        <p><b>Price: </b>€{shoe.price}</p>
-        
+        <p><b>Price: </b>€{shoe.price}</p><br></br>
+
         <p><b>Quantiy: </b></p> 
         <form>
         <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
@@ -317,6 +317,27 @@ export default class Product extends Component {
   </form>
         
         <br></br>
+
+        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+        {this.state.showComments ?
+          (<table>
+            <div style={{display:"inline-block"}}>
+            {this.state.comments.userName.map((comment)=><tr><td>{comment}:</td> </tr>)} 
+            </div>
+            <div style={{display:"inline-block"}}>
+            {this.state.comments.comments.map((comment)=><tr><td>{comment}</td> </tr>)} 
+            </div>
+            <tr>
+            <Link className="green-button" to={"/AddComment/" + shoe.name}>add comment</Link> 
+            </tr>
+          </table>)
+          :
+          null
+        }
+        <div className="gap"></div>
+        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoe price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
+
+
         {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           <table>
@@ -326,9 +347,6 @@ export default class Product extends Component {
           null
         } */}
         <br></br><br></br>
-            {console.log(localStorage.cart_item)}
-
-            <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
           </div>
 
 
@@ -399,11 +417,9 @@ export default class Product extends Component {
           :
           null
         }
-        {localStorage.accessLevel == ACCESS_LEVEL_ADMIN ?  <BuyShoe  price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: null}
-            {console.log(localStorage.cart_item)}
-
-            <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />
-          </center></div>
+        <div className="gap"></div>
+        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoe price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
+        </center></div>
 
         </div><br></br><br></br>
         <Footer />
