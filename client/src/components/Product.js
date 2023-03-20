@@ -11,6 +11,7 @@ import NavBar from "./NavBar"
 import Footer from "./Footer"
 import AddedToCart from "./AddedToCart"
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item } from "../config/global_constants"
+import BuyShoeGuest from "./BuyShoeGuest"
 import BuyShoe from "./BuyShoe"
 
 
@@ -317,14 +318,20 @@ export default class Product extends Component {
         {sizeError}
         <p><b>Gender: </b>{shoe.gender}</p>
         <p><b>Color: </b>{shoe.color}</p>
-        <p><b>Price: </b>€{shoe.price}</p><br></br>
+        <p><b>Price: </b>€{shoe.price}</p>
 
-        <p><b>Quantiy: </b></p> 
-        <form>
-        <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
-  <input type="number" id="number" value={this.state.quantityNum} />
-  <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
-  </form>
+        
+
+  {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                                    <div><p><b>Quantiy: </b></p> 
+                                    <form>
+                                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
+                              <input type="number" id="number" value={this.state.quantityNum} />
+                              <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
+                              </form></div>
+                            :
+                                    null
+                    }
         
         <br></br>
 
@@ -410,7 +417,18 @@ export default class Product extends Component {
           </label>
           ))}
         </div>
-        <p><b>Price:</b> €{shoe.price}</p><br></br>
+        <p><b>Price:</b> €{shoe.price}</p>
+        {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+                                    <div><p><b>Quantiy: </b></p> 
+                                    <form>
+                                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
+                              <input type="number" id="number" value={this.state.quantityNum} />
+                              <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
+                              </form></div>
+                            :
+                                    null
+                    }
+                    <br></br>
         <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           (<table>
@@ -427,9 +445,13 @@ export default class Product extends Component {
           :
           null
         }
-        <div className="gap"></div>
-        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoe price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
-        </center></div>
+        {console.log(this.state.shoe.price)}
+        
+        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoeGuest  price={this.state.shoe.price}  id={this.state.shoe._id}  shoeName={this.state.shoe.name}  size={this.state.size}/>: null}
+            {console.log(localStorage.cart_item)}
+
+          {localStorage.accessLevel> ACCESS_LEVEL_GUEST ?  <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
+          </center></div>
 
         </div><br></br><br></br>
         <Footer />

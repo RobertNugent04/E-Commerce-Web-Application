@@ -144,11 +144,113 @@ router.put('/sales/:id', (req, res) => {
       });
     }
   });
+
+
+  const createNewSaleDocumentGuess = (req, res, next) => {
+    console.log("guessparams" + req.params.price)
+
+
+
+
+
+    // Use the PayPal details to create a new sale document                
+    let saleDetails = new Object()
+    saleDetails.paypalPaymentID = req.params.paymentID
+    saleDetails.shoesID = req.params.id
+    saleDetails.size = req.params.size
+    saleDetails.shoe_name = req.params.shoeName
+
+    saleDetails.price = req.params.price
+    saleDetails.name = req.params.name
+
+    saleDetails.email = req.params.email
+
+
+    
+
+        carsModel.findById({ _id: saleDetails.shoesID }, (err, data) => {
+            if (data) {
+                if (data.items_left - 1 >= 0) {
+                    carsModel.findByIdAndUpdate({ _id: saleDetails.shoesID, items_left: { $gt: 0 } }, { $inc: { 'items_left': -  1 } }, (err, data) => {
+                        if (err) {
+                            return next(err)
+                        } else {
+                            console.log("stockReduced")
+                        }
+                    })
+                }else{
+                    console.log("not enough stock")
+                }
+            } else {
+                console.log("no data")
+            }
+        })
+
+
+    
+
+console.log(req.params.email)
+
+
+
+    salesModel.create(saleDetails, (err, data) => {
+
+        if (err) {
+            return next(err)
+        }
+    })
+    console.log(saleDetails)
+
+    return res.json({ success: true })
+
+
+
+}
+
+router.get(`/history/:email`, (req, res) => {
+
+    salesModel.find({ email: req.params.email }, (error, data) => {
+        console.log(data)
+        res.json(data)
+    })
+
+
+})
+
+router.put('/sales/:id', (req, res) => {
+    const id = req.params.id;
+    const updates = req.body;
+  
+    // check if the shoesID array is empty
+    if (updates.shoesID && updates.shoesID.length === 0) {
+      // delete the record from the sales database
+      salesModel.findByIdAndDelete(id, (err, data) => {
+        if (err) {
+          console.error("Error deleting sales data:", err);
+          return res.status(500).send(err);
+        } else {
+          console.log("Sales data deleted:", data);
+          return res.send(data);
+        }
+      });
+    } else {
+      // update the record with the new data
+      salesModel.findByIdAndUpdate(id, updates, { new: true }, (err, data) => {
+        if (err) {
+          console.error("Error updating sales data:", err);
+          return res.status(500).send(err);
+        } else {
+          console.log("Sales data updated:", data);
+          return res.send(data);
+        }
+      });
+    }
+  });
   
 
 // Save a record of each Paypal payment
 // router.post('/sales/:paymentID/:shoeID/:shoe_name/:price/:name/:email', createNewSaleDocument)
 router.post('/sales/:paymentID/:ids/:amount/:size/:shoeNames/:name/:email/:totalPrice', createNewSaleDocument)
-
+router.post('/sales/:paymentID/:id/:shoeName/:name/:size/:email/:price', createNewSaleDocumentGuess)
 
 module.exports = router
