@@ -49,6 +49,7 @@ export default class Cart extends Component {
                         let names =[];
                         let images =[];
                         let sizes = [];
+                        
 
                         // let names=[]
                         this.state.shoes.map((shoe) => totalPrice+= (shoe.amount * shoe.price))
@@ -56,6 +57,7 @@ export default class Cart extends Component {
                         this.state.shoes.map((shoe) => names.push(shoe.name))
                         this.state.shoes.map((shoe) => images.push(shoe.imageURL))
                         this.state.shoes.map((shoe) => sizes.push(shoe.size))
+                        this.state.shoes.map((shoe) => quantity.push(shoe.amount))
 
 
                         console.log(ids)
@@ -81,9 +83,9 @@ export default class Cart extends Component {
             // {
                 console.log(this.state.price)
                 console.log(this.state.ids)
-                console.log(this.state.quantity)
+                console.log("AMOUNT" + this.state.quantity)
                 console.log(this.state.names)
-                console.log(this.state.images)
+                console.log(this.state.sizes)
 
 
                 if (dayOfWeek === 2) { // Applies 10% Discount on Tuesdays
