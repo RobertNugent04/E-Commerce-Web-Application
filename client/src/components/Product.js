@@ -11,7 +11,7 @@ import NavBar from "./NavBar"
 import Footer from "./Footer"
 import AddedToCart from "./AddedToCart"
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item } from "../config/global_constants"
-import BuyShoe from "./BuyShoe"
+import BuyShoeGuest from "./BuyShoeGuest"
 
 
 export default class Product extends Component {
@@ -360,7 +360,9 @@ export default class Product extends Component {
           :
           null
         }
-        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoe  price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: null}
+        {console.log(this.state.shoe.price)}
+        
+        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoeGuest  price={this.state.shoe.price}  id={this.state.shoe._id}  shoeName={this.state.shoe.name}  size={this.state.size}/>: null}
             {console.log(localStorage.cart_item)}
 
           {localStorage.accessLevel> ACCESS_LEVEL_GUEST ?  <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
