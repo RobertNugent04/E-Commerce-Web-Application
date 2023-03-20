@@ -42,13 +42,15 @@ redirectToReturned: false
     }
 
     return (
-      <div>
-        <table>
+      <div className="table-container">
+        <center>
+        <table className = "shoe">
           <thead>
             <tr>
               <th>Name</th>
               <th>Size</th>
               <th>Amount</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -72,6 +74,7 @@ redirectToReturned: false
     )}
     </tbody>
         </table>
+        </center>
       </div>
     );
   }
