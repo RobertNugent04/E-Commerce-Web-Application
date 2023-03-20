@@ -722,6 +722,7 @@ button {
 
 .error{
   color:red;
+  text-align: center;
 }
 
 .error ul {
