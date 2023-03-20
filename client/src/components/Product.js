@@ -12,6 +12,7 @@ import Footer from "./Footer"
 import AddedToCart from "./AddedToCart"
 import { ACCESS_LEVEL_GUEST, ACCESS_LEVEL_ADMIN, SERVER_HOST, cart_item } from "../config/global_constants"
 import BuyShoeGuest from "./BuyShoeGuest"
+import BuyShoe from "./BuyShoe"
 
 
 export default class Product extends Component {
