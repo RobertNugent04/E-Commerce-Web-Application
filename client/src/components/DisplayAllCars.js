@@ -162,23 +162,22 @@ export default class DisplayAllCars extends Component {
     }
 
     applyFilters = () => {
-        const { selectedBrands, selectedColors, selectedGenders, selectedCategories } = this.state;
         let filteredShoes = [...this.state.shoes];
 
-        if (selectedBrands.length > 0) {
-            filteredShoes = filteredShoes.filter(shoe => selectedBrands.includes(shoe.brand));
+        if (this.state.selectedBrands.length > 0) {
+            filteredShoes = filteredShoes.filter(shoe => this.state.selectedBrands.includes(shoe.brand));
         }
 
-        if (selectedColors.length > 0) {
-            filteredShoes = filteredShoes.filter(shoe => selectedColors.includes(shoe.color));
+        if (this.state.selectedColors.length > 0) {
+            filteredShoes = filteredShoes.filter(shoe => this.state.selectedColors.includes(shoe.color));
         }
 
-        if (selectedGenders.length > 0) {
-            filteredShoes = filteredShoes.filter(shoe => selectedGenders.includes(shoe.gender));
+        if (this.state.selectedGenders.length > 0) {
+            filteredShoes = filteredShoes.filter(shoe => this.state.selectedGenders.includes(shoe.gender));
         }
 
-        if (selectedCategories.length > 0) {
-            filteredShoes = filteredShoes.filter(shoe => selectedCategories.includes(shoe.category));
+        if (this.state.selectedCategories.length > 0) {
+            filteredShoes = filteredShoes.filter(shoe => this.state.selectedCategories.includes(shoe.category));
         }
 
         this.setState({ selectedShoes: filteredShoes });
