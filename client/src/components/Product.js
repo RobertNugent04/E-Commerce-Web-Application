@@ -106,9 +106,9 @@ export default class Product extends Component {
     // const imageURL = this.state.shoe.imageURL
     const email = localStorage.email
     let photos = null;
-    const quantity = this.state.quantityNum - 1;
-    // let total = localStorage.cart_item + quantity
-    // localStorage.cart_item = total
+    const quantity = this.state.quantityNum;
+    let total = parseInt(localStorage.cart_item) + quantity
+    localStorage.cart_item = total
     console.log("Quantity: " + quantity)
     if (this.state.embeddedImage === true) {
       photos = JSON.stringify(this.state.shoe.photos)
@@ -121,7 +121,7 @@ export default class Product extends Component {
     // console.log(imageURL)
 
     if (this.state.size !== null && this.state.shoe.items_left - 1 >= 0) {
-      localStorage.cart_item++;
+    //  localStorage.cart_item++;
 
       axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}/${quantity}`, {
 
