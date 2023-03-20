@@ -53,7 +53,7 @@ export default class PayPalMessage extends Component
                     <NavBar />
                 </div> <br /> <br /> <br /> <br /> <br /> <br /> <center>
 
-                    <h2 id="title2">Payment Successful!</h2>
+                    <h2 id="title2">PayPal Payment</h2>
                 
                 
                 
