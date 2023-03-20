@@ -49,7 +49,7 @@ router.post(`/cart/:shoeID/:name/:price/:size/:email/:photos/:quantity`, (req, r
       cartModel.findOneAndUpdate({ shoeID: req.params.shoeID, email: req.params.email, price: req.params.price, name: req.params.name, imageURL: image, size: req.body.size, photos:req.params.photos, amount: req.params.quantity }, { $inc: { 'amount': 1 } }, { upsert: true }, (error, data) => {
       })
     })
-    usersModel.findOneAndUpdate({ email: req.params.email }, { $inc: { 'cart_item': 1 } }, (error, data) => {
+    usersModel.findOneAndUpdate({ email: req.params.email }, { $inc: { 'cart_item': req.params.quantity } }, (error, data) => {
       console.log("cart item added")
     })
 
