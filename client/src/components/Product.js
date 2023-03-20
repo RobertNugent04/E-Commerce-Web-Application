@@ -356,7 +356,7 @@ export default class Product extends Component {
               null
             }
             <div className="gap"></div>
-            {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoe price={this.state.price} ids={this.state.shoe._id} names={this.state.shoe.name} sizes={this.state.size} /> : <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
+            {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoeGuest price={this.state.shoe.price} id={this.state.shoe._id} shoeName={this.state.shoe.name} size={this.state.size} /> : <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
 
 
             {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
