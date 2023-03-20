@@ -35,7 +35,7 @@ export default class Product extends Component {
   componentDidMount() {
     // const el = document.getElementById(photo._id)
     const shoeID = this.props.location.search.slice(8);
-    
+
     axios.get(`${SERVER_HOST}/cars/${shoeID}`, { headers: { "authorization": localStorage.token } })
       .then(res => {
         if (res.data) {
@@ -50,7 +50,7 @@ export default class Product extends Component {
 
               this.showSlides(this.state.slideIndex);
 
-              
+
             });
           }
         } else {
@@ -72,10 +72,10 @@ export default class Product extends Component {
             }
             else {
               if (res.data.image != null) {
-                
+
                 // console.log( document.getElementById(photo._id) )
                 imageFiles.push(`data:;base64,${res.data.image}`)
-                this.setState({embeddedImage:true, imageFiles: imageFiles })
+                this.setState({ embeddedImage: true, imageFiles: imageFiles })
               }
               else {
                 console.log("no embedded image")
@@ -96,7 +96,7 @@ export default class Product extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
 
-    this.setState({wasSubmittedOnce: true})
+    this.setState({ wasSubmittedOnce: true })
 
     const shoeID = this.props.location.search.slice(8)
     const name = this.state.shoe.name;
@@ -105,41 +105,43 @@ export default class Product extends Component {
     const size = this.state.size;
     // const imageURL = this.state.shoe.imageURL
     const email = localStorage.email
-    let photos =null;
+    let photos = null;
     const quantity = this.state.quantityNum - 1;
     console.log("Quantity: " + quantity)
-    if(this.state.embeddedImage ===true){
-   photos =JSON.stringify(this.state.shoe.photos)}
-   else{ 
-    photos =JSON.stringify([{"test":"one"}])
-    console.log(shoeID)}
-    
+    if (this.state.embeddedImage === true) {
+      photos = JSON.stringify(this.state.shoe.photos)
+    }
+    else {
+      photos = JSON.stringify([{ "test": "one" }])
+      console.log(shoeID)
+    }
+
     // console.log(imageURL)
 
-    if(this.state.size !== null && this.state.shoe.items_left - 1 >= 0){
+    if (this.state.size !== null && this.state.shoe.items_left - 1 >= 0) {
       localStorage.cart_item++;
 
       axios.post(`${SERVER_HOST}/cart/${shoeID}/${name}/${price}/${size}/${email}/${photos}/${quantity}`, {
 
-      size: this.state.size // Pass the selected size to the server
-    })
-      .then(res => {
-        if (res.data) {
-          if (res.data.errorMessage) {
-            console.log(res.data.errorMessage)
-          } else {
-            console.log("Shoe Added to Cart Successfully")
+        size: this.state.size // Pass the selected size to the server
+      })
+        .then(res => {
+          if (res.data) {
+            if (res.data.errorMessage) {
+              console.log(res.data.errorMessage)
+            } else {
+              console.log("Shoe Added to Cart Successfully")
 
-            let quantity = this.state.quantityNum - 1;
+              let quantity = this.state.quantityNum - 1;
 
-            localStorage.shoeID = res.data.shoeID
-            localStorage.name = res.data.name
-            // localStorage.imageURL = res.data.imageURL
-            localStorage.price = res.data.price;
-            localStorage.image = res.data.imageURL;
-            localStorage.size = this.state.size;
-            localStorage.quantity = quantity;
-            console.log("Quantity: " + localStorage.quantity)
+              localStorage.shoeID = res.data.shoeID
+              localStorage.name = res.data.name
+              // localStorage.imageURL = res.data.imageURL
+              localStorage.price = res.data.price;
+              localStorage.image = res.data.imageURL;
+              localStorage.size = this.state.size;
+              localStorage.quantity = quantity;
+              console.log("Quantity: " + localStorage.quantity)
 
             
           }
@@ -151,7 +153,7 @@ export default class Product extends Component {
     }else{
       console.log("not enough stock")
     }
- //   window.location.reload(false);
+    //   window.location.reload(false);
   }
 
   handleSizeChange = (e) => {
@@ -231,30 +233,30 @@ export default class Product extends Component {
     var value = parseInt(document.getElementById('number').value, 10);
     value = isNaN(value) ? 0 : value;
     value++;
-     if(value <= this.state.shoe.items_left){
-     this.setState({ quantityNum: value })
+    if (value <= this.state.shoe.items_left) {
+      this.setState({ quantityNum: value })
     }
-    else{
-      this.setState({ quantityNum: value - 1})
+    else {
+      this.setState({ quantityNum: value - 1 })
     }
     document.getElementById('number').value = value;
-   // this.setState({ quantityNum: document.getElementById('number').value })
-   this.forceUpdate();
+    // this.setState({ quantityNum: document.getElementById('number').value })
+    this.forceUpdate();
   }
-  
+
   decreaseValue = () => {
     var value = parseInt(document.getElementById('number').value, 10);
     value = isNaN(value) ? 0 : value;
     value = value < 1 ? 1 : value;
     value--;
-     if(value > 0){
-     this.setState({ quantityNum: value })
-     }
-    else{
+    if (value > 0) {
+      this.setState({ quantityNum: value })
+    }
+    else {
       this.setState({ quantityNum: 1 })
     }
     document.getElementById('number').value = value;
-   // this.setState({ quantityNum: document.getElementById('number').value })
+    // this.setState({ quantityNum: document.getElementById('number').value })
   }
 
   render() {
@@ -263,7 +265,7 @@ export default class Product extends Component {
     let stockError = ""
     let itemsLeftError = ""
     
-    console.log("REDIRECT? " + this.state.redirectToAdded)
+
     if (this.state.redirectToAdded === true) {
       return <Redirect to="./AddedToCart" />
     }
@@ -278,14 +280,14 @@ export default class Product extends Component {
     console.log(this.state.embeddedImage)
     console.log(this.state.imageFiles)
 
-    if(this.state.size === null && this.state.wasSubmittedOnce){
+    if (this.state.size === null && this.state.wasSubmittedOnce) {
 
       sizeError = <p class="error">Please pick a size</p>;
 
     }
 
-  console.log("Items: " + this.state.shoe.items_left)
-    if(this.state.shoe.items_left < 1){
+    console.log("Items: " + this.state.shoe.items_left)
+    if (this.state.shoe.items_left < 1) {
       stockError = <center><p class="error">This item is currently out of stock</p></center>;
     }
 
@@ -300,60 +302,62 @@ export default class Product extends Component {
 
         <div className="superContainer">
 
-        {stockError}
-        <div className="productControls">
-        <p><b>Brand: </b>{shoe.brand}</p>
-        <div>
-          <p><b>Size:</b></p>
-          {sizes.map(size => (
-            <label class="radio-label">
-            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
-            <span class="radio-button"></span>
-            {size}
-          </label>
-          ))}
-        </div>
-        {sizeError}
-        <p><b>Gender: </b>{shoe.gender}</p>
-        <p><b>Color: </b>{shoe.color}</p>
-        <p><b>Price: </b>€{shoe.price}</p>
-
-        
-
-  {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
-                                    <div><p><b>Quantiy: </b></p> 
-                                    <form>
-                                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
-                              <input type="number" id="number" value={this.state.quantityNum} />
-                              <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
-                              </form></div>
-                            :
-                                    null
-                    }
-        
-        <br></br>
-
-        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
-        {this.state.showComments ?
-          (<table>
-            <div style={{display:"inline-block"}}>
-            {this.state.comments.userName.map((comment)=><tr><td>{comment}:</td> </tr>)} 
+          {stockError}
+          <div className="productControls">
+            <p><b>Brand: </b>{shoe.brand}</p>
+            <div>
+              <p><b>Size:</b></p>
+              {sizes.map(size => (
+                <label class="radio-label">
+                  <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+                  <span class="radio-button"></span>
+                  {size}
+                </label>
+              ))}
             </div>
-            <div style={{display:"inline-block"}}>
-            {this.state.comments.comments.map((comment)=><tr><td>{comment}</td> </tr>)} 
-            </div>
-            <tr>
-            <Link className="green-button" to={"/AddComment/" + shoe.name}>add comment</Link> 
-            </tr>
-          </table>)
-          :
-          null
-        }
-        <div className="gap"></div>
-        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoe price={this.state.price}  ids={this.state.shoe._id}  names={this.state.shoe.name}  sizes={this.state.size}/>: <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
+            {sizeError}
+            <p><b>Gender: </b>{shoe.gender}</p>
+            <p><b>Color: </b>{shoe.color}</p>
+            <p><b>Price: </b>€{shoe.price}</p>
 
 
-        {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+
+            {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+              <div><p><b>Quantiy: </b></p>
+                <form>
+                  <div class="quantity-control">
+                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
+                    <input type="number" id="number" value={this.state.quantityNum} />
+                    <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
+                  </div>
+                </form></div>
+              :
+              null
+            }
+
+            <br></br>
+
+            <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+            {this.state.showComments ?
+              (<table>
+                <div style={{ display: "inline-block" }}>
+                  {this.state.comments.userName.map((comment) => <tr><td>{comment}:</td> </tr>)}
+                </div>
+                <div style={{ display: "inline-block" }}>
+                  {this.state.comments.comments.map((comment) => <tr><td>{comment}</td> </tr>)}
+                </div>
+                <tr>
+                  <Link className="green-button" to={"/AddComment/" + shoe.name}>add comment</Link>
+                </tr>
+              </table>)
+              :
+              null
+            }
+            <div className="gap"></div>
+            {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoe price={this.state.price} ids={this.state.shoe._id} names={this.state.shoe.name} sizes={this.state.size} /> : <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} />}
+
+
+            {/* <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
         {this.state.showComments ?
           <table>
             {this.state.comments.map((comment)=><tr><td>{comment.userName}</td> <td>{comment.comments}</td></tr> )}
@@ -361,7 +365,7 @@ export default class Product extends Component {
           :
           null
         } */}
-        <br></br><br></br>
+            <br></br><br></br>
           </div>
 
 
@@ -369,24 +373,24 @@ export default class Product extends Component {
             {!this.state.embeddedImage ?
               shoe.photos && shoe.photos.map((photo, index) => {
                 {
-                  return(
-                <div className="mySlides fade" key={index}>
-                  <img src={photo}/>
-                  {/* {this.state.embeddedImage ?  this.getFromFile() : null} */}
-                  {/* {this.state.embeddedImage ?  <img src={photo} key={photo._id} id={photo._id}/> : <img src={photo}/>} */}
-                </div>)
+                  return (
+                    <div className="mySlides fade" key={index}>
+                      <img src={photo} />
+                      {/* {this.state.embeddedImage ?  this.getFromFile() : null} */}
+                      {/* {this.state.embeddedImage ?  <img src={photo} key={photo._id} id={photo._id}/> : <img src={photo}/>} */}
+                    </div>)
                 }
               })
               :
               (
-              this.state.imageFiles.map((file,index) => {
-                {
-                  return(
-                <div className="mySlides fade" key={index}>
-                  <img src={file}/>
-                </div>)
-                }
-              }))}
+                this.state.imageFiles.map((file, index) => {
+                  {
+                    return (
+                      <div className="mySlides fade" key={index}>
+                        <img src={file} />
+                      </div>)
+                  }
+                }))}
 
 
             <a className="prev" onClick={() => this.plusSlides(-1)}>&#10094;</a>
@@ -404,51 +408,53 @@ export default class Product extends Component {
             </center></div>
           </div>
 
-        <div className="productControlsMobile"><center>
-        <div>
-          <p><b>Size:</b></p>
-          {sizes.map(size => (
-            <label class="radio-label">
-            <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
-            <span class="radio-button"></span>
-            {size}
-          </label>
-          ))}
-        </div>
-        <p><b>Price:</b> €{shoe.price}</p>
-        {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
-                                    <div><p><b>Quantiy: </b></p> 
-                                    <form>
-                                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
-                              <input type="number" id="number" value={this.state.quantityNum} />
-                              <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
-                              </form></div>
-                            :
-                                    null
-                    }
-                    <br></br>
-        <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
-        {this.state.showComments ?
-          (<table>
-            <div style={{display:"inline-block"}}>
-            {this.state.comments.userName.map((comment)=><tr><td>{comment}:</td> </tr>)} 
+          <div className="productControlsMobile"><center>
+            <div>
+              <p><b>Size:</b></p>
+              {sizes.map(size => (
+                <label class="radio-label">
+                  <input type="radio" name="size" value={size} checked={this.state.size === size} onChange={this.handleSizeChange} />
+                  <span class="radio-button"></span>
+                  {size}
+                </label>
+              ))}
             </div>
-            <div style={{display:"inline-block"}}>
-            {this.state.comments.comments.map((comment)=><tr><td>{comment}</td> </tr>)} 
-            </div>
-            <tr>
-            <Link className="green-button" to={"/AddComment/" + shoe.name}>add comment</Link> 
-            </tr>
-          </table>)
-          :
-          null
-        }
-        {console.log(this.state.shoe.price)}
-        
-        {localStorage.accessLevel == ACCESS_LEVEL_GUEST ?  <BuyShoeGuest  price={this.state.shoe.price}  id={this.state.shoe._id}  shoeName={this.state.shoe.name}  size={this.state.size}/>: null}
+            <p><b>Price:</b> €{shoe.price}</p>
+            {localStorage.accessLevel > ACCESS_LEVEL_GUEST ?
+              <div><p><b>Quantiy: </b></p>
+                <form>
+                  <div class="quantity-control">
+                    <div class="value-button" id="decrease" onClick={this.decreaseValue} value="Decrease Value">-</div>
+                    <input type="number" id="number" value={this.state.quantityNum} />
+                    <div class="value-button" id="increase" onClick={this.increaseValue} value="Increase Value">+</div>
+                  </div>
+                </form></div>
+              :
+              null
+            }
+            <br></br>
+            <button class="green-button" id="btn" onClick={this.commentToggle}>Comments</button>
+            {this.state.showComments ?
+              (<table>
+                <div style={{ display: "inline-block" }}>
+                  {this.state.comments.userName.map((comment) => <tr><td>{comment}:</td> </tr>)}
+                </div>
+                <div style={{ display: "inline-block" }}>
+                  {this.state.comments.comments.map((comment) => <tr><td>{comment}</td> </tr>)}
+                </div>
+                <tr>
+                  <Link className="green-button" to={"/AddComment/" + shoe.name}>add comment</Link>
+                </tr>
+              </table>)
+              :
+              null
+            }
+            {console.log(this.state.shoe.price)}
+
+            {localStorage.accessLevel == ACCESS_LEVEL_GUEST ? <BuyShoeGuest price={this.state.shoe.price} id={this.state.shoe._id} shoeName={this.state.shoe.name} size={this.state.size} /> : null}
             {console.log(localStorage.cart_item)}
 
-          {localStorage.accessLevel> ACCESS_LEVEL_GUEST ?  <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
+            {localStorage.accessLevel > ACCESS_LEVEL_GUEST ? <input class="green-button" type="button" name="cart" value="Add to Cart" onClick={this.handleSubmit} /> : null}
           </center></div>
 
         </div><br></br><br></br>
