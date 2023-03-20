@@ -64,10 +64,10 @@ const createNewSaleDocument = (req, res, next) => {
         //         console.log("stockReduced")
         //     }
         // })
-        return res.json({success:true})
+       
     }
 
-
+console.log(req.params.email)
 
 
     cartModel.deleteMany({ email: req.params.email }, (err, data) => {
